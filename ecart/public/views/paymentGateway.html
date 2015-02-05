@@ -1,0 +1,215 @@
+<div class="row">
+
+	<div class="col-lg-3">
+	<div class="panel panel-default">
+  	<div class="panel-heading">Payment Mode</div>
+  	<div class="panel-body">
+  	<div class="form-group">
+      
+      <div class="col-lg-12">
+      <div class="row">
+          <label>
+            Select the payment Option
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="paymentMode" ng-model="paymentMode" id="debit" value="debit">
+            Debit card
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="paymentMode" ng-model="paymentMode" id="credit" value="credit">
+            Credit Card
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="paymentMode" ng-model="paymentMode" id="netbanking" value="netbanking">
+            Net banking
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="paymentMode" ng-model="paymentMode" id="paymentOnDelivery" value="paymentOnDelivery">
+            Payment on Delivery
+          </label>
+        </div>
+      </div>
+    </div>
+  	</div>
+ 	</div>
+	</div>
+	
+	<div class="col-lg-9">
+	<div class="panel panel-default">
+ 	  <div class="panel-heading">Payment Information</div>
+ 	  <div class="panel-body">
+ 	  <div ng-show="paymentMode == 'debit'">
+ 	  	<div class="row">
+		   <div class="col-lg-12">
+		   <form class="form-horizontal" data-title="Sign in" data-value="login">
+						<fieldset>
+						<div class="form-group">
+							<label for="selectedMode" class="col-lg-2 control-label">Selected Mode</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="cat" value="Debit Card" disabled="" style="width: 80%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="cardNumber" class="col-lg-2 control-label">Card Number</label>
+							<div class="col-lg-10">
+								<input type="number" class="form-control" id="cardNumber" placeholder="Enter 16 digit Card Number" ng-model="paymentForm.cardNumber" required autocapitalize="false" style="width: 80%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nameOnCard" class="col-lg-2 control-label">Name on Card</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="nameOnCard" placeholder="Name on card" ng-model="paymentForm.nameOnCard" required autocapitalize="false" style="width: 60%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="cvvNo" class="col-lg-2 control-label">CVV Number</label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" id="cvvNo" placeholder="CVV Number" ng-model="paymentForm.cvvNo" required autocapitalize="false" style="width: 20%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="alternateNo" class="col-lg-2 control-label">Expiry Date</label>
+							<div class="col-lg-2">
+								<select class="form-control input-sm" 
+									ng-init="monthSelected=monthList[0]"
+							        ng-model="monthSelected" 
+							        ng-options="month.selectMonth for month in monthList">
+							    </select>
+							</div>
+							<div class="col-lg-3">
+								<select class="form-control input-sm" 
+								    ng-init="yearSelected=yearList[0]"
+							        ng-model="yearSelected" 
+							        ng-options="year.selectYear for year in yearList">
+							    </select>
+							</div>
+						</div>
+						
+					
+						
+						<div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button class="btn btn-warning">Cancel</button>
+								<button class="btn btn-success" data-ng-click="submit()">Submit</button>
+							</div>
+						</div>
+							
+							
+						</fieldset>
+		            </form>
+		   </div>
+	</div>
+ 	  
+ 	  </div>
+      
+      <div ng-show="paymentMode == 'credit'">
+      <div class="row">
+		   <div class="col-lg-12">
+		   <form class="form-horizontal" data-title="Sign in" data-value="login">
+						<fieldset>
+						<div class="form-group">
+							<label for="selectedMode" class="col-lg-2 control-label">Selected Mode</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="cat" value="Credit Card" disabled="" style="width: 80%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="cardNumber" class="col-lg-2 control-label">Card Number</label>
+							<div class="col-lg-10">
+								<input type="number" class="form-control" id="cardNumber" placeholder="Enter 16 digit Card Number" ng-model="paymentForm.cardNumber" required autocapitalize="false" style="width: 80%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nameOnCard" class="col-lg-2 control-label">Name on Card</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="nameOnCard" placeholder="Name on card" ng-model="paymentForm.nameOnCard" required autocapitalize="false" style="width: 60%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="cvvNo" class="col-lg-2 control-label">CVV Number</label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" id="cvvNo" placeholder="CVV Number" ng-model="paymentForm.cvvNo" required autocapitalize="false" style="width: 20%;">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="alternateNo" class="col-lg-2 control-label">Expiry Date</label>
+							<div class="col-lg-2">
+								<select class="form-control input-sm" 
+									ng-init="monthSelected=monthList[0]"
+							        ng-model="monthSelected" 
+							        ng-options="month.selectMonth for month in monthList">
+							    </select>
+							</div>
+							<div class="col-lg-3">
+								<select class="form-control input-sm" 
+								    ng-init="yearSelected=yearList[0]"
+							        ng-model="yearSelected" 
+							        ng-options="year.selectYear for year in yearList">
+							    </select>
+							</div>
+						</div>
+						
+					
+						
+						<div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button class="btn btn-warning">Cancel</button>
+								<button class="btn btn-success" data-ng-click="submit()">Submit</button>
+							</div>
+						</div>
+							
+							
+						</fieldset>
+		            </form>
+		   </div>
+	  </div>
+      </div>
+      
+      <div ng-show="paymentMode == 'netbanking'">
+		<p>This payment option will redirect it to the bank website!!!</p>
+		<div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button class="btn btn-warning">Cancel</button>
+								<button class="btn btn-success" data-ng-click="submit()">Submit</button>
+							</div>
+						</div>
+	  </div>
+      <div ng-show="paymentMode == 'paymentOnDelivery'">
+      <p>By choosing "Payment on Delivery" option, you will pay the total amount at the time of delivery. You can pay by Cash or using your debit/credit card !!!</p>
+      <div class="form-group">
+							<div class="col-lg-10 col-lg-offset-2">
+								<button class="btn btn-warning">Cancel</button>
+								<button class="btn btn-success" data-ng-click="submitOrder()">Submit</button>
+							</div>
+						</div>
+      </div>
+  		
+     </div>
+    </div>
+    </div>
+	</div>
+</div>
+
+
+ 
+ 
+ 
+ 
+
+

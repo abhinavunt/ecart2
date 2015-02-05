@@ -1,0 +1,12 @@
+{
+	  "name": "testproject",
+	  "main": "server.js",
+	  "dependencies": {
+	    "express" : "~4.5.1",
+	    "mongodb": "*",
+	    "mongoskin": "*",
+	    "jade": "~1.3.0",
+		"body-parser" : "~1.4.2",
+		"method-override" : "~2.0.2"	    
+	  }
+	}

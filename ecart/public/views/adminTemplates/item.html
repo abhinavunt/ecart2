@@ -1,0 +1,119 @@
+
+<div ng-controller="ItemController">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="btn" >
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="">
+                Select Menu <span class="caret"></span>
+            </a>
+           
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" >
+              <li class="dropdown-submenu" data-ng-repeat="oneMenu in menulist">
+              	<a href="" ng-mouseover="hoverInLevelZero(oneMenu.name);">{{oneMenu.name}}</a>
+              	 <ul class="dropdown-menu">
+                  <li class="dropdown-submenu" data-ng-repeat="submenu in oneMenu.sub">
+					<a href="" ng-mouseover="hoverInLevelOne(submenu.name);">{{submenu.name}}</a>
+						<ul class="dropdown-menu">
+                 		 	<li data-ng-repeat="supersubmenu in submenu.supersub">
+								<a href="" ng-click="searchItems(supersubmenu.name)">{{supersubmenu.name}}</a>
+				  			</li>
+                 		</ul>
+				  </li>
+                 
+                </ul>
+              </li>
+            </ul>
+            </div>
+		</div>
+		
+		<div class="col-lg-4">
+		  <div class="col-lg-12" style="margin-top: 10px;">
+				<div id="banner" >
+					<div class="row">
+						<input type="text" class="form-control col-lg-8" placeholder="Item Search" ng-disabled="searchItemVal">
+					</div>
+          
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="col-lg-4">
+			<a href="" class="btn btn-primary btn-success pull-right" style="margin-top: 10px;" ng-disabled="addItemButtonVal" ng-click="clickToOpen();">Add Item</a>
+		</div>
+       
+	</div>
+	<div class="row">
+	<div class="col-lg-12">{{category}}</div>
+</div>
+
+<div style="margin-top: 10px;">
+<table class="table table-bordered table-hover ">
+  <thead>
+    <tr>
+      <th class="col-md-1">Image</th>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-2">Brand</th>
+      <th class="col-md-1">Amount/Price</th>
+      <th class="col-md-2">Availablity</th>
+      <th class="col-md-2">Other Names</th>
+      <th class="col-md-2">Description</th>
+      
+     
+    </tr>
+  </thead>
+  <tbody>
+  
+  	<tr class="active" data-ng-repeat="item in itemList">
+  		<td class="col-md-1">
+          <img src="temp_upload/{{item.imageId}}" />
+        </td>
+		<td class="col-md-2">{{item.name}}</td>
+		<td class="col-md-2">{{item.brand}}</td>
+		<td class="col-md-1"><div class="dropdown">
+              <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-sm" data-target="#" href="">Amount/Price <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li data-ng-repeat="amtprice in item.amountprice"><a href="#">{{amtprice.Amount}} - {{amtprice.Price}}Rs || {{amtprice.Availablity}}</a></li>
+              </ul>
+             </div>
+        </td>
+        <td class="col-md-2">{{item.availablity}}</td>
+		<td class="col-md-2">{{item.othernames}}</td>
+		<td class="col-md-2">{{item.description}}</td>
+		
+	</tr> 
+	
+
+	
+	
+    <!-- <tr>
+      <td>Image</td>
+      <td>Amul Milk</td>
+      <td>Amul</td>
+      <td>
+      
+      <div class="dropdown">
+                  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="">
+                Amount/Price <span class="caret"></span>
+            </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">500gm - 30Rs</a></li>
+                  <li><a href="#">1kg - 60Rs</a></li>
+                  <li><a href="#">5kg - 200Rs</a></li>
+                </ul>
+              </div>
+      </td>
+      <td>Its a full fat Cow Milk</td>
+      <td>Doodh</td>
+      
+    </tr> -->
+  
+  </tbody>
+</table> 
+</div>
+</div>
+
+
+
+
