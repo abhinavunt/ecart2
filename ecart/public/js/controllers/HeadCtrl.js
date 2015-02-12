@@ -38,7 +38,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	   			$scope.loginFailMessage = data.message;
 	   			//Added to test Git hub checkin - start
 	   			console.log(data.message);
-	   			// ends 
+	   			// ends 3454
 	   		 }
 	   
 	   	 }).error(function(data) {
