@@ -36,7 +36,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	   			
 	   		 }else{
 	   			$scope.loginFailMessage = data.message;
-	   			
+	   			//Added to test Git hub checkin - start
+	   			console.log(data.message);
+	   			// ends 
 	   		 }
 	   
 	   	 }).error(function(data) {
