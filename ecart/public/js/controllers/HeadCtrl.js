@@ -36,6 +36,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	   			
 	   		 }else{
 	   			$scope.loginFailMessage = data.message;
+	   			$scope.loginFailMessage2 = data.message;
 	   			//Added to test Git hub checkin - start
 	   			console.log("abhinav");
 	   			// ends 3454
