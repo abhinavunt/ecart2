@@ -39,7 +39,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	   			
 	   		 }
 	   
-	   	 }).error(function(data) {
+	   	}).error(function(data) {
 	   		 console.log('Error: ' + data);
 			});
 	    };
@@ -119,7 +119,27 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     		}
        }
       
-      
+       $scope.$watch('keyword', function() {
+    	   if (typeof $scope.keyword != 'undefined'&& $scope.keyword !=''){
+    		    
+    		 $http({
+   	    	    url: '/item/liveSearch', 
+   	    	    method: "GET",
+   	    	    params: {keyword: $scope.keyword}
+   	    	 }).success(function(data) {
+   	    		 if(data.length==0){
+   	    			 $scope.liveSearchResultList = {}; 
+   	    		 }else{
+   	    			 $.each(data, function(){
+   					$scope.liveSearchResultList = data;
+   				});
+   	    	 }
+   	    	}).error(function(data) {
+   	    		 console.log('Error: ' + data);
+   			});
+    	   }
+    	   
+       },true);
       
        $scope.submitOrder = function() {
     	 var finalOrderObject = {
