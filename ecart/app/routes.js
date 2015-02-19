@@ -140,11 +140,6 @@
 		});
 		
 		
-		
-		
-	
-		
-		
 		//Add Item
 		app.post('/item/addItem', function(req, res) {
 			
@@ -220,14 +215,7 @@
 			
 		});
 		
-		
-		//default html 
-		app.get('/', function(req, res) {
-			res.sendfile('./public/views/index.html'); // load our public/index.html file
-		});
-		
-		
-	   function insertDocument(doc, targetCollection) {
+		function insertDocument(doc, targetCollection) {
 		   while (1) {
 
 		        var cursor = targetCollection.find( {}, { _id: 1 } ).sort( { _id: -1 } ).limit(1);
@@ -277,6 +265,24 @@
 			    db.collection('order').find().toArray(function (err, items) {
 			        res.json(items);
 			    });
+		});
+		
+		// live item search
+		app.get('/item/liveSearch', function(req, res) {
+			
+			var keyword = req.param("keyword");
+			var db = req.db;
+			
+			console.log(keyword);
+			/*db.collection('order').find().toArray(function (err, items) {
+			        res.json(items);
+			});*/
+		});
+		
+		
+		//default html 
+		app.get('/', function(req, res) {
+			res.sendfile('./public/views/index.html'); // load our public/index.html file
 		});
 	    
 };
