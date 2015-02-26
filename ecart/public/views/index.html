@@ -121,7 +121,7 @@
 	
 	
 	<div class="row">
-			<div class="col-lg-4 col-md-3 col-sm-2">
+			<div class="col-lg-3 col-md-3 col-sm-2">
 				<div class="page-header" id="banner">
 					<div class="row">
 						<img src="img/logo.png" alt="some">
@@ -130,16 +130,51 @@
 				</div>
 			</div>
 			
-			<div class="col-lg-4 col-md-3 col-sm-2">
-				<div id="banner" style="margin-top: 70px;">
-					<div class="row">
-						<input type="text" class="form-control col-lg-8" placeholder="Item Search" ng-model="keyword" ng-model-options="{ debounce: 500 }">
-					</div>
-          
-				</div>
-			</div>
+			<div class="col-lg-6 col-md-3 col-sm-2">
+                           <div id="banner" style="margin-top: 70px;">
+                                  <div class="row">
+                                         <input type="search" ng-model="keyWord" class="form-control col-lg-8" placeholder="Item Search" ng-change="liveSearch();" ng-model-options="{ debounce: 500 }" >
+                                         <div class="liveResultList" ng-show="showLiveSearchTable">
+                                         <table class="table table-striped table-hover ">
+		                                   <tbody>
+		                                    
+		                                     <tr class="active" data-ng-repeat="item in liveResultList">
+		                                       <td class="col-md-1"><img src="temp_upload/{{item.imageId}}" /></td>
+		                                       <td class="col-md-5">{{item.name}} ({{item.brand}})</td>
+		                                       <td class="col-md-2"> 
+			                                       <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
+	                                         			   ng-model="amount.selected"
+	                                                       ng-options="amtPrice.Amount for amtPrice in item.amountprice">
+	                                      			</select>
+                                      			</td>
+                                      			<td class="col-md-1"> 
+			                                       <select class="form-control input-sm"
+			                                          ng-init="quantity.selected=quantityList[0]"
+			                                          ng-model="quantity.selected"
+			                                          ng-options="qnt.quantity for qnt in quantityList">
+                                              	   </select>
+                                      			</td>
+		                                       <td class="col-md-2">
+		                                      	  <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
+							                            <button class="btn btn-xs btn-success add-to-cart" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add to Cart</button>
+							                      </div>
+							                      <div class="col-xs-12 col-md-6" ng-show="isSelected(amount.selected)">
+							                            <button class="btn btn-xs btn-warning add-to-cart" ng-click="removeFromCart(item)">Remove From Cart</button>
+							                      </div>
+			                                       
+		                                        </td>
+		                                     </tr>
+		                                     
+		                                   </tbody>
+		                                 </table>
+                                         </div>
+                                  </div>
+                                 
+                           </div>
+                     </div>
+
 			
-			<div class="col-lg-4 col-md-3 col-sm-2">
+			<div class="col-lg-3 col-md-3 col-sm-2">
 			 
 			 
 
