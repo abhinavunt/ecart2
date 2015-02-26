@@ -53,7 +53,8 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                                   price: amountObj.Price,
                                   quantity: quantityObj.quantity,
                                   totalPrice: quantityObj.quantity*amountObj.Price,
-                                  productId: amountObj.productId
+                                  productId: amountObj.productId,
+                                  imageId:itemObj.imageId
                                  
                      };
                     
