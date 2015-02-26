@@ -100,7 +100,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		 }
 	    	 }).error(function(data) {
 	    		 console.log('Error: ' + data);
-			});;
+			});
 		};
 		
 		
