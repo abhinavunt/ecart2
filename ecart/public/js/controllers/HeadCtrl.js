@@ -39,7 +39,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	   			
 	   		 }
 	   
-	   	}).error(function(data) {
+	   	 }).error(function(data) {
 	   		 console.log('Error: ' + data);
 			});
 	    };
@@ -118,28 +118,89 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     			$location.path("/reviewOrder");
     		}
        }
+       
+       $scope.quantityList = [{quantity:1 },
+                              {quantity:2 },
+                              {quantity:3 },
+                              {quantity:4 },
+                              {quantity:5 },
+                              {quantity:6 },
+                              {quantity:7 },
+                              {quantity:8 },
+                              {quantity:9 }];
+       
+       $scope.isSelected = function(itemObj){
+       
       
-       $scope.$watch('keyword', function() {
-    	   if (typeof $scope.keyword != 'undefined'&& $scope.keyword !=''){
-    		    
-    		 $http({
-   	    	    url: '/item/liveSearch', 
-   	    	    method: "GET",
-   	    	    params: {keyword: $scope.keyword}
-   	    	 }).success(function(data) {
-   	    		 if(data.length==0){
-   	    			 $scope.liveSearchResultList = {}; 
-   	    		 }else{
-   	    			 $.each(data, function(){
-   					$scope.liveSearchResultList = data;
-   				});
-   	    	 }
-   	    	}).error(function(data) {
-   	    		 console.log('Error: ' + data);
-   			});
-    	   }
-    	   
-       },true);
+           var shoppingCart = shoppingCartService.getProducts();
+           var itemsFound = getById(shoppingCart,itemObj.productId);
+           if (itemsFound) {
+             return true;
+           } else {
+             return false;
+           }
+       };
+       
+       function getById(arr, id) {
+           for (var d=0;d<arr.length;d++) {
+          if (arr[d].productId == id) {
+          return true;
+          break;
+          }
+         }
+           return false;
+       }
+       
+       $scope.addToCart = function(amountObj,quantityObj,itemObj){
+    	   //alert(JSON.stringify(amountObj));
+           var cartEntry = {
+
+                        itemName: itemObj.name,
+                        brand: itemObj.brand,
+                        amount: amountObj.Amount,
+                        price: amountObj.Price,
+                        quantity: quantityObj.quantity,
+                        totalPrice: quantityObj.quantity*amountObj.Price,
+                        productId: amountObj.productId,
+                        imageId:itemObj.imageId
+
+           };
+
+           shoppingCartService.addProduct(cartEntry);
+
+         
+
+       };
+    
+	  
+	   $scope.liveSearch = function(){
+	           if($scope.keyWord!=''){
+	                  $http({
+	                      url: '/item/liveSearch',
+	                      method: "POST",
+	                      data: {keyWord:$scope.keyWord},
+	                      headers: {'Content-Type': 'application/json'}
+	                    }).success(function (data, status, headers, config) {
+	                        
+	                         if(data.length==0){
+	                           $scope.liveResultList = {};
+	                   }else{
+	                          $.each(data, function(){
+	                        	$scope.liveResultList = data;
+	                        	$scope.showLiveSearchTable=true;
+	                         });
+	                }
+	                    }).error(function (data, status, headers, config) {
+	                  
+	                    });  
+	             }else{
+	            	$scope.liveResultList = {};
+	                 $scope.showLiveSearchTable=false; 
+	             }
+	           
+	           
+	      }
+
       
        $scope.submitOrder = function() {
     	 var finalOrderObject = {
