@@ -4,6 +4,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.submitButtonVal=false;
 	$scope.addItemButtonVal=true;
 	$scope.searchItemVal=true;
+	$scope.amountPriceRow=[];
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
@@ -44,8 +45,6 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		 	}
 		 };
 		 
-	 
-		 
 	  $scope.getSuperSubMenuList = function(subMenuList,name){
 		  $scope.add_menu_levelTwo=false;
 		  $scope.levelOneItemValue = name;
@@ -58,10 +57,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			 }
 		};
 		
-	   
-	 
-		
-		$scope.hoverInLevelZero = function(name){
+	   $scope.hoverInLevelZero = function(name){
 	        $scope.menuLevelZeroName = name;
 	    };
 	    
@@ -108,8 +104,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 				 availabilityCheck: 'yes'
 		};
 
-	    
+		$scope.addAmountPriceRow = function() {
+			 var newRow = { "Amount" : "","Price" : "", "Availability" : "Available"};
+			 $scope.amountPriceRow.push(newRow);
+		};
 		
+		$scope.deleteAmountPriceRow = function(index) {
+			
+			$scope.amountPriceRow.splice(index,1);
+		};
 		
 		
 		$scope.addItem = function(){
@@ -153,8 +156,4 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	           
 	          });
 	    	};
-});
-
-
-
-
+	});
