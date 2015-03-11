@@ -171,9 +171,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
          
 
        };
-    
-	  
-	   $scope.liveSearch = function(){
+       
+      
+       $scope.liveSearch = function(){
 	           if($scope.keyWord!=''){
 	                  $http({
 	                      url: '/item/liveSearch',
