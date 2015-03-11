@@ -140,6 +140,11 @@
 		});
 		
 		
+		
+		
+	
+		
+		
 		//Add Item
 		app.post('/item/addItem', function(req, res) {
 			
@@ -150,8 +155,6 @@
 			amtPriceObj.forEach (function (e){
 			   e.productId = new ObjectID();
 			});
-
-			
 			
 			var itemInfo = {
 					
@@ -160,14 +163,10 @@
 					brand : req.body.brand,
 					othernames : req.body.othernames,
 					description : req.body.description,
-					availablity : req.body.availablity,
+					availability : req.body.availability,
 					imageId : req.body.imageId,
 					amountprice : amtPriceObj
-					
-					
 			};
-			
-			
 			
 			//insert record
 			db.collection('item').insert(itemInfo, function(err, records) {
@@ -175,16 +174,56 @@
 				console.log("Record added as "+records[0]._id);
 				res.json(records[0]._id);
 			});
+		});
+		
+		
+		//Edit Item
+		app.post('/item/editItem', function(req, res) {
 			
-			//console.log('Hello world');
-		    //console.log(req.files);
+			var db = req.db;
+			var mongo = req.mongo;
+			var amtPriceObj = req.body.amountprice;
+			var ObjectID = mongo.ObjectID;
+			amtPriceObj.forEach (function (e){
+			   e.productId = new ObjectID();
+			});
+			
+			var itemInfo = {
+					
+					category : req.body.category,
+					name : req.body.name,
+					brand : req.body.brand,
+					othernames : req.body.othernames,
+					description : req.body.description,
+					availability : req.body.availability,
+					imageId : req.body.imageId,
+					amountprice : amtPriceObj
+			};
 			
 			
+			
+			//edit record
+			db.collection('item').update({_id: ObjectID(req.body.itemId)},itemInfo, function(err) {
+				if (err) throw err;
+				else res.json({"out":"sucess"});
+			});
+		});
+		
+		//Remove Item
+		app.post('/item/removeItem', function(req, res) {
+			
+			var db = req.db;
+			//console.log(req.body.itemId);
+			/*var id ={_id: toObjectID(req.body.itemId)};
+			console.log(id);*/
+			db.collection('item').removeById(req.body.itemId,function(err,records) {
+				if(err) throw err;
+		      else res.json({"out":"removed"});
+		   });
 		});
 		
 		app.post('/item/addImage', function(req, res) {
-			
-		   console.log('image name in the server is:-'+req.files.file.name);
+		   
 		   var a = req.files.file.name;
 		   var finalJson = {ImgId:a};
 		   res.json(finalJson);
@@ -215,7 +254,11 @@
 			
 		});
 		
-		function insertDocument(doc, targetCollection) {
+		
+		
+		
+		
+	   function insertDocument(doc, targetCollection) {
 		   while (1) {
 
 		        var cursor = targetCollection.find( {}, { _id: 1 } ).sort( { _id: -1 } ).limit(1);
@@ -267,18 +310,17 @@
 			    });
 		});
 		
-		// live item search
-		app.get('/item/liveSearch', function(req, res) {
-			
-			var keyword = req.param("keyword");
-			var db = req.db;
-			
-			console.log(keyword);
-			/*db.collection('order').find().toArray(function (err, items) {
-			        res.json(items);
-			});*/
-		});
 		
+		// live item search
+		app.post('/item/liveSearch', function(req, res) {
+			var db = req.db;
+			var query = {$or:[{ name: new RegExp(req.body.keyWord,'i')},{othernames : new RegExp(req.body.keyWord,'i')}]};
+			  
+			db.collection('item').find(query).toArray(function (err, items) {
+		        res.json(items);
+		    });
+			
+		});
 		
 		//default html 
 		app.get('/', function(req, res) {
