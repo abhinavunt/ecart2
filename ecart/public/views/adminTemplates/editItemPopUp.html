@@ -1,0 +1,133 @@
+<div class="bs-docs-section" ng-controller="ItemController">
+       <div class="row">
+          <div class="col-lg-12">
+            <div class="well bs-component">
+              <form class="form-horizontal">
+                <fieldset>
+                  <legend>Edit Item</legend>
+                   <div class="form-group">
+                    <label for="category" class="col-lg-2 control-label">Category</label>
+                    
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="cat"  ng-model="itemDetails.category" disabled="" >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="itemName" class="col-lg-2 control-label">Item Name</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="itemName" placeholder="Item Name" ng-model="itemDetails.name">
+                    </div>
+                  </div>
+                  
+                   <div class="form-group">
+                    <label for="brand" class="col-lg-2 control-label">Brand</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="brand" placeholder="Brand" ng-model="itemDetails.brand">
+                    </div>
+                  </div>
+                  
+                   <div class="form-group">
+                    <label for="otherNames" class="col-lg-2 control-label">Other Names</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="otherNames" placeholder="Other Names" ng-model="itemDetails.othernames">
+                    </div>
+                  </div>
+                   
+                  <div class="form-group">
+                    <label for="description" class="col-lg-2 control-label">Description</label>
+                    <div class="col-lg-10">
+                      <textarea class="form-control" rows="3" id="description" ng-model="itemDetails.description"></textarea>
+                    </div>
+                  </div>
+				  
+                  
+				    
+				    <div class="form-group">
+                    <label class="col-lg-2 control-label">Availability</label>
+                    <div class="col-lg-10">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="yes" ng-model="itemDetails.availability">
+                          Available
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="no" ng-model="itemDetails.availability">
+                          Out of Stock
+                        </label>
+                      </div>
+                    </div>
+                  	</div>
+					
+					
+					<div class="row">
+					  <div class="col-lg-8">
+					  
+					  <div class="panel panel-primary">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">Amount / Price</h3>
+					  </div>
+					  <div class="panel-body">
+				   	  <table class="table table-bordered table-hover " id="amtPriceTableId">
+						  	<thead>
+								<tr>
+									<th style='width: 30%'>Amount</th>
+									<th style='width: 30%'>Price</th>
+									<th type="hidden"style='width: 30%'>Availability</th>
+									<th style='width: 10%'></th>
+								</tr>
+							</thead> 
+							<tbody>
+							  <tr ng-repeat="row in amountPriceRowEdit">
+							    <td><input class="form-control input-sm" type="text" ng-model="row.Amount"></td>
+								<td><input class="form-control input-sm" type="text" ng-model="row.Price"></td>
+								<td><select class="form-control input-sm" ng-model="row.Availability"><option>Available</option><option>Not Available</option></select></td>
+								<td><button type="button" title="Remove this row" ng-click="deleteAmountPriceRowEdit($index)">X</button></td>
+							  </tr>
+							</tbody>
+						</table> 
+					  
+					  
+					 <div class="container">
+				    	<a href=""  data-ng-click="addAmountPriceRowEdit()">Add Amount/Price</a>
+				    </div>
+					</div>
+					  </div>
+					  </div>
+					  
+					  <div class="col-lg-4">
+					 	<div class="container">
+							<div class="fileinput fileinput-new container" data-provides="fileinput">
+							<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 180px; height: 200px;">
+							  <img class="group list-group-image" ng-model="existingImg" src="temp_upload/{{itemDetails.imageId}}" alt="" />
+							</div>
+							
+							<div>
+								<span class="btn btn-warning  btn-xs btn-file">
+									<span class="fileinput-new">Select image</span>
+									<span class="fileinput-exists">Change</span>
+										<input type="file" name="file" file-model="newImg">
+									</span>
+								<!-- <a href="#" class="btn btn-warning btn-xs fileinput-exists" data-dismiss="fileinput">Remove</a> -->
+							</div> 
+							</div>
+						</div> 
+					  </div>
+					</div>
+					
+					<div class="form-group">
+                      <div class="col-lg-3 col-lg-offset-2">
+                     	<button class="btn btn-success" ng-disabled="submitButtonValEdit" data-ng-click="editItem(itemDetails)">Update Item</button>
+                     	
+                      </div>
+                      <div class="col-lg-3">
+                     	<button class="btn btn-danger" ng-disabled="removeButtonValEdit" data-ng-click="removeItem(itemDetails)">Remove Item</button>
+                      </div>
+                   </div>
+                </fieldset>
+              </form>
+      		 </div>
+            </div>
+          </div>
+	</div>
