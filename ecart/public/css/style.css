@@ -8,11 +8,26 @@ a {
 }
 
 
+.liveResultList{  
+  width:100%;
+  overflow: inherit;
+  padding: 0;
+  margin: 40px 0 0 1px;
+  position: absolute;
+  z-index: 35;
+  border: 1px solid #c0c0c0;
+  border-right: 1;
+ }
+
+
 /*!
  * Start Bootstrap - 3 Col Portfolio HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+
+
+
 
 
 
