@@ -1,5 +1,5 @@
 
-angular.module('ItemCtrl',['ngImgCrop']).controller('ItemController', function($scope,$http,ngDialog,$upload) {
+angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http,ngDialog,$upload) {
 	
 	$scope.submitButtonVal=false;
 	$scope.submitButtonValEdit=false;
