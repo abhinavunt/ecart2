@@ -8,6 +8,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.searchItemVal=true;
 	$scope.amountPriceRow=[];
 	
+	
 	$http.get('/menu/menulist')
 	.success(function(data) {
 		
@@ -89,13 +90,14 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	    params: {category: $scope.menuLevelTwoName}
 	    	 }).success(function(data) {
 	    		 if(data.length==0){
-	    			 $scope.itemList = {}; 
+	    			 $scope.itemList = []; 
 	    		 }else{
 	    			 $.each(data, function(){
 							$scope.itemList = data;
 					 });
 	    		 }
-	    	 }).error(function(data) {
+	    		 
+	    	}).error(function(data) {
 	    		 console.log('Error: ' + data);
 			});
 		};
@@ -147,7 +149,6 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	            headers: {'Content-Type': 'application/json'}
 	  	          }).success(function (data, status, headers, config,imageName) {
 	  	        	
-	  	        	//$scope.searchItems($scope.menuLevelTwoName);
 	  	        	
 	  	        	$scope.itemList.unshift(item);
 	  	        	$scope.submitButtonVal=true;
@@ -201,7 +202,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	$http({
 		  	            url: '/item/removeItem',
 		  	            method: "POST",
-		  	            data: {itemId:item._id},
+		  	            data: {itemId:item._id,imageId:item.imageId},
 		  	            headers: {'Content-Type': 'application/json'}
 		  	          }).success(function (data, status, headers, config,imageName) {
 			  	        	$scope.removeButtonValEdit=true;
