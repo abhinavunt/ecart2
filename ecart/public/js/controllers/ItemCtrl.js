@@ -173,7 +173,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	    			brand:$scope.itemDetails.brand,
 		  	    			othernames:$scope.itemDetails.othernames,
 		  	    			description:$scope.itemDetails.description,
-		  	    			availability:$scope.itemDetails.availabilityCheck,
+		  	    			availability:$scope.itemDetails.availability,
 		  	    			amountprice:$('#amtPriceTableId').tableToJSON(),
 		  	    			imageId:item.imageId
 		  	    		};
