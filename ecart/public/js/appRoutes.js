@@ -104,7 +104,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		})
 		
 		.state('searchItems', {
-		url:'/:category',
+		url:'/:category/:sideMenu',
 		templateUrl: 'views/showItems.html',
 		controller: 'ShowItemController'
 	});
