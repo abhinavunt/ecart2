@@ -9,11 +9,16 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                }).success(function(data) {
                       if(data.length==0){
                              $scope.showItemList = {};
+                            
                       }else{
-                             $.each(data, function(){
-                                                $scope.showItemList = data;
-                                  });
+                          $.each(data, function(){
+                             $scope.showItemList = data;
+                          });
                       }
+                      
+                      $scope.sideMenu = $stateParams.sideMenu;
+                      
+                      
                }).error(function(data) {
                       console.log('Error: ' + data);
               });
