@@ -2,14 +2,14 @@
 angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http) {
 
 	$scope.formData = {};
+	$scope.menulist=[];
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
 		
 		$.each(data, function(){
-			
 			$scope.menulist = data;
-			console.log(data);});
+		});
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
@@ -64,9 +64,11 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	            headers: {'Content-Type': 'application/json'}
 	          }).success(function (data, status, headers, config) {
 	        	  $scope.add_menu_levelZero=false;
-	            }).error(function (data, status, headers, config) {
+	        	  $scope.menulist.push(data);
+	        	  $scope.levelZeroItemName="";
+	          }).error(function (data, status, headers, config) {
 	               // $scope.status = status + ' ' + headers;
-	            });
+	          });
 		   
 	   };
 	   
@@ -95,39 +97,20 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	   
 		//level- two
 		$scope.addNewMenuItemlevelTwo = function(){
-			
-			 
-			
 			var levelTwoItemData={
-					   
-					   levelOneName : $scope.levelOneItemValue,
-					   name : $scope.levelTwoItemName
-					   
-		    		};
+					levelOneName : $scope.levelOneItemValue,
+					name : $scope.levelTwoItemName
+			};
 			
-			//alert(JSON.stringify(levelTwoItemData));
-			
-			 $http({
+			$http({
 		            url: '/menu/addMenuItemLevelTwo',
 		            method: "POST",
 		            data: JSON.stringify(levelTwoItemData),
 		            headers: {'Content-Type': 'application/json'}
 		          }).success(function (data, status, headers, config) {
 		        	 
-		            }).error(function (data, status, headers, config) {
+		          }).error(function (data, status, headers, config) {
 		               
-		            });
-			
-			
-		};
-	   
-	   
-	  // Adding new menu Item - End	
-		
-		
-	
-		
-		
-		
-		
+		          });
+			};
 });
