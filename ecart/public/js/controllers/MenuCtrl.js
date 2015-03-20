@@ -17,16 +17,16 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	
 
 	
-	 $scope.getSubMenuList = function(menuList,name){
+	 $scope.getSubMenuList = function(menuList,id){
 		 $scope.superSubMenuList={};
 		 $scope.two_new=false;
 		 $scope.add_menu_levelOne=false;
 		 $scope.add_menu_levelTwo=false;
 		 
-		 $scope.levelZeroItemValue = name;
+		 $scope.levelZeroItemId = id;
 		 
 		 for(var i=0;i<menuList.length;i++){
-			 if(menuList[i].name==name){
+			 if(menuList[i]._id==id){
 				$scope.subMenuList = menuList[i].sub;
 				$scope.one_new=true;
 			  }
@@ -35,12 +35,12 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		 
 	 
 		 
-	  $scope.getSuperSubMenuList = function(subMenuList,name){
+	  $scope.getSuperSubMenuList = function(subMenuList,id){
 		  $scope.add_menu_levelTwo=false;
-		  $scope.levelOneItemValue = name;
+		  $scope.levelOneItemId = id;
 		  
 			for(var i=0;i<subMenuList.length;i++){
-				if(subMenuList[i].name==name){
+				if(subMenuList[i]._id==id){
 					$scope.superSubMenuList = subMenuList[i].supersub;
 					$scope.two_new=true;
 				}
@@ -76,7 +76,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	   $scope.addNewMenuItemlevelOne = function(){
 		   
 		  var levelOneItemData={
-				   levelZeroName : $scope.levelZeroItemValue,
+				   levelZeroId : $scope.levelZeroItemId,
 				   name : $scope.levelOneItemName
 	    		};
 		   
@@ -86,8 +86,16 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	            data: JSON.stringify(levelOneItemData),
 	            headers: {'Content-Type': 'application/json'}
 	          }).success(function (data, status, headers, config) {
-	        	 
-	            }).error(function (data, status, headers, config) {
+	        	  
+	        	  for(var i=0;i<$scope.menulist.length;i++){
+	        		  if($scope.menulist[i]._id==$scope.levelZeroItemId){
+	        			  $scope.menulist[i].sub.push(data); 
+	        		  }
+	        	  }
+	        	  $scope.add_menu_levelOne=false;
+	        	  $scope.levelOneItemName="";
+	        	  
+	        	}).error(function (data, status, headers, config) {
 	               
 	            }); 
 		   
@@ -98,7 +106,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		//level- two
 		$scope.addNewMenuItemlevelTwo = function(){
 			var levelTwoItemData={
-					levelOneName : $scope.levelOneItemValue,
+					levelOneId : $scope.levelOneItemId,
 					name : $scope.levelTwoItemName
 			};
 			
@@ -108,6 +116,19 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		            data: JSON.stringify(levelTwoItemData),
 		            headers: {'Content-Type': 'application/json'}
 		          }).success(function (data, status, headers, config) {
+		        	  
+		        	  for(var i=0;i<$scope.menulist.length;i++){
+		        		if($scope.menulist[i]._id==$scope.levelZeroItemId){
+		        		   for(var j=0;j<$scope.menulist[i].sub.length;j++){
+		        			   if($scope.menulist[i].sub[j]._id==$scope.levelOneItemId){
+		        				   $scope.menulist[i].sub[j].supersub.push(data);   
+		        			   }
+		        		   }
+		        		}  
+		        	  }
+		        	  
+		        	  $scope.add_menu_levelTwo=false;
+		        	  $scope.levelTwoItemName="";
 		        	 
 		          }).error(function (data, status, headers, config) {
 		               

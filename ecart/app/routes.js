@@ -49,7 +49,6 @@
 			
 		});
 		
-		
 		//Add a new user
 		app.post('/user/addUser', function(req, res) {
 			var db = req.db;
@@ -84,28 +83,31 @@
 			//insert record
 			db.collection('menu').insert(insertMenuItemLevelZero, function(err, records) {
 				if (err) throw err;
-				console.log("Record added as "+records[0]._id);
+				else res.json(records[0]);
+				//console.log("Record added as "+records[0]._id);
 			});
 			
 		});
 		
-		
 		//Add menu Item at Level-1
 		app.post('/menu/addMenuItemLevelOne', function(req, res) {
 			var db = req.db;
-			
-			var levelZeroName = req.body.levelZeroName;
+			var mongo = req.mongo;
+			var levelZeroId = req.body.levelZeroId;
 			var nameVal = req.body.name;
+			var ObjectID = mongo.ObjectID;
+			var levelOneObjectId = new ObjectID();
 			
-			
-			db.collection('menu').update({name:levelZeroName},{ $addToSet: {sub:{name : nameVal}}},function(err, records) {
+			db.collection('menu').update({_id:ObjectID(req.body.levelZeroId)},{ $addToSet: {sub:{_id:levelOneObjectId, name : nameVal}}},function(err, records) {
 				if (err) throw err;
-				console.log("menu Item added successfully at level-1 in @@@ menu table");
-				
-				db.collection('submenu').insert({"name":nameVal},function(err2,records){
-					if (err2) throw err2;
-					console.log("menu Item added @@@ submenu table");
-				});
+				else{
+					db.collection('submenu').insert({_id:levelOneObjectId, name:nameVal,supersub:[]},function(err2,records){
+						if (err2) throw err2;
+						else{
+							res.json(records[0]);
+						}
+					});
+				}
 			});
 			
 		});
@@ -115,12 +117,18 @@
 		app.post('/menu/addMenuItemLevelTwo', function(req, res) {
 			
 			var db = req.db;
-			var levelOneName = req.body.levelOneName;
+			var mongo = req.mongo;
+			var levelOneId = req.body.levelOneId;
 			var nameVal = req.body.name;
+			var ObjectID = mongo.ObjectID;
+			var levelTwoObjectId = new ObjectID();
+			var returnObject = {_id:levelTwoObjectId,name:nameVal};
 			
-			db.collection('submenu').update({name:levelOneName},{ $addToSet: {supersub:{name : nameVal}}},function(err, records) {
+			db.collection('submenu').update({_id:ObjectID(req.body.levelOneId)},{ $addToSet: {supersub:{_id:levelTwoObjectId, name : nameVal}}},function(err, records) {
 				if (err) throw err;
-				console.log("menu Item added successfully at level-2");
+				else{
+					res.json(returnObject);
+				}
 			});	
 			
 		});
@@ -138,12 +146,6 @@
 			
 			
 		});
-		
-		
-		
-		
-	
-		
 		
 		//Add Item
 		app.post('/item/addItem', function(req, res) {
@@ -176,7 +178,6 @@
 			});
 		});
 		
-		
 		//Edit Item
 		app.post('/item/editItem', function(req, res) {
 			
@@ -199,8 +200,6 @@
 					imageId : req.body.imageId,
 					amountprice : amtPriceObj
 			};
-			
-			
 			
 			//edit record
 			db.collection('item').update({_id: ObjectID(req.body.itemId)},itemInfo, function(err) {
@@ -230,7 +229,6 @@
 		    
 		});
 		
-		
 		//submit order
 		app.post('/order/submitOrder', function(req, res) {
 			var db = req.db;
@@ -254,11 +252,7 @@
 			
 		});
 		
-		
-		
-		
-		
-	   function insertDocument(doc, targetCollection) {
+		function insertDocument(doc, targetCollection) {
 		   while (1) {
 
 		        var cursor = targetCollection.find( {}, { _id: 1 } ).sort( { _id: -1 } ).limit(1);
@@ -277,7 +271,6 @@
 			
 			
 		app.post('/user/login', function(req, res) {
-		//console.log("abhinav here");
 			var db = req.db;
 			var emailId = req.param("emailId");
 			var password = req.param("password");
@@ -326,7 +319,4 @@
 		app.get('/', function(req, res) {
 			res.sendfile('./public/views/index.html'); // load our public/index.html file
 		});
-	    
 };
-	    
-	    
