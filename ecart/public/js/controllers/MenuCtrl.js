@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http) {
+angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,ngDialog) {
 
 	$scope.formData = {};
 	$scope.menulist=[];
@@ -17,16 +17,19 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	
 
 	
-	 $scope.getSubMenuList = function(menuList,id){
+	 $scope.getSubMenuList = function(menuList,oneMenu){
 		 $scope.superSubMenuList={};
 		 $scope.two_new=false;
 		 $scope.add_menu_levelOne=false;
 		 $scope.add_menu_levelTwo=false;
+		 $scope.edit_menu_levelZero=true;
+		 $scope.edit_menu_levelOne=false;
 		 
-		 $scope.levelZeroItemId = id;
+		 $scope.levelZeroItemId = oneMenu._id;
+		 $scope.levelZeroMenuName = oneMenu.name;
 		 
 		 for(var i=0;i<menuList.length;i++){
-			 if(menuList[i]._id==id){
+			 if(menuList[i]._id==oneMenu._id){
 				$scope.subMenuList = menuList[i].sub;
 				$scope.one_new=true;
 			  }
@@ -38,6 +41,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	  $scope.getSuperSubMenuList = function(subMenuList,id){
 		  $scope.add_menu_levelTwo=false;
 		  $scope.levelOneItemId = id;
+		  $scope.edit_menu_levelOne=true;
 		  
 			for(var i=0;i<subMenuList.length;i++){
 				if(subMenuList[i]._id==id){
@@ -134,4 +138,28 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		               
 		          });
 			};
+			
+		$scope.editLevelZeroPopUp = function(){
+			 $scope.editMenuPopUpHeader ='Menu Level-0 Edit/Remove'
+			 $scope.removeButtons=false;
+			 
+             var dialog = ngDialog.open({
+             template: 'views/adminTemplates/editMenuPopUp.html',
+             scope: $scope,
+             className: 'ngdialog-theme-default'
+           });
+			
+		}
+		
+		$scope.editLevelOnePopUp = function(){
+					
+				}
+
+		$scope.editLevelTwoPopUp = function(){
+			
+		}
+		
+		
+		
+		
 });

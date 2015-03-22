@@ -6,7 +6,7 @@
   		</div>
   		<div class="panel-body">
   		   <div data-ng-repeat="oneMenu in menulist">
-  		   		<a href="" ng-click="getSubMenuList(menulist,oneMenu._id)" class="list-group-item">{{oneMenu.name}}<i class="icon-search"></i></a>
+  		   		<a href="" ng-click="getSubMenuList(menulist,oneMenu)" class="list-group-item">{{oneMenu.name}}<i class="icon-search"></i></a>
   		   </div>
 		   
 		   <div ng-show="add_menu_levelZero">
@@ -28,6 +28,7 @@
     	
     	<div class="container">
     	<a href="" ng-click="add_menu_levelZero=true">Add New</a>
+    	<a href="" class="pull-right" ng-show="edit_menu_levelZero" ng-click="editLevelZeroPopUp()">Edit/Remove</a>
     	</div>
 	</div>
 	</div>
@@ -60,6 +61,7 @@
 			
 			<div class="container" ng-show="one_new">
 				<a href="" ng-click="add_menu_levelOne=true">Add New</a>
+				<a href="" class="pull-right" ng-show="edit_menu_levelOne" ng-click="editLevelOnePopUp()">Edit/Remove</a>
 			</div>
 		</div>
 	</div>
@@ -92,6 +94,7 @@
 		
 		<div class="container" ng-show="two_new">
 				<a href="" ng-click="add_menu_levelTwo=true">Add New</a>
+				<a href="" class="pull-right" ng-show="edit_menu_levelTwo" ng-click="editLevelTwoPopUp()">Edit/Remove</a>
 		</div>
 	</div>
 

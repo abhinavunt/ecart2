@@ -1,0 +1,33 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{editMenuPopUpHeader}}</h3>
+  </div>
+  <div class="panel-body">
+   <form class="form-horizontal">
+  	<fieldset>
+	    <div class="alert alert-dismissible alert-danger" ng-show="removeButtons">
+		  <strong>Warning!</strong> Removing this menu, will remove all associated child menu entries and Items as well !!! 
+		</div>
+	    <div class="form-group">
+	      <label for="inputEmail" class="col-lg-2 control-label">Menu Name</label>
+	      <div class="col-lg-10">
+	        <input type="text" class="form-control" ng-model="levelZeroMenuName" placeholder="Menu Name">
+	      </div>
+	    </div>
+     </fieldset>
+	</form>
+	
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2" ng-hide="removeButtons">
+        <button type="reset" class="btn btn-default" ng-click="closeThisDialog()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="" class="pull-right"  ng-click="removeButtons=true" ng-hide="removeButtons">Remove this Menu</a>
+      </div>
+      <div class="col-lg-10 col-lg-offset-2" ng-show="removeButtons">
+        <button type="reset" class="btn btn-default" ng-click="removeButtons=false">Don't Proceed</button>
+        <button type="submit" class="btn btn-danger">Remove Anyways</button>
+      </div>
+    </div>
+
+  </div>
+</div>
