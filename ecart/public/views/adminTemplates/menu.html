@@ -40,7 +40,7 @@
 			</div>
 			<div class="panel-body">
 				<div data-ng-repeat="subMenu in subMenuList">
-					<a href="" ng-click="getSuperSubMenuList(subMenuList,subMenu._id)" class="list-group-item">{{subMenu.name}}</a>
+					<a href="" ng-click="getSuperSubMenuList(subMenuList,subMenu)" class="list-group-item">{{subMenu.name}}</a>
 				</div>
 				
 				<div ng-show="add_menu_levelOne">
@@ -73,7 +73,7 @@
   		</div>
   		<div class="panel-body">
     		<div data-ng-repeat="superSubMenu in superSubMenuList">
-					<a href="" class="list-group-item">{{superSubMenu.name}}</a>
+					<a href="" ng-click="getSuperSubMenuObject(superSubMenu)" class="list-group-item">{{superSubMenu.name}}</a>
 				</div>
 				
 				<div ng-show="add_menu_levelTwo">

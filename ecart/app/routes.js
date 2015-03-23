@@ -133,6 +133,34 @@
 			
 		});
 		
+		//Edit menu Item at All levels
+		app.post('/menu/editMenuItem', function(req, res) {
+			
+			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			var menuLevel = req.body.menuLevel;
+			
+			if(menuLevel=='levelZero'){
+				db.collection('menu').update({_id:ObjectID(req.body.levelZeroId)},{$set: {name:req.body.name}},function(err, records) {
+					if (err) throw err;
+					else{
+						res.json({_id:req.body.levelZeroId,name:req.body.name});
+					}
+				});		
+			
+			}else if(menuLevel=='levelOne'){
+				
+				
+				
+			}else if(menuLevel=='levelTwo'){
+				
+				
+				
+			}
+			
+		});
+		
 		
 		// Search Items
 		app.get('/item/searchItems', function(req, res) {
