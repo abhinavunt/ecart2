@@ -229,12 +229,72 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 				
 			}else if($scope.menuLevel=='levelOne'){
 				
+				var editMenuItemData = {
+						levelZeroId : $scope.levelZeroItemId,
+						levelOneId : $scope.levelOneItemId,
+						menuLevel: $scope.menuLevel,
+						name : menuName
+				};
 				
-			
+				$http({
+			            url: '/menu/editMenuItem',
+			            method: "POST",
+			            data: JSON.stringify(editMenuItemData),
+			            headers: {'Content-Type': 'application/json'}
+			     }).success(function (data, status, headers, config) {
+			    	
+			    	 for(var i=0;i<$scope.menulist.length;i++){
+			    		 if($scope.menulist[i]._id==$scope.levelZeroItemId){
+			    		 for(var j=0;j<$scope.menulist[i].sub.length;j++){
+			    			 if($scope.menulist[i].sub[j]._id==$scope.levelOneItemId){
+			    				 $scope.menulist[i].sub[j].name=menuName;
+			    				 ngDialog.closeAll();
+				    			 break;
+			    			 }
+			    		   }
+			    		}
+			    	 }
+			    	 
+			     }).error(function (data, status, headers, config) {
+		               
+		         });
+				
 			}else if($scope.menuLevel=='levelTwo'){
 				
+				var editMenuItemData = {
+						
+						levelOneId : $scope.levelOneItemId,
+						levelTwoId : $scope.levelTwoItemId,
+						menuLevel: $scope.menuLevel,
+						name : menuName
+				};
 				
-				
+				$http({
+			            url: '/menu/editMenuItem',
+			            method: "POST",
+			            data: JSON.stringify(editMenuItemData),
+			            headers: {'Content-Type': 'application/json'}
+			     }).success(function (data, status, headers, config) {
+			    	
+			    	 for(var i=0;i<$scope.menulist.length;i++){
+			    		 if($scope.menulist[i]._id==$scope.levelZeroItemId){
+			    		 for(var j=0;j<$scope.menulist[i].sub.length;j++){
+			    			 if($scope.menulist[i].sub[j]._id==$scope.levelOneItemId){
+			    				for(var k=0; k<$scope.menulist[i].sub[j].supersub.length;k++){
+			    					if($scope.menulist[i].sub[j].supersub[k]._id==data._id){
+			    						$scope.menulist[i].sub[j].supersub[k].name=data.name;
+			    						ngDialog.closeAll();
+						    			break;
+			    						}
+			    					  }
+			    			 		}
+			    		   		}
+			    		 	}
+			    	 	}
+			    	 
+			     }).error(function (data, status, headers, config) {
+		               
+		         });
 			}
 			
 		}
