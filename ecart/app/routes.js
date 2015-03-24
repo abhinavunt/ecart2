@@ -6,7 +6,7 @@
 		app.get('/menu/menulist', function(req, res) {
 			
 			var db = req.db;
-			db.collection('menu').find().toArray(function (err, items) {
+			db.collection('menu').find({}, {"sort" : [['datetime', 1]]} ).toArray(function (err, items) {
 				db.collection('submenu').find().toArray(function (err, subitems) {
 					this.finalJson = new Array();
 				    items.forEach(function(item){
@@ -78,6 +78,7 @@
 			
 			var insertMenuItemLevelZero = {
 					name : req.body.name,
+					datetime : new Date(),
 					sub :[]
 				};
 			//insert record
