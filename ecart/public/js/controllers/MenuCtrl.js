@@ -299,4 +299,20 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 			
 		}
 		
+		
+		$scope.removeEditMenu = function(menuName){
+			
+			if($scope.menuLevel=='levelZero'){
+				
+				
+			}else if($scope.menuLevel=='levelOne'){
+				
+				
+			}else if($scope.menuLevel=='levelTwo'){
+				
+				
+			}
+			
+		}
+		
 });
