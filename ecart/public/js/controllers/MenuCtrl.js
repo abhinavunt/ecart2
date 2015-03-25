@@ -35,6 +35,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 				$scope.one_new=true;
 			  }
 		 	}
+		 //alert(JSON.stringify($scope.subMenuList));
 		 };
 		 
 	 
@@ -304,6 +305,44 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 			
 			if($scope.menuLevel=='levelZero'){
 				
+				var subMenuIds=[];
+				for(var i=0;i<$scope.subMenuList.length;i++){
+					subMenuIds.push($scope.subMenuList[i]._id);
+				}
+				
+				var removeMenuItemData = {
+						levelZeroId : $scope.levelZeroItemId,
+						subMenuIds : subMenuIds,
+						menuLevel: $scope.menuLevel
+				};
+				
+				
+				
+				$http({
+			            url: '/menu/removeMenuItem',
+			            method: "POST",
+			            data: JSON.stringify(removeMenuItemData),
+			            headers: {'Content-Type': 'application/json'}
+			     }).success(function (data, status, headers, config) {
+			    	 
+			    	 for(var i=0;i<$scope.menulist.length;i++){
+			    		 if($scope.menulist[i]._id==data._id){
+			    			 $scope.menulist.splice($scope.menulist.indexOf($scope.menulist[i]),1);
+			    			 break;
+			    		 }
+			    	 }
+			    	 $scope.subMenuList={};
+		  	         $scope.superSubMenuList={};
+		  	         $scope.edit_menu_levelZero=false;
+		  	         $scope.edit_menu_levelOne=false;
+		  	         $scope.edit_menu_levelTwo=false;
+		  	         $scope.one_new=false;
+		  	         $scope.two_new=false;
+		  	         ngDialog.closeAll(); 
+			    	 
+			     }).error(function (data, status, headers, config) {
+		               
+		         });
 				
 			}else if($scope.menuLevel=='levelOne'){
 				
