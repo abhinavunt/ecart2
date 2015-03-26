@@ -1,6 +1,7 @@
-<div class="container" ng-controller="ShowItemController">
+<div class="container">
   <div class=" col-lg-2 list-group-info">
        <div class="row">
+      
        		<a ui-sref="#" class="list-group-item active ">{{sideMenu.name}}</a>
        		<div data-ng-repeat="subMenu in sideMenu.sub">
 	    		<a ui-sref=".order" class="list-group-item collapsed" data-toggle="collapse" data-target="#collapse-{{$index}}">{{subMenu.name}}</a>
@@ -11,6 +12,7 @@
 		        </div>
 	        </div> 
 	          
+       
        </div>
        <div class="row">
        <a ui-sref="#" class="list-group-item active ">Brands</a>
@@ -22,7 +24,7 @@
    </div>
 	
     <div id="products" class="row list-group">
-   		<div class="item  col-xs-3 col-lg-3" data-ng-repeat="item in showItemList">
+   		<div class="item  col-xs-3 col-lg-3" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
             <div class="thumbnail">
              
                 <img class="group list-group-image" src="temp_upload/{{item.imageId}}" alt="" />
