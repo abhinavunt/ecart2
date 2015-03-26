@@ -26,7 +26,7 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
               
               $scope.searchItems = function(category){
             	//Search Items
-                  $http({
+            	   $http({
                       url: '/item/searchItems',
                       method: "GET",
                       params: {category: category}
@@ -52,15 +52,19 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
               
               $scope.products = shoppingCartService.getProducts();
               
+              
+              
               $scope.$watch('products', function() {
-              var productId = $scope.amount.selected.productId;
+              if($scope.products.length>0){
+            	  var productId = $scope.amount.selected.productId;
                   $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
-              },true);
+              }},true);
               
               $scope.$watch('amount.selected', function() {
+              if($scope.products.length>0){
               var productId = $scope.amount.selected.productId;
                   $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
-              },true);
+              }},true);
              
              
               $scope.quantityList = [{quantity:1 },
