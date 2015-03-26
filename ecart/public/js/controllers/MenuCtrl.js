@@ -56,6 +56,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		};
 		
 	  $scope.getSuperSubMenuObject = function(superSubMenu){
+		  
 		  $scope.edit_menu_levelTwo=true;
 		  $scope.levelTwoItemId = superSubMenu._id;
 		  $scope.levelTwoMenuName = superSubMenu.name;	
@@ -346,9 +347,75 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 				
 			}else if($scope.menuLevel=='levelOne'){
 				
+				var removeMenuItemData = {
+						levelZeroId : $scope.levelZeroItemId,
+						levelOneId : $scope.levelOneItemId,
+						menuLevel: $scope.menuLevel
+				};
+				
+				$http({
+		            url: '/menu/removeMenuItem',
+		            method: "POST",
+		            data: JSON.stringify(removeMenuItemData),
+		            headers: {'Content-Type': 'application/json'}
+				}).success(function (data, status, headers, config) {
+					
+					for(var i=0;i<$scope.menulist.length;i++){
+						if($scope.menulist[i]._id==$scope.levelZeroItemId){
+							for(var j=0;j<$scope.menulist[i].sub.length;j++){
+								if($scope.menulist[i].sub[j]._id==data._id){
+									 $scope.menulist[i].sub.splice($scope.menulist[i].sub.indexOf($scope.menulist[i].sub[j]),1);
+									 break;
+								}
+							}
+						}
+						
+					}
+					$scope.superSubMenuList={};
+					$scope.edit_menu_levelOne=false;
+		  	        $scope.edit_menu_levelTwo=false;
+		  	        $scope.two_new=false;
+		  	        ngDialog.closeAll();
+					
+				}).error(function (data, status, headers, config) {
+	               
+	         });
 				
 			}else if($scope.menuLevel=='levelTwo'){
 				
+				var removeMenuItemData = {
+						levelOneId : $scope.levelOneItemId,
+						levelTwoId : $scope.levelTwoItemId,
+						menuLevel: $scope.menuLevel
+				};
+				
+				$http({
+		            url: '/menu/removeMenuItem',
+		            method: "POST",
+		            data: JSON.stringify(removeMenuItemData),
+		            headers: {'Content-Type': 'application/json'}
+				}).success(function (data, status, headers, config) {
+					for(var i=0;i<$scope.menulist.length;i++){
+						if($scope.menulist[i]._id==$scope.levelZeroItemId){
+							for(var j=0;j<$scope.menulist[i].sub.length;j++){
+								if($scope.menulist[i].sub[j]._id==$scope.levelOneItemId){
+									for(var k=0;k<$scope.menulist[i].sub[j].supersub.length;k++){
+										if($scope.menulist[i].sub[j].supersub[k]._id==data._id){
+											 $scope.menulist[i].sub[j].supersub.splice($scope.menulist[i].sub[j].supersub.indexOf($scope.menulist[i].sub[j].supersub[k]),1);
+											 break;
+										}
+									}
+								}
+							}
+						}
+					}
+					$scope.two_new=true;
+		  	        $scope.edit_menu_levelTwo=false;
+		  	        ngDialog.closeAll();
+					
+				}).error(function (data, status, headers, config) {
+	               
+	         });
 				
 			}
 			

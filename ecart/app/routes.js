@@ -210,32 +210,29 @@
 			
 			}else if(menuLevel=='levelOne'){
 				
-				
-				db.collection('menu').update({_id:ObjectID(req.body.levelZeroId),'sub._id':ObjectID(req.body.levelOneId)},{$set:{'sub.$.name':req.body.name}},function(err,records){
+				db.collection('menu').update({_id:ObjectID(req.body.levelZeroId)},{$pull:{'sub' : {_id : ObjectID(req.body.levelOneId)}}},function(err,records){
 					if (err) throw err;
 					else{
-						db.collection('submenu').update({_id:ObjectID(req.body.levelOneId)},{$set: {name:req.body.name}},function(err, records) {
-							if (err) throw err;
-							else{
-								res.json({_id:req.body.levelOneId,name:req.body.name});
+						db.collection('submenu').remove({_id:ObjectID(req.body.levelOneId)},function(err,records) {
+						if(err) throw err;
+						else{
+								res.json({_id:req.body.levelOneId});
 							}
-						});	
+						});
 					}
 				});
 				
 				
-			}else if(menuLevel=='levelTwo'){
+		    }else if(menuLevel=='levelTwo'){
 				
-				db.collection('submenu').update({_id:ObjectID(req.body.levelOneId),'supersub._id':ObjectID(req.body.levelTwoId)},{$set:{'supersub.$.name':req.body.name}},function(err,records){
+		    	db.collection('submenu').update({_id:ObjectID(req.body.levelOneId)},{$pull:{'supersub' : {_id : ObjectID(req.body.levelTwoId)}}},function(err,records){
 					if (err) throw err;
 					else{
-						res.json({_id:req.body.levelTwoId, name:req.body.name});
+						res.json({_id:req.body.levelTwoId});
 					}
 				});
-				
 			}
-			
-		});
+		 });
 		
 		
 		// Search Items
