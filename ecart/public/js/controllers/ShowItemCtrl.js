@@ -2,10 +2,12 @@
 angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,$state, $stateParams,shoppingCartService) {
           
        //Search Items
+	          
               $http({
                   url: '/item/searchItems',
                   method: "GET",
                   params: {category: $stateParams.category}
+                  
                }).success(function(data) {
                       if(data.length==0){
                              $scope.showItemList = {};

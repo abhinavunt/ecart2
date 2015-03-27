@@ -240,12 +240,12 @@
 			
 			var category = req.param("category");
 			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
 			
-			db.collection('item').find({category: category}).toArray(function (err, items) {
-		        res.json(items);
+			db.collection('item').find({categoryTwoId: ObjectID(category)}).toArray(function (err, items) {
+		       res.json(items);
 		    });
-			
-			
 		});
 		
 		//Add Item
@@ -261,7 +261,9 @@
 			
 			var itemInfo = {
 					
-					category : req.body.category,
+					categoryZeroId : ObjectID(req.body.categoryZeroId),
+  	    			categoryOneId : ObjectID(req.body.categoryOneId),
+  	    			categoryTwoId : ObjectID(req.body.categoryTwoId),
 					name : req.body.name,
 					brand : req.body.brand,
 					othernames : req.body.othernames,
@@ -292,7 +294,9 @@
 			
 			var itemInfo = {
 					
-					category : req.body.category,
+					categoryZeroId : ObjectID(req.body.categoryZeroId),
+  	    			categoryOneId : ObjectID(req.body.categoryOneId),
+  	    			categoryTwoId : ObjectID(req.body.categoryTwoId),
 					name : req.body.name,
 					brand : req.body.brand,
 					othernames : req.body.othernames,

@@ -8,14 +8,12 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.searchItemVal=true;
 	$scope.amountPriceRow=[];
 	
-	
 	$http.get('/menu/menulist')
 	.success(function(data) {
 		
 		$.each(data, function(){
-			
 			$scope.menulist = data;
-			console.log(data);});
+		 });
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
@@ -60,25 +58,24 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			 }
 		};
 		
-	   $scope.hoverInLevelZero = function(name){
-	        $scope.menuLevelZeroName = name;
+	   $scope.hoverInLevelZero = function(menuObj){
+		    $scope.menuLevelZeroId = menuObj._id;
+	        $scope.menuLevelZeroName = menuObj.name;
 	    };
 	    
-	    $scope.hoverInLevelOne = function(name){
-	        $scope.menuLevelOneName = name;
+	    $scope.hoverInLevelOne = function(menuObj){
+	    	 $scope.menuLevelOneId = menuObj._id;
+		     $scope.menuLevelOneName = menuObj.name;
 	    };
 	    
-	    $scope.clickInLevelTwo = function(name){
-	        $scope.menuLevelTwoName = name;
-	        
-	        
-	    };
+	    
 		
 	    
-	    $scope.searchItems = function(name){
+	    $scope.searchItems = function(menuObj){
 	    	
 	    	
-	    	$scope.menuLevelTwoName = name;
+	    	$scope.menuLevelTwoName = menuObj.name;
+	    	$scope.menuLevelTwoId = menuObj._id;
 	        $scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.addItemButtonVal=false;
@@ -87,13 +84,14 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	$http({
 	    	    url: '/item/searchItems', 
 	    	    method: "GET",
-	    	    params: {category: $scope.menuLevelTwoName}
+	    	    params: {category: $scope.menuLevelTwoId}
 	    	 }).success(function(data) {
 	    		 if(data.length==0){
 	    			 $scope.itemList = []; 
 	    		 }else{
 	    			 $.each(data, function(){
 							$scope.itemList = data;
+							
 					 });
 	    		 }
 	    		 
@@ -132,7 +130,10 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	        	  var ImgId = data.ImgId;
 	        	  var item ={
 	  	    			
-	  	    			category:$scope.menuLevelTwoName,
+	  	    			categoryZeroId:$scope.menuLevelZeroId,
+	  	    			categoryOneId:$scope.menuLevelOneId,
+	  	    			categoryTwoId:$scope.menuLevelTwoId,
+	  	    			category : $scope.category2,
 	  	    			name:$scope.itemForm.itemName,
 	  	    			brand:$scope.itemForm.brand,
 	  	    			othernames:$scope.itemForm.otherNames,
@@ -142,45 +143,42 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	    			imageId:ImgId
 	  	    		};
 	        	  
-	        	  $http({
+	           $http({
 	  	            url: '/item/addItem',
 	  	            method: "POST",
 	  	            data: JSON.stringify(item),
 	  	            headers: {'Content-Type': 'application/json'}
-	  	          }).success(function (data, status, headers, config,imageName) {
-	  	        	
-	  	        	
-	  	        	$scope.itemList.unshift(item);
+	  	       }).success(function (data, status, headers, config,imageName) {
+	  	    	    $scope.itemList.unshift(item);
 	  	        	$scope.submitButtonVal=true;
 	  	        	$scope.closeThisDialog();
-	  	        	
-	  	        	
-	  	          }).error(function (data, status, headers, config) {
+	  	       }).error(function (data, status, headers, config) {
 	  	              
-	  	          }); 
+	  	       });
 	           
 	          });
 	    	};
 	    	
 	    $scope.editItem = function(item){
-	    	
+	    	 
 	    	if(typeof $scope.newImg=='undefined'){
 	    		
 	    	 var item ={
-		  	    			itemId:item._id,
-		  	    			category:$scope.menuLevelTwoName,
-		  	    			name:$scope.itemDetails.name,
-		  	    			brand:$scope.itemDetails.brand,
-		  	    			othernames:$scope.itemDetails.othernames,
-		  	    			description:$scope.itemDetails.description,
-		  	    			availability:$scope.itemDetails.availability,
-		  	    			amountprice:$('#amtPriceTableId').tableToJSON(),
-		  	    			imageId:item.imageId
+	    			 	itemId:item._id,
+	    			 	categoryZeroId:$scope.menuLevelZeroId,
+	  	    			categoryOneId:$scope.menuLevelOneId,
+	  	    			categoryTwoId:$scope.menuLevelTwoId,
+	  	    			name:$scope.itemDetails.name,
+	  	    			brand:$scope.itemDetails.brand,
+	  	    			othernames:$scope.itemDetails.othernames,
+	  	    			description:$scope.itemDetails.description,
+	  	    			availability:$scope.itemDetails.availability,
+	  	    			amountprice:$('#amtPriceTableId').tableToJSON(),
+	  	    			imageId:item.imageId
 		  	    		};
 	    	 
-	    	 
-	    		 
-	    		 $http({
+	    		
+	    	  $http({
 		  	            url: '/item/editItem',
 		  	            method: "POST",
 		  	            data: JSON.stringify(item),
@@ -188,7 +186,6 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	          }).success(function (data, status, headers, config,imageName) {
 		  	        	$scope.submitButtonValEdit=true;
 		  	        	$scope.closeThisDialog();
-		  	        	$scope.searchItems($scope.menuLevelTwoName);
 		  	          }).error(function (data, status, headers, config) {
 		  	              
 		  	          });
