@@ -1,32 +1,8 @@
 // public/js/controllers/NerdCtrl.js
 angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,$state, $stateParams,shoppingCartService) {
           
-       //Search Items
-	          
-              $http({
-                  url: '/item/searchItems',
-                  method: "GET",
-                  params: {category: $stateParams.category}
-                  
-               }).success(function(data) {
-                      if(data.length==0){
-                             $scope.showItemList = {};
-                            
-                      }else{
-                          $.each(data, function(){
-                             $scope.showItemList = data;
-                          });
-                      }
-                      
-                      $scope.sideMenu = $stateParams.sideMenu;
-                      
-                      
-               }).error(function(data) {
-                      console.log('Error: ' + data);
-              });
-              
-              
-              $scope.searchItems = function(category){
+	       //Search Items
+		   	$scope.searchItems = function(category){
             	//Search Items
             	   $http({
                       url: '/item/searchItems',
@@ -51,10 +27,33 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
             	  
               };
               
+            //Search Brands
+  		   	$scope.searchBrands = function(category){
+              	
+              	   $http({
+                        url: '/item/searchBrands',
+                        method: "GET",
+                        params: {category: category}
+                     }).success(function(data) {
+                    	 if(data.length==0){
+                             $scope.showBrandList = {};
+                            
+                      }else{
+                          $.each(data, function(){
+                             $scope.showBrandList = data;
+                          });
+                      } 
+                    	 
+                     }).error(function(data) {
+                            console.log('Error: ' + data);
+                    });  
+              	  
+              };
+              
+              $scope.searchItems($stateParams.category);
+              $scope.searchBrands($stateParams.category);
               
               $scope.products = shoppingCartService.getProducts();
-              
-              
               
               $scope.$watch('products', function() {
               if($scope.products.length>0){

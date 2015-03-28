@@ -248,6 +248,19 @@
 		    });
 		});
 		
+		// Search Brands
+		app.get('/item/searchBrands', function(req, res) {
+			
+			var category = req.param("category");
+			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			db.collection('item').find({categoryTwoId: ObjectID(category)},{brand:1,_id:0}).toArray(function (err, items) {
+		       res.json(items);
+		    });
+		});
+		
 		//Add Item
 		app.post('/item/addItem', function(req, res) {
 			

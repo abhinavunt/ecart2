@@ -7,7 +7,7 @@
 	    		<a ui-sref=".order" class="list-group-item collapsed" data-toggle="collapse" data-target="#collapse-{{$index}}">{{subMenu.name}}</a>
 	    		<div class="collapse in" id="collapse-{{$index}}" style="border:1px solid rgb(236, 234, 234)">
 		           <ul class="nav nav-list" data-ng-repeat="superSubMenu in subMenu.supersub">
-		              <li><a href="" style="font-size: smaller;" ng-click="searchItems(superSubMenu._id)">{{superSubMenu.name}}</a></li>
+		              <li><a href="" style="font-size: smaller;" ng-click="searchItems(superSubMenu._id);searchBrands(superSubMenu._id)">{{superSubMenu.name}}</a></li>
 		           </ul>
 		        </div>
 	        </div> 
@@ -21,9 +21,8 @@
 			  </div>
 			  <div class="panel-body">
 				   <ul class="nav nav-list">
-		              <li><input type="checkbox"/>&nbsp;ABC</li>
-		              <li><input type="checkbox"/>&nbsp;LPO</li>
-		              <li><input type="checkbox"/>&nbsp;MNJ</li>
+		              <li data-ng-repeat="brandObj in showBrandList | unique:'brand'"><input type="checkbox"/>&nbsp;{{brandObj.brand}}</li>
+		              
 	              </ul>
 			  </div>
 			</div>
