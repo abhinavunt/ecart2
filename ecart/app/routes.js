@@ -259,6 +259,28 @@
 			db.collection('item').find({categoryTwoId: ObjectID(category)},{brand:1,_id:0}).toArray(function (err, items) {
 		       res.json(items);
 		    });
+			
+			
+		});
+		
+		// Search Items by Brand
+		app.post('/item/searchItemsByBrand', function(req, res) {
+			
+			
+			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			if(req.body.category.length>0){
+				db.collection('item').find({categoryTwoId :ObjectID(req.body.categoryTwoId), brand:{$in:req.body.category}}).toArray(function (err, items) {
+			        res.json(items);
+			    });
+			}else{
+				db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryTwoId)}).toArray(function (err, items) {
+				       res.json(items);
+				});
+			}
+			
 		});
 		
 		//Add Item

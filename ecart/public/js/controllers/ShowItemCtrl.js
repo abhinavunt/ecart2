@@ -1,27 +1,25 @@
 // public/js/controllers/NerdCtrl.js
 angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,$state, $stateParams,shoppingCartService) {
-          
+			$scope.brandsArray=[];
+			
 	       //Search Items
 		   	$scope.searchItems = function(category){
             	//Search Items
-            	   $http({
+		   		   $scope.categoryTwoId = category;
+		   		   $http({
                       url: '/item/searchItems',
                       method: "GET",
                       params: {category: category}
                    }).success(function(data) {
                           if(data.length==0){
-                                 $scope.showItemList = {};
-                                
+                             $scope.showItemList = [];
                           }else{
-                              $.each(data, function(){
-                                 $scope.showItemList = data;
-                              });
+                             $scope.showItemList = data;
                           }
                           
                           $scope.sideMenu = $stateParams.sideMenu;
                           
-                          
-                   }).error(function(data) {
+                  }).error(function(data) {
                           console.log('Error: ' + data);
                   });  
             	  
@@ -101,20 +99,23 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                     
               };
               
-              $scope.initQnt = function(){
+             $scope.initQnt = function(){
+             if($scope.products.length>0){
              var productId = $scope.amount.selected.productId;
                   $scope.qnt = shoppingCartService.getQuantity(productId);
+             }
                  
-              };
+             };
              
              
              
               $scope.counterPlus = function(){
+            	if($scope.products.length>0){
                 var itemObj = $scope.amount.selected;
                      shoppingCartService.setQuantity(itemObj,"plus");
                      var productId = $scope.amount.selected.productId;
                      $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
-                    
+            	}     
               };
              
              
@@ -135,6 +136,34 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                } else {
                        return false;
                }
+              };
+              
+              
+              
+              $scope.selectedBrand = function(brandName){
+            	  
+            	  if($scope.brandsArray.indexOf(brandName)!= -1){
+            		  $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
+            	  }else{
+            		  $scope.brandsArray.push(brandName);   
+            	  }
+            	  
+            	  var categoryData = {
+            			  category:$scope.brandsArray,
+            			  categoryTwoId:$scope.categoryTwoId
+            	  };
+            	  
+            	  $http({
+                      url: '/item/searchItemsByBrand',
+                      method: "POST",
+			          data: JSON.stringify(categoryData),
+			          headers: {'Content-Type': 'application/json'}
+                   }).success(function(data) {
+                	   $scope.showItemList = data;
+                   }).error(function(data) {
+                          console.log('Error: ' + data);
+                   });
+            	  
               };
              
               function getById(arr, id) {
