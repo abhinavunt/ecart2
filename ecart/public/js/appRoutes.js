@@ -106,7 +106,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		.state('searchItems', {
 		url:'/:category/:sideMenu',
 		templateUrl: 'views/showItems.html',
-		controller: 'ShowItemController'
+		controller: 'GetItemController'
 	});
 
 	$locationProvider.html5Mode(true);
