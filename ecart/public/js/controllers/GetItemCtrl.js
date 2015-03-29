@@ -34,12 +34,10 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                         params: {category: category}
                      }).success(function(data) {
                     	 if(data.length==0){
-                             $scope.showBrandList = {};
+                             $scope.showBrandList =[];
                             
                       }else{
-                          $.each(data, function(){
-                             $scope.showBrandList = data;
-                          });
+                          $scope.showBrandList = data;
                       } 
                     	 
                      }).error(function(data) {

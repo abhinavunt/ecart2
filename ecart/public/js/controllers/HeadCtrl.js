@@ -152,8 +152,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        }
        
        $scope.addToCart = function(amountObj,quantityObj,itemObj){
-    	   //alert(JSON.stringify(amountObj));
-           var cartEntry = {
+    	  var cartEntry = {
 
                         itemName: itemObj.name,
                         brand: itemObj.brand,
@@ -183,13 +182,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	                    }).success(function (data, status, headers, config) {
 	                        
 	                         if(data.length==0){
-	                           $scope.liveResultList = {};
+	                           $scope.liveResultList = [];
 	                   }else{
-	                          $.each(data, function(){
-	                        	$scope.liveResultList = data;
-	                        	$scope.showLiveSearchTable=true;
-	                         });
-	                }
+	                           $scope.liveResultList = data;
+	                           $scope.showLiveSearchTable=true;
+	                   }
 	                    }).error(function (data, status, headers, config) {
 	                  
 	                    });  
