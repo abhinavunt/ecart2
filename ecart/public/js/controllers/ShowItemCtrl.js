@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,shoppingCartService) {
+angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,shoppingCartService,expandItemService) {
 			
               
               $scope.products = shoppingCartService.getProducts();
@@ -89,6 +89,11 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                }
               };
             
+              $scope.expandItem = function(item){
+            	  expandItemService.setItem(item);
+              }
+              
+              
              
               function getById(arr, id) {
                      for (var d=0;d<arr.length;d++) {

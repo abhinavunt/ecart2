@@ -103,6 +103,40 @@ app.service('shoppingCartService', function($cookieStore) {
          };
 });
 
+app.service('expandItemService', function() {
+	
+	var itemObjectList=[];
+	var expandItemFlag;
+	
+	var getItem = function(){
+		return itemObjectList;
+	}
+	
+	var getExpandItemFlag = function(){
+		return expandItemFlag;
+	}
+	
+	var setExpandItemFlag = function(){
+		expandItemFlag=false;
+		itemObjectList.splice(0,itemObjectList.length);
+	}
+	
+	var setItem = function(item){
+		expandItemFlag = true;
+		itemObjectList.splice(0,itemObjectList.length);
+		itemObjectList.push(item);
+    }
+	
+	return {
+		getItem:getItem,
+		setItem:setItem,
+		getExpandItemFlag:getExpandItemFlag,
+		setExpandItemFlag:setExpandItemFlag
+	};
+	
+});
+
+
 app.filter('unique', function() {
 	   return function(collection, keyname) {
 	      var output = [], 

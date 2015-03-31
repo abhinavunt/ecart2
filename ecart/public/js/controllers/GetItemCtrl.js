@@ -1,6 +1,16 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$stateParams) {
+angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$stateParams,expandItemService) {
 			$scope.brandsArray=[];
+			
+			$scope.itemToExpand = expandItemService.getItem();
+			
+			
+			$scope.$watch('itemToExpand', function(item) {
+				if(item.length>0){
+					$scope.expandedItem = item[0];
+					$scope.expandItemFlag= expandItemService.getExpandItemFlag();
+		        }
+	        },true);
 			
 	       //Search Items
 		   	$scope.searchItems = function(category){
@@ -27,7 +37,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               
             //Search Brands
   		   	$scope.searchBrands = function(category){
-              	
+  		   		$scope.brandsArray=[];
               	   $http({
                         url: '/item/searchBrands',
                         method: "GET",
@@ -45,6 +55,11 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                     });  
               	  
               };
+              
+              $scope.backToItems = function(){
+            	  expandItemService.setExpandItemFlag();
+            	  $scope.expandItemFlag=false;
+              }
               
               $scope.searchItems($stateParams.category);
               $scope.searchBrands($stateParams.category);
