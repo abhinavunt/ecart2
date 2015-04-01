@@ -25,6 +25,8 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                              $scope.showItemList = [];
                           }else{
                              $scope.showItemList = data;
+                             expandItemService.setExpandItemFlag();
+                       	  	 $scope.expandItemFlag=false;
                           }
                           
                           $scope.sideMenu = $stateParams.sideMenu;
@@ -84,6 +86,8 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			          headers: {'Content-Type': 'application/json'}
                    }).success(function(data) {
                 	   $scope.showItemList = data;
+                	   expandItemService.setExpandItemFlag();
+                 	   $scope.expandItemFlag=false;
                    }).error(function(data) {
                           console.log('Error: ' + data);
                    });
