@@ -137,6 +137,24 @@ app.service('expandItemService', function() {
 });
 
 
+app.service('menuItemService', function() {
+	var menuObject;
+	
+	var setMenu = function(menuObj){
+		menuObject = menuObj;
+	}
+	
+	var getMenu = function(){
+		return menuObject;
+	}
+	
+	return {
+		setMenu:setMenu,
+		getMenu:getMenu
+	};
+});
+
+
 app.filter('unique', function() {
 	   return function(collection, keyname) {
 	      var output = [], 

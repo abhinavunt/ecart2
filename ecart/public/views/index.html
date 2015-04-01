@@ -133,8 +133,8 @@
 		                                   <tbody>
 		                                    
 		                                     <tr class="active" data-ng-repeat="item in liveResultList">
-		                                       <td class="col-md-1"><img src="temp_upload/{{item.imageId}}" /></td>
-		                                       <td class="col-md-5">{{item.name}} ({{item.brand}})</td>
+		                                       <td class="col-md-1" ng-click="expandItem(item)"><img src="temp_upload/{{item.imageId}}" /></td>
+		                                       <td class="col-md-5" ng-click="expandItem(item)">{{item.name}} ({{item.brand}})</td>
 		                                       <td class="col-md-2"> 
 			                                       <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
 	                                         			   ng-model="amount.selected"
