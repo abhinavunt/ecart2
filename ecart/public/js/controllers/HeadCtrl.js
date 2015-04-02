@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HeadCtrl', []).controller('HeadController', function($scope,$http,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService) {
+angular.module('HeadCtrl', []).controller('HeadController', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService) {
  
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
@@ -202,14 +202,17 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	   
     	   var categoryTwoId = item.categoryTwoId;
     	   var sideMenu;
+    	   expandItemService.setItem(item);
+    	   
     	   for(var i=0;i<menuItemService.getMenu().length;i++){
     		   if(menuItemService.getMenu()[i]._id==item.categoryZeroId){
     			   sideMenu = menuItemService.getMenu()[i];
     		   }
     	    }
     	   
-    	   
-    	   //$location.path("/searchItems",[categoryTwoId,sideMenu]);
+    	   $scope.showLiveSearchTable=false;
+    	   $scope.keyWord ="";
+    	   $state.go('searchItems', {category:categoryTwoId,sideMenu:sideMenu});
        }
 
       

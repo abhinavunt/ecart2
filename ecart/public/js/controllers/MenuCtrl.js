@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,ngDialog,menuItemService) {
+angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,$state,ngDialog,menuItemService,expandItemService) {
 
 	$scope.formData = {};
 	$scope.menulist=[];
@@ -416,6 +416,13 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	         });
 				
 			}
+			
+		}
+		
+		$scope.searchItems = function(categoryTwoId,sideMenuObj){
+			
+			expandItemService.setExpandItemFlag();
+			$state.go('searchItems', {category:categoryTwoId,sideMenu:sideMenuObj});
 			
 		}
 		

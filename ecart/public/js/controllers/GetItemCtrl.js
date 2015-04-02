@@ -24,9 +24,20 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                           if(data.length==0){
                              $scope.showItemList = [];
                           }else{
-                             $scope.showItemList = data;
-                             expandItemService.setExpandItemFlag();
-                       	  	 $scope.expandItemFlag=false;
+                        	  
+                        	 if(expandItemService.getExpandItemFlag()==true){
+                        		 $scope.expandItemFlag=true;
+                        		 $scope.showBackButton=false;
+                        		 $scope.showBrandPanel=false;
+                        		 
+                        	 }else{
+                        		 $scope.showItemList = data;
+                                 expandItemService.setExpandItemFlag();
+                           	  	 $scope.expandItemFlag=false;
+                           	  	 $scope.showBackButton=true;
+                           	  	 $scope.showBrandPanel=true;
+                        	 }
+                             
                           }
                           
                           $scope.sideMenu = $stateParams.sideMenu;
@@ -65,6 +76,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               
               $scope.searchItems($stateParams.category);
               $scope.searchBrands($stateParams.category);
+              
+              $scope.sideMenuSearchItems = function(category){
+            	  expandItemService.setExpandItemFlag();
+            	  $scope.searchItems(category);
+            	  $scope.searchBrands(category);
+              }
               
               $scope.selectedBrand = function(brandName){
             	  

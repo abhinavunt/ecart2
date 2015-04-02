@@ -7,7 +7,7 @@
 	    		<a ui-sref=".order" class="list-group-item collapsed" data-toggle="collapse" data-target="#collapse-{{$index}}">{{subMenu.name}}</a>
 	    		<div class="collapse in" id="collapse-{{$index}}" style="border:1px solid rgb(236, 234, 234)">
 		           <ul class="nav nav-list" data-ng-repeat="superSubMenu in subMenu.supersub">
-		              <li><a href="" style="font-size: smaller;" ng-click="searchItems(superSubMenu._id);searchBrands(superSubMenu._id)">{{superSubMenu.name}}</a></li>
+		              <li><a href="" style="font-size: smaller;" ng-click="sideMenuSearchItems(superSubMenu._id)">{{superSubMenu.name}}</a></li>
 		           </ul>
 		        </div>
 	        </div> 
@@ -15,7 +15,7 @@
        
        </div>
        <div class="row">
-       		<div class="panel panel-primary">
+       		<div class="panel panel-primary" ng-show="showBrandPanel">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Brands</h3>
 			  </div>
@@ -101,7 +101,7 @@
 		</div>
         </div>
         <div class="col-lg-4 col-sm-offset-1">
-			<button class="btn btn-xs btn-success add-to-cart" ng-click="backToItems();expandItemFlag=false">Back to Items</button>
+			<button class="btn btn-xs btn-success add-to-cart" ng-show="showBackButton" ng-click="backToItems()">Back to Items</button>
         </div>
       </div>
 </div>
