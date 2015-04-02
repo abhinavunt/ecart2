@@ -4,12 +4,11 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			
 			$scope.itemToExpand = expandItemService.getItem();
 			
-			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
 					$scope.expandedItem = item[0];
 					$scope.expandItemFlag= expandItemService.getExpandItemFlag();
-		        }
+				}
 	        },true);
 			
 	       //Search Items
@@ -70,7 +69,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               };
               
               $scope.backToItems = function(){
-            	  expandItemService.setExpandItemFlag();
+            	  expandItemService.setExpandItemFlag(false);
             	  $scope.expandItemFlag=false;
               }
               
@@ -78,7 +77,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               $scope.searchBrands($stateParams.category);
               
               $scope.sideMenuSearchItems = function(category){
-            	  expandItemService.setExpandItemFlag();
+            	  expandItemService.setExpandItemFlag(false);
             	  $scope.searchItems(category);
             	  $scope.searchBrands(category);
               }

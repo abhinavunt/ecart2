@@ -90,6 +90,7 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
               };
             
               $scope.expandItem = function(item){
+            	  expandItemService.setExpandItemFlag(true);
             	  expandItemService.setItem(item);
               }
               

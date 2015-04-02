@@ -202,7 +202,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	   
     	   var categoryTwoId = item.categoryTwoId;
     	   var sideMenu;
-    	   expandItemService.setItem(item);
+    	   
+    	   expandItemService.setExpandItemFlag(true);
+     	   expandItemService.setItem(item);
     	   
     	   for(var i=0;i<menuItemService.getMenu().length;i++){
     		   if(menuItemService.getMenu()[i]._id==item.categoryZeroId){
@@ -212,7 +214,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	   
     	   $scope.showLiveSearchTable=false;
     	   $scope.keyWord ="";
-    	   $state.go('searchItems', {category:categoryTwoId,sideMenu:sideMenu});
+    	   $state.go('searchItems', {category:categoryTwoId,sideMenu:sideMenu},{reload: true});
        }
 
       
