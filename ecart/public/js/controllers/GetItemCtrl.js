@@ -21,7 +21,18 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                       params: {category: category}
                    }).success(function(data) {
                           if(data.length==0){
-                             $scope.showItemList = [];
+                        	  if(expandItemService.getExpandItemFlag()==true){
+                         		 $scope.expandItemFlag=true;
+                         		 $scope.showBackButton=false;
+                         		 $scope.showBrandPanel=false;
+                         		 
+                         	 }else{
+                         		 $scope.showItemList = [];
+                                  expandItemService.setExpandItemFlag();
+                            	  	 $scope.expandItemFlag=false;
+                            	  	 $scope.showBackButton=true;
+                            	  	 $scope.showBrandPanel=true;
+                         	 }
                           }else{
                         	  
                         	 if(expandItemService.getExpandItemFlag()==true){

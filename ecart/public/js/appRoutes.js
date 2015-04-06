@@ -91,7 +91,8 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 					})
 				.state('adminPortal.chart', {
 						url:'/chart',
-						templateUrl: 'views/adminTemplates/chart.html'
+						templateUrl: 'views/adminTemplates/chart.html',
+						controller: 'AdminChartController'
 		
 			
 					})
