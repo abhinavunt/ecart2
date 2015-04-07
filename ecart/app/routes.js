@@ -378,7 +378,7 @@
             		mobileNo : req.body.mobileNo,
             		alternateNo : req.body.alternateNo,
             		address : req.body.address,
-					date : req.body.date,
+					date : new Date(),
 					grandTotal:req.body.grandTotal,
 					order: req.body.order
 			};
@@ -452,6 +452,28 @@
 			db.collection('item').find(query).toArray(function (err, items) {
 		        res.json(items);
 		    });
+			
+		});
+		
+		// get admin chart
+		app.get('/order/getChart', function(req, res) {
+			var db = req.db;
+			
+			/*db.collection('order').aggregate([
+			                                   {$project: {fullName: 1, month: {$month: '$date'}}},
+			                                   {$match: {month: 2}}
+			                                   ], function(err, result) {
+			      console.log(result);
+			 });*/
+			
+			var start = new Date(2014,1,1);
+			var end = new Date(2014,12,31);
+			 
+			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},count : {$sum : '$grandTotal'}}}],function(err, months) {
+				                        
+				console.log(months);
+			});
+			
 			
 		});
 		

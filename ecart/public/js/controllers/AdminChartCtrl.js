@@ -4,7 +4,10 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 	$scope.chartObject = {};
 	
 	$scope.cssStyle="height:300px;";
-
+	$scope.chartObject.type = 'ColumnChart';
+    $scope.chartObject.options = {
+        'title': 'How Much Pizza I Ate Last Night'
+    }
    
 
     $scope.chartObject.data = {"cols": [
@@ -31,39 +34,44 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
              {v: "May"},
              {v: 2},
         ]},
-         {c: [
-              {v: "Jun"},
-              {v: 2},
-          ]},
-          {c: [
-               {v: "Jul"},
-               {v: 2},
-           ]},
-           {c: [
-                {v: "Aug"},
-                {v: 2},
-            ]},
-            {c: [
-                 {v: "Sep"},
-                 {v: 2},
-             ]},
-             {c: [
-                  {v: "Oct"},
-                  {v: 2},
-              ]},
-              {c: [
-                   {v: "Nov"},
-                   {v: 2},
-               ]},
-               {c: [
-                    {v: "Dec"},
-                    {v: 2},
-                ]}
+        {c: [
+             {v: "Jun"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Jul"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Aug"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Sep"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Oct"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Nov"},
+             {v: 2},
+        ]},
+        {c: [
+             {v: "Dec"},
+             {v: 2},
+        ]}
     ]};
     
-    // $routeParams.chartType == BarChart or PieChart or ColumnChart...
-    $scope.chartObject.type = 'ColumnChart';
-    $scope.chartObject.options = {
-        'title': 'How Much Pizza I Ate Last Night'
-    }
+    
+    $http.get('/order/getChart')
+	.success(function(data) {
+			alert(JSON.stringify(data));
+		})
+		.error(function(data) {
+			console.log('Error: ' + data);
+	});
+    
+    
 });
