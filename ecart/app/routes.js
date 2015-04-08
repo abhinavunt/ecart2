@@ -458,20 +458,13 @@
 		// get admin chart
 		app.get('/order/getChart', function(req, res) {
 			var db = req.db;
-			
-			/*db.collection('order').aggregate([
-			                                   {$project: {fullName: 1, month: {$month: '$date'}}},
-			                                   {$match: {month: 2}}
-			                                   ], function(err, result) {
-			      console.log(result);
-			 });*/
-			
-			var start = new Date(2014,1,1);
-			var end = new Date(2014,12,31);
+			var year = req.param("year");
+			var start = new Date(year,1,1);
+			var end = new Date(year,12,31);
 			 
-			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},count : {$sum : '$grandTotal'}}}],function(err, months) {
-				                        
-				console.log(months);
+			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'}}}],function(err, months) {
+				if (err) throw err;
+				else res.json(months);
 			});
 			
 			

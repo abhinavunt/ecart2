@@ -1,8 +1,22 @@
 <div class="row">
+	<div class="col-lg-3">
+		<h3>Charts</h3>
+	</div>
+	<div class="col-lg-7">
+		
+	</div>
+	<div class="col-lg-2">
+		<select class="form-control input-sm" 
+				ng-init="yearVal=yearList[1]"
+                ng-model="yearVal"
+                ng-options="yearObj.year for yearObj in yearList"
+                ng-change="selectedItemChanged(yearVal)">
+        </select>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-lg-12">
-		<h4>Chart</h4>
 		<div google-chart chart="chartObject" style="{{cssStyle}}"></div>
 	</div>
-	
-	
 </div>
