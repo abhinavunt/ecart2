@@ -3,8 +3,17 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 	
 	$scope.chartObject = {};
 	
+	$scope.chartObject.options = {
+			  animation: {
+			    duration: 500,
+			    easing: 'in'
+			  }
+			};
+	
 	$scope.cssStyle="height:300px;";
 	$scope.chartObject.type = 'ColumnChart';
+	
+	
     
 	$scope.yearList = [];
 	for(var i=1;i>=0;i--){
@@ -75,8 +84,10 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 		    	
 		    }
 			
+			
 			$scope.chartObject.data = {"cols": [{id: "t", label: "Month", type: "string"},{id: "s", label: "Order", type: "number"}], "rows": chartData };
-			                                    
+			
+			
 		}).error(function(data) {
 			console.log('Error: ' + data);
 		});
