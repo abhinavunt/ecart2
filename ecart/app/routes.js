@@ -462,7 +462,7 @@
 			var start = new Date(year,1,1);
 			var end = new Date(year,12,31);
 			 
-			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'}}}],function(err, months) {
+			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'},count:{$sum:1}}}],function(err, months) {
 				if (err) throw err;
 				else res.json(months);
 			});

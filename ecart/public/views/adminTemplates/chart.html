@@ -1,9 +1,17 @@
 <div class="row">
 	<div class="col-lg-3">
-		<h3>Charts</h3>
+		<h4>Charts</h4>
 	</div>
-	<div class="col-lg-7">
+	<div class="col-lg-4">
 		
+	</div>
+	<div class="col-lg-3">
+		<select class="form-control input-sm" 
+				ng-init="chartType=chartTypeList[0]"
+                ng-model="chartType"
+                ng-options="chartTypeObj.chartType for chartTypeObj in chartTypeList"
+                ng-change="selectedChartType(chartType)">
+        </select>
 	</div>
 	<div class="col-lg-2">
 		<select class="form-control input-sm" 
