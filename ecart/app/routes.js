@@ -380,7 +380,9 @@
             		address : req.body.address,
 					date : new Date(),
 					grandTotal:req.body.grandTotal,
+					status:"Recieved",
 					order: req.body.order
+					
 			};
 			
 			db.collection('order').insert(orderInfo, function(err, records) {
