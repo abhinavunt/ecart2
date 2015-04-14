@@ -1,4 +1,5 @@
-<div class="row" ng-controller="AdminOrderController">
+<div ng-controller="AdminOrderController">
+<div class="row">
 	<div class="col-lg-10">
 			<h4>Order Portal</h4>
 	</div>
@@ -34,4 +35,14 @@
 </tbody>
 </table> 
 	</div>
+</div>
+<div class="row">
+<div class="col-lg-10 pull right">
+  <h5 class="pull-right">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
+</div>
+<div class="col-lg-2">
+<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
+<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
+</div>
+</div>
 </div>

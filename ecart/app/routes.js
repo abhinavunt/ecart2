@@ -441,13 +441,37 @@
 			
 			    var db = req.db;
 			    var limitVal = parseInt(req.param("limit"));
-			    var firstIdVal = req.param("firstId");
-			    var lastIdVal = req.param("lastId");
-			    console.log(typeof limitVal, limitVal)
-			    if(firstIdVal=='notAssigned'||lastIdVal=='lastIdVal'){
-			    	 db.collection('order').find({},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
-					        res.json(items);
-					 });
+			    var firstDateVal = req.param("firstDate");
+			    var lastDateVal = req.param("lastDate");
+			    var totalRecords;
+			    
+			    
+			    
+			    if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+			    	db.collection('order').count(function (err, count){
+				    	if (err) throw err;
+				    	else{
+				    		 totalRecords = count;
+				    		 db.collection('order').find({},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+							        res.json({items:items,totalRecords:totalRecords});
+							 });
+				    	}
+				    	
+				    });
+			    	
+			    }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+			    	// for getting Next data
+			    	
+			    	db.collection('order').find({date:{"$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+				        res.json({items:items});
+				 });
+			    	
+			    }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+			    	// for getting Previous data
+			    	db.collection('order').find({date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+				        res.json(items);
+				 });
+			    	
 			    }
 			    
 			   
