@@ -1,20 +1,27 @@
 // public/js/controllers/MainCtrl.js
 angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog) {
 	
-	$scope.orderPerPageList = [{'order':10},{'order':25},{'order':50}];
+	$scope.orderPerPageList = [{'order':3},{'order':2},{'order':1}];
 	$scope.orderPerPage = $scope.orderPerPageList[0].order;
+	$scope.firstOrderId ='notAssigned';
+	$scope.lastOrderId ='notAssigned';
 	
-	
-	$http({
+	$scope.getOrderList = function(limitVal,firstIdVal,lastIdVal){
+		
+		$http({
             url: '/order/orderList',
             method: "GET",
-            params: {year: yearVal}
+            params: {limit: limitVal,firstId:firstIdVal,lastId:lastIdVal}
          }).success(function(data) {
         	 $scope.orderlist = data;
-        	
+        	 $scope.firstOrderId = data[0]._id;
+        	 $scope.lastOrderId = data[length-1]._id;
 		 }).error(function(data) {
 			console.log('Error: ' + data);
 		 });
+		
+	}
+	
 		
 	//http://blog.mongodirector.com/fast-paging-with-mongodb/
 	
@@ -29,6 +36,19 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	}
 	
 	$scope.selectedOrderPerPage = function(orderPerPageObj){
-		$scope.orderPerPage = orderPerPageObj.order;
+		$scope.getOrderList(orderPerPageObj.order,$scope.firstOrderId,$scope.lastOrderId);
 	}
+	
+	$scope.getCssClass  = function(status){
+		if(status=="Recieved"){
+			return 'danger';
+		}else if(status=="InProcess"){
+			return 'warning';
+			
+		}else if(status=="Delivered"){
+			return 'success';
+		}
+	}
+	
+	$scope.getOrderList($scope.orderPerPage,$scope.firstOrderId,$scope.lastOrderId);
 });

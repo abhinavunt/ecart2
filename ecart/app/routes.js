@@ -440,9 +440,17 @@
 		app.get('/order/orderList', function(req, res) {
 			
 			    var db = req.db;
-			    db.collection('order').find().toArray(function (err, items) {
-			        res.json(items);
-			    });
+			    var limitVal = parseInt(req.param("limit"));
+			    var firstIdVal = req.param("firstId");
+			    var lastIdVal = req.param("lastId");
+			    console.log(typeof limitVal, limitVal)
+			    if(firstIdVal=='notAssigned'||lastIdVal=='lastIdVal'){
+			    	 db.collection('order').find({},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+					        res.json(items);
+					 });
+			    }
+			    
+			   
 		});
 		
 		

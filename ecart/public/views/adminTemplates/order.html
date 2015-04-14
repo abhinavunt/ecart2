@@ -23,7 +23,7 @@
   </thead>
   <tbody>
   
-  	<tr class="active" data-ng-repeat="order in orderlist" ng-click="myFunction(order);">
+  	<tr class="active" ng-class="getCssClass(order.status)" data-ng-repeat="order in orderlist" ng-click="myFunction(order);">
   		
   		<td class="col-md-3">{{order._id}}</td>
 		<td class="col-md-3">{{order.fullName}}</td>
