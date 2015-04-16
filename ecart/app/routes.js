@@ -468,9 +468,14 @@
 			    	
 			    }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 			    	// for getting Previous data
-			    	db.collection('order').find({date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
-				        res.json(items);
+			    	
+			     db.collection('order').find({date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+				     items.reverse();   
+			    	 res.json({items:items});
+			    		
 				 });
+			    	
+			    	
 			    	
 			    }
 			    
