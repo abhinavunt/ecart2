@@ -96,6 +96,7 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 		
 		$scope.chartObject.options = {
 				  animation: { duration: 500,easing: 'in'},
+				  vAxis:{viewWindowMode: "explicit", viewWindow:{ min: 0 }}
 		};
 		
 		$scope.cssStyle="height:300px;";
@@ -157,7 +158,8 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 		
 		$scope.chartObject.options = {
 				  animation: { duration: 500,easing: 'in'},
-				  colors: ['#A61D4C']
+				  colors: ['#A61D4C'],
+				  vAxis:{viewWindowMode: "explicit", viewWindow:{ min: 0 }}
 		};
 		
 		$scope.cssStyle="height:300px;";
