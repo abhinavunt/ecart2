@@ -33,6 +33,8 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
         	 if($scope.totalRecords>$scope.fromOrderNo+(limitVal-1)) $scope.disableNextButton =false;
         	 else $scope.disableNextButton =true; 
         	 
+        	 $scope.disablePrevButton =true;
+        	 
         	 $scope.firstOrderDate = data.items[0].date;
         	 $scope.lastOrderDate = data.items[data.items.length-1].date;
          
