@@ -2,6 +2,17 @@
 angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog) {
 	
 	$scope.orderPerPageList = [{'order':10},{'order':20},{'order':30}];
+	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders'},{'criteria':'Last 7 days orders'},{'criteria':'Last 30 days orders'},{'criteria':'Choose Month..'}];
+	
+	$scope.yearList = [];
+	for(var i=1;i>=0;i--){
+		var year = {"year":new Date().getFullYear()-i};
+		$scope.yearList.push(year);
+	}
+	
+	
+	$scope.monthList = [{'month':'January'},{'month':'Fabruary'},{'month':'March'},{'month':'April'},{'month':'May'},{'month':'June'},{'month':'July'},{'month':'August'},
+	                    {'month':'September'},{'month':'October'},{'month':'November'},{'month':'December'}];
 	$scope.orderPerPage = $scope.orderPerPageList[0].order;
 	$scope.orderPerPg = $scope.orderPerPageList[0].order;
 	$scope.firstOrderDate ="notAssigned";
