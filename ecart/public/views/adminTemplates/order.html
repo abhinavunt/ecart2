@@ -12,7 +12,7 @@
 				ng-init="searchCriteria=searchCriteriaList[0]"
                 ng-model="searchCriteria"
                 ng-options="searchCriteriaListObj.criteria for searchCriteriaListObj in searchCriteriaList"
-                ng-change="selectedSearchCriteria(orderPerPage)">
+                ng-change="selectedSearchCriteria(searchCriteria)">
         </select>	
 	</div>
 	<div class="col-lg-3">
@@ -21,7 +21,8 @@
 				ng-init="yearVal=yearList[0]"
                 ng-model="yearVal"
                 ng-options="yearListObj.year for yearListObj in yearList"
-                ng-change="selectedYear(yearVal)">
+                ng-change="selectedYear(yearVal)"
+                ng-show="showYearSelect">
         </select>
         </div>
         <div class="col-lg-6">
@@ -29,7 +30,8 @@
 				ng-init="monthVal=monthList[0]"
                 ng-model="monthVal"
                 ng-options="monthListObj.month for monthListObj in monthList"
-                ng-change="selectedMonth(monthVal)">
+                ng-change="selectedMonth(monthVal)"
+                ng-show="showMonthSelect">
         </select>
         </div>	
 	</div>

@@ -2,16 +2,16 @@
 angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog) {
 	
 	$scope.orderPerPageList = [{'order':10},{'order':20},{'order':30}];
-	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders'},{'criteria':'Last 7 days orders'},{'criteria':'Last 30 days orders'},{'criteria':'Choose Month..'}];
+	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders','value':3},{'criteria':'Last 7 days orders','value':7},{'criteria':'Last 30 days orders','value':30},{'criteria':'Choose Month..','value':4}];
 	
-	$scope.yearList = [];
+	$scope.yearList = [{"year":"Select Year"}];
 	for(var i=1;i>=0;i--){
 		var year = {"year":new Date().getFullYear()-i};
 		$scope.yearList.push(year);
 	}
 	
 	
-	$scope.monthList = [{'month':'January'},{'month':'Fabruary'},{'month':'March'},{'month':'April'},{'month':'May'},{'month':'June'},{'month':'July'},{'month':'August'},
+	$scope.monthList = [{"month":"Select Month"},{'month':'January'},{'month':'Fabruary'},{'month':'March'},{'month':'April'},{'month':'May'},{'month':'June'},{'month':'July'},{'month':'August'},
 	                    {'month':'September'},{'month':'October'},{'month':'November'},{'month':'December'}];
 	$scope.orderPerPage = $scope.orderPerPageList[0].order;
 	$scope.orderPerPg = $scope.orderPerPageList[0].order;
@@ -140,6 +140,27 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 			
 		}else if(status=="Delivered"){
 			return 'success';
+		}
+	}
+	
+	
+	$scope.selectedSearchCriteria = function(searchCriteria){
+		if(searchCriteria.value==4){
+			$scope.yearVal=$scope.yearList[0];
+			$scope.showYearSelect=true;
+		}else{
+			$scope.showYearSelect=false;
+			$scope.showMonthSelect = false;
+		}
+	}
+	
+	$scope.selectedYear = function(yearVal){
+		
+		if(yearVal.year!="Select Year"){
+			$scope.monthVal=$scope.monthList[0];
+			$scope.showMonthSelect = true;
+		}else{
+			$scope.showMonthSelect = false;
 		}
 	}
 	
