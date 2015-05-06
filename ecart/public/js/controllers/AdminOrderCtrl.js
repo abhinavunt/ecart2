@@ -48,9 +48,13 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
         	 if(data.items.length>0 && data.items.length<=limitVal){
         		 $scope.fromOrderNo = 1;
         		 $scope.toOrderNo = data.items.length;
+        		 $scope.hideToFrom=false;
         	 }else if(data.items.length>0 && data.items.length>limitVal){
         		 $scope.fromOrderNo = 1;
         		 $scope.toOrderNo = limitVal;
+        		 $scope.hideToFrom=false;
+        	 }else if(data.items.length==0){
+        		 $scope.hideToFrom=true;
         	 }
         	 
         	 if($scope.totalRecords>$scope.fromOrderNo+(limitVal-1)) $scope.disableNextButton =false;
@@ -70,10 +74,17 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	$scope.nextPage = function(){
 		
-	     $http({
+		var parameter;
+		if($scope.searchCriteriaVal==4){
+			parameter = {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate,searchCriteriaVal:$scope.searchCriteriaVal,criteriaYear:$scope.criteriaYear, criteriaMonth:$scope.criteriaMonth};
+		}else{
+			parameter = {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate,searchCriteriaVal:$scope.searchCriteriaVal};
+		}
+		
+		$http({
             url: '/order/orderList',
             method: "GET",
-            params: {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate,searchCriteriaVal:$scope.searchCriteriaVal}
+            params: parameter
          }).success(function(data) {
         	 $scope.orderlist = data.items;
         	 
@@ -99,11 +110,17 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	$scope.previousPage = function(){
 		
+		var parameter;
+		if($scope.searchCriteriaVal==4){
+			parameter = {limit: $scope.orderPerPg,firstDate:$scope.firstOrderDate,lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal,criteriaYear:$scope.criteriaYear, criteriaMonth:$scope.criteriaMonth};
+		}else{
+			parameter = {limit: $scope.orderPerPg,firstDate:$scope.firstOrderDate,lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal};
+		}
 		
 		$http({
             url: '/order/orderList',
             method: "GET",
-            params: {limit: $scope.orderPerPg,firstDate:$scope.firstOrderDate,lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal}
+            params: parameter
          }).success(function(data) {
         	 $scope.orderlist = data.items;
         	 
@@ -141,7 +158,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		$scope.firstOrderDate ="notAssigned";
 		$scope.lastOrderDate ="notAssigned";
 		$scope.orderPerPg = orderPerPageObj.order;
-		$scope.getOrderList($scope.orderPerPg,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal);
+		$scope.getOrderList($scope.orderPerPg,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth);
 		
 		
 	}
@@ -165,6 +182,8 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 			$scope.searchCriteriaVal = searchCriteria.value;
 			
 		}else{
+			$scope.criteriaMonth ="Not Selected";
+			$scope.criteriaYear ="Not Selected";
 			$scope.showYearSelect=false;
 			$scope.showMonthSelect = false;
 			$scope.searchCriteriaVal = searchCriteria.value;
@@ -187,36 +206,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		if(monthVal.value!=0){
 			
 			$scope.criteriaMonth = monthVal.value;
-			
-			$http({
-	            url: '/order/orderList',
-	            method: "GET",
-	            params: {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal,criteriaYear:$scope.criteriaYear,criteriaMonth:$scope.criteriaMonth}
-	         }).success(function(data) {
-	        	 $scope.orderlist = data.items;
-	        	 $scope.totalRecords = data.totalRecords; 
-	        	 
-	        	 if(data.items.length>0 && data.items.length<=$scope.orderPerPg){
-	        		 $scope.fromOrderNo = 1;
-	        		 $scope.toOrderNo = data.items.length;
-	        		 
-	        	 }else if(data.items.length>0 && data.items.length>$scope.orderPerPg){
-	        		 $scope.fromOrderNo = 1;
-	        		 $scope.toOrderNo = $scope.orderPerPg;
-	        	 }
-	        	 
-	        	 if($scope.totalRecords>$scope.fromOrderNo+($scope.orderPerPg-1)) $scope.disableNextButton =false;
-	        	 else $scope.disableNextButton =true; 
-	        	 
-	        	 $scope.disablePrevButton =true;
-	        	 
-	        	 $scope.firstOrderDate = data.items[0].date;
-	        	 $scope.lastOrderDate = data.items[data.items.length-1].date;
-	         
-	         }).error(function(data) {
-				console.log('Error: ' + data);
-			 });
-		
+			$scope.getOrderList($scope.orderPerPg,"notAssigned","notAssigned",$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth);
 		}
 	}
 	

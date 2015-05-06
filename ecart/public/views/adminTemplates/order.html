@@ -78,7 +78,7 @@
 </div>
 <div class="row">
 <div class="col-lg-10 pull right">
-  <h5 class="pull-right">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
+  <h5 class="pull-right" ng-hide="hideToFrom">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
 </div>
 <div class="col-lg-2">
 <a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
