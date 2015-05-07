@@ -29,11 +29,13 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	$scope.searchCriteriaVal = $scope.searchCriteriaList[0].value;
 	
-	$scope.getOrderList = function(limitVal,firstDateVal,lastDateVal,searchCriteriaVal,criteriaYearVal,criteriaMonthVal){
+	$scope.getOrderList = function(limitVal,firstDateVal,lastDateVal,searchCriteriaVal,criteriaYearVal,criteriaMonthVal,keyword){
 		
 		var parameter;
 		if(searchCriteriaVal==4){
 			parameter = {limit: limitVal, firstDate:firstDateVal, lastDate:lastDateVal, searchCriteriaVal:searchCriteriaVal, criteriaYear:criteriaYearVal, criteriaMonth:criteriaMonthVal};
+		}else if(searchCriteriaVal==1){
+			parameter = {limit:limitVal,firstDate:firstDateVal, lastDate:lastDateVal, searchCriteriaVal:searchCriteriaVal, keyword:keyword};
 		}else{
 			parameter = {limit: limitVal, firstDate:firstDateVal, lastDate:lastDateVal, searchCriteriaVal:searchCriteriaVal};
 		}
@@ -75,8 +77,11 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	$scope.nextPage = function(){
 		
 		var parameter;
+		
 		if($scope.searchCriteriaVal==4){
 			parameter = {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate,searchCriteriaVal:$scope.searchCriteriaVal,criteriaYear:$scope.criteriaYear, criteriaMonth:$scope.criteriaMonth};
+		}else if($scope.searchCriteriaVal==1){
+			parameter = {limit:$scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate, searchCriteriaVal:$scope.searchCriteriaVal, keyword:$scope.keyword};
 		}else{
 			parameter = {limit: $scope.orderPerPg,firstDate:"notAssigned",lastDate:$scope.lastOrderDate,searchCriteriaVal:$scope.searchCriteriaVal};
 		}
@@ -158,7 +163,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		$scope.firstOrderDate ="notAssigned";
 		$scope.lastOrderDate ="notAssigned";
 		$scope.orderPerPg = orderPerPageObj.order;
-		$scope.getOrderList($scope.orderPerPg,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth);
+		$scope.getOrderList($scope.orderPerPg, $scope.firstOrderDate, $scope.lastOrderDate, $scope.searchCriteriaVal, $scope.criteriaYear, $scope.criteriaMonth,"");
 		
 		
 	}
@@ -184,11 +189,15 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		}else{
 			$scope.criteriaMonth ="Not Selected";
 			$scope.criteriaYear ="Not Selected";
+			$scope.firstOrderDate="notAssigned";
+			$scope.lastOrderDate="notAssigned";
 			$scope.showYearSelect=false;
 			$scope.showMonthSelect = false;
 			$scope.searchCriteriaVal = searchCriteria.value;
-			$scope.getOrderList($scope.orderPerPg,"notAssigned","notAssigned",$scope.searchCriteriaVal);
+			$scope.getOrderList($scope.orderPerPg,$scope.firstOrderDate, $scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear, $scope.criteriaMonth,"");
 		}
+		
+		$scope.keyword="";
 	}
 	
 	$scope.selectedYear = function(yearVal){
@@ -206,11 +215,27 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		if(monthVal.value!=0){
 			
 			$scope.criteriaMonth = monthVal.value;
-			$scope.getOrderList($scope.orderPerPg,"notAssigned","notAssigned",$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth);
+			$scope.firstOrderDate="notAssigned";
+			$scope.lastOrderDate="notAssigned";
+			
+			$scope.getOrderList($scope.orderPerPg,$scope.firstOrderDate, $scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth,"");
+		}
+	}
+	
+	$scope.searchOrderByKeyword = function(keywordVal){
+		if(typeof(keywordVal)!='undefined'){
+			$scope.searchCriteriaVal=1;
+			$scope.firstOrderDate="notAssigned";
+			$scope.lastOrderDate="notAssigned";
+			$scope.criteriaYear="Not Selected";
+			$scope.criteriaMonth="Not Selected";
+			$scope.keyword = keywordVal;
+			
+			$scope.getOrderList($scope.orderPerPg, $scope.firstOrderDate, $scope.lastOrderDate, $scope.searchCriteriaVal, $scope.criteriaYear, $scope.criteriaMonth, $scope.keyword);
 		}
 	}
 	
 	
 	
-	$scope.getOrderList($scope.orderPerPage,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth);
+	$scope.getOrderList($scope.orderPerPage,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth,"");
 });

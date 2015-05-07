@@ -477,6 +477,35 @@
 					     });
 				     }
 			    	
+				    }else if(req.param("searchCriteriaVal")==1){
+				    	var query = {$or:[{fullName: new RegExp(req.param("keyword"),'i')},{mobileNo : new RegExp(req.param("keyword"),'i')}]};
+				    	if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+				    		db.collection('order').count(query,function (err, count){
+						    	if (err) throw err;
+						    	else{
+						    		 totalRecords = count;
+						    		 db.collection('order').find(query,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+									    res.json({items:items,totalRecords:totalRecords});
+									 });
+						    	}
+						    });
+				    	}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+				    		var queryNext = {$and:[query,{date:{"$lt":new Date(lastDateVal)}}]};
+				    		db.collection('order').find(queryNext,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+						       res.json({items:items});
+					    	});
+				    		
+				    		
+				    	}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+				    		var queryPrev = {$and:[query,{date:{"$gt":new Date(firstDateVal)}}]};
+				    		db.collection('order').find(queryPrev,{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+				    			items.reverse();
+				    			res.json({items:items});
+					    	});
+				    	}
+				    	
+				    	
+				    	
 				    }else{
 				    	var d = new Date();
 					    d.setDate(d.getDate()-(searchCriteriaVal-1));
