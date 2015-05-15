@@ -1,0 +1,63 @@
+<div class="row">
+   <div class="col-lg-6">
+	<div class="well bs-component">
+		<div ng-controller="AddController">
+            <form class="form-horizontal" data-title="Sign in" data-value="login">
+				<fieldset>
+				<div class="form-group">
+					<label for="fullName" class="col-lg-3 control-label">Full Name</label>
+					<div class="col-lg-9">
+						<input type="text" class="form-control" id="fullName" placeholder="Full Name" ng-model="userForm.fullName" ng-minlength="3" required autocapitalize="false" style="width: 80%;">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="emailId" class="col-lg-3 control-label">Email Id</label>
+					<div class="col-lg-9">
+						<input type="email" class="form-control" id="emailId" placeholder="Email Id" ng-model="userForm.emailId" required autocapitalize="false" style="width: 80%;">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="password" class="col-lg-3 control-label">Password</label>
+					<div class="col-lg-9">
+						<input type="password" class="form-control" id="password" placeholder="Password" ng-model="userForm.password" required autocapitalize="false" style="width: 60%;">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="mobileNo" class="col-lg-3 control-label">Mobile No</label>
+					<div class="col-lg-9">
+						<input type="text" class="form-control" id="mobileNo" placeholder="Mobile No" ng-model="userForm.mobileNo" required autocapitalize="false" style="width: 60%;">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="alternateNo" class="col-lg-3 control-label">Alternate No</label>
+					<div class="col-lg-9">
+						<input type="text" class="form-control" id="alternateNo" placeholder="Alternate No" ng-model="userForm.alternateNo" autocapitalize="false" style="width: 60%;">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="address" class="col-lg-3 control-label">Address</label>
+					<div class="col-lg-9">
+						<textarea class="form-control" rows="3" id="address" style="width: 80%;" ng-model="userForm.address"></textarea>
+						<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<button class="btn btn-warning">Cancel</button>
+						<button class="btn btn-success" ng-disabled="signUpBtnDisable" data-ng-click="submit()">Submit</button>
+					</div>
+				</div>
+					
+					
+				</fieldset>
+            </form>
+    </div>
+	</div>
+	</div>
+	</div>

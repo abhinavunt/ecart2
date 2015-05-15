@@ -1,0 +1,88 @@
+<div ng-controller="AdminOrderController">
+
+<div class="row">
+	<div class="col-lg-4">
+		<div class="input-group input-group-sm">
+		  <input type="text" class="form-control" placeholder="Search by Customer Name or Contact No" ng-model="keyword">
+		  <span class="input-group-addon" ng-click="searchOrderByKeyword(keyword)">Search</span>
+		</div>	
+	</div>
+	<div class="col-lg-3">
+		<select class="form-control input-sm" 
+				ng-init="searchCriteria=searchCriteriaList[0]"
+                ng-model="searchCriteria"
+                ng-options="searchCriteriaListObj.criteria for searchCriteriaListObj in searchCriteriaList"
+                ng-change="selectedSearchCriteria(searchCriteria)">
+        </select>	
+	</div>
+	<div class="col-lg-3">
+	<div class="col-lg-6">
+		<select class="form-control input-sm" 
+				ng-init="yearVal=yearList[0]"
+                ng-model="yearVal"
+                ng-options="yearListObj.year for yearListObj in yearList"
+                ng-change="selectedYear(yearVal)"
+                ng-show="showYearSelect">
+        </select>
+        </div>
+        <div class="col-lg-6">
+        <select class="form-control input-sm" 
+				ng-init="monthVal=monthList[0]"
+                ng-model="monthVal"
+                ng-options="monthListObj.month for monthListObj in monthList"
+                ng-change="selectedMonth(monthVal)"
+                ng-show="showMonthSelect">
+        </select>
+        </div>	
+	</div>
+	
+	<div class="col-lg-2">
+		<div class="col-lg-5"></div>
+		<div class="col-lg-7">
+			<select class="form-control input-sm" 
+			ng-init="orderPerPage=orderPerPageList[0]"
+	              ng-model="orderPerPage"
+	              ng-options="orderPerPageObj.order for orderPerPageObj in orderPerPageList"
+	              ng-change="selectedOrderPerPage(orderPerPage)">
+	        </select>
+		</div>
+		
+	</div>
+	
+</div>
+<div class="row">
+	
+	<table class="table table-bordered table-hover ">
+  <thead>
+    <tr>
+      <th class="col-md-3">Order Id</th>
+      <th class="col-md-3">Customer Name</th>
+      <th class="col-md-2">Contact No.</th>
+      <th class="col-md-2">Time</th>
+      <th class="col-md-2">Date</th>
+     </tr>
+  </thead>
+  <tbody>
+  
+  	<tr class="active" ng-class="getCssClass(order.status)" data-ng-repeat="order in orderlist" ng-click="myFunction(order);">
+  		
+  		<td class="col-md-3">{{order._id}}</td>
+		<td class="col-md-3">{{order.fullName}}</td>
+		<td class="col-md-2">{{order.mobileNo}}</td>
+		<td class="col-md-2">{{order.date|date:"h:mm a"}}</td>
+		<td class="col-md-2">{{order.date|date:"dd/MM/yyyy" }}</td>
+	</tr> 
+</tbody>
+</table> 
+	
+</div>
+<div class="row">
+<div class="col-lg-10 pull right">
+  <h5 class="pull-right" ng-hide="hideToFrom">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
+</div>
+<div class="col-lg-2">
+<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
+<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
+</div>
+</div>
+</div>
