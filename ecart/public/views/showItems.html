@@ -30,7 +30,7 @@
    </div>
 	
     <div id="products" class="row list-group col-lg-10" infinite-scroll="addMoreItems()">
-   		<div class="item  col-xs-3 col-lg-4" ng-hide="expandItemFlag" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
+   		<div class="item  col-xs-3 col-lg-3" ng-hide="expandItemFlag" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
             <div class="thumbnail">
              
                 <img class="group list-group-image" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item)"/>
