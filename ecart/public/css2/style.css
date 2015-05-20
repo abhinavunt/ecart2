@@ -990,6 +990,22 @@ hr{
 				.footer-links .last h4.lead span{
 					color:#151515;
 				}
+				
+				
+.liveResultList{  
+  width:95%;
+  overflow: inherit;
+  padding: 0;
+  margin: 47px 0 0 1px;
+  position: absolute;
+  z-index: 35;
+  border: 1px solid #c0c0c0;
+  border-right: 1;
+ }
+ 
+ #itemLiveSearch{
+ border-radius:0px
+ }
 
 /* Copyright Styles Starts */
 

@@ -4,7 +4,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
        $scope.user = $cookieStore.get('user');
-      
+       
+       if(typeof($cookieStore.get('grandTotal'))=='undefined'){
+    	   $scope.grandTotal = 0;
+    	   $scope.itemCount = 0;
+       }
        
        //User Login
        if($cookieStore.get('loggedIn')==true){
@@ -16,6 +20,17 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	  $scope.showLogIn = true;
     	  $scope.showLogOut = false;  
        }
+       
+       $scope.$watch(function() { return $cookieStore.get('grandTotal') }, function() {
+    	   if(typeof($cookieStore.get('grandTotal'))!='undefined'){
+    		   $scope.grandTotal = $cookieStore.get('grandTotal');
+    		   $scope.itemCount = $cookieStore.get('productList').length;
+    	   }
+       });
+       
+       
+       
+       
      
        $scope.login = function() {
            
