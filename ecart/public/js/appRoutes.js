@@ -17,13 +17,13 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			controller: 'HeadController'
 		})
 		
-	
 		
-		.state('addUser', {
-			url:'/addUser',
+		.state('loginOrSignUp', {
+			url:'/loginOrSignUp',
 			templateUrl: 'views/signup.html'
 			
 		})
+		
 		
 		.state('reviewOrder', {
 			url:'/reviewOrder',

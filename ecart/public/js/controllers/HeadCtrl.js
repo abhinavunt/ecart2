@@ -28,36 +28,31 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	   }
        });
        
+       $scope.$watch(function() { return $cookieStore.get('loggedIn') }, function() {
+    	   if($cookieStore.get('loggedIn')==true){
+    		   
+    		   $scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName; 
+   			   $scope.showLogIn = false;
+   	   		   $scope.showLogOut = true;
+   	   		   $scope.user = $cookieStore.get('user');
+   	   		}
+       });
        
        
+       $scope.loginSignUp = function(key){
+    	  
+    	  if(key=='signup') $scope.showLoginPage = false;
+      	  else if(key=='login') $scope.showLoginPage = true;
+    	  $state.go('loginOrSignUp',{reload: true}); 
+       }
+       
+       $scope.loginSignUpSwitch = function(key){
+     	  if(key=='signup') $scope.showLoginPage = false;
+     	  else if(key=='login') $scope.showLoginPage = true;
+       }
        
      
-       $scope.login = function() {
-           
-	   	$http({
-	   	    url: '/user/login', 
-	   	    method: "POST",
-	   	    params: {emailId: $scope.emailId,password:$scope.password}
-	   	 }).success(function(data) {
-	   		 if(data.status=="pass"){
-	   			$cookieStore.put('loggedIn',true);
-	   			$cookieStore.remove('user');
-		   		$cookieStore.put('user',data.user);
-	   			$scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName;
-	   			$scope.loginFailMessage="";
-	   			$scope.showLogIn = false;
-	   			$scope.showLogOut = true;
-	   			$scope.user = data.user;
-	   			
-	   		 }else{
-	   			$scope.loginFailMessage = data.message;
-	   			
-	   		 }
-	   
-	   	 }).error(function(data) {
-	   		 console.log('Error: ' + data);
-			});
-	    };
+      
 	    
 	  //User Log Out
 	  $scope.logout = function(){

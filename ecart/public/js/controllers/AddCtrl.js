@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location) {
+angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,$cookieStore) {
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
@@ -33,6 +33,31 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     	
     	
     };
+    
+    
+    $scope.login = function(){
+    	
+    	$http({
+	   	    url: '/user/login', 
+	   	    method: "POST",
+	   	    params: {emailId: $scope.loginEmainId,password:$scope.loginPassword}
+	   	 }).success(function(data) {
+	   		 if(data.status=="pass"){
+	   			$cookieStore.put('loggedIn',true);
+	   			$cookieStore.remove('user');
+		   		$cookieStore.put('user',data.user);
+		   		$scope.loginFailMessage="";
+		   		$location.path("/");
+	   			
+	   		 }else{
+	   			$scope.loginFailMessage = data.message;
+	   			
+	   		 }
+	   
+	   	 }).error(function(data) {
+	   		 console.log('Error: ' + data);
+		 });
+     }
     
 });    
       

@@ -79,7 +79,7 @@
 		<header id="header-area">
 		<!-- Header Top Starts -->
 			<div class="header-top">
-				<div class="container">
+			   <div class="container">
 					<!-- Header Links Starts -->
 						<div class="col-sm-8 col-xs-12">
 							<div class="header-links">
@@ -143,28 +143,19 @@
 							<div class="pull-right">
 							<!-- Currency Starts -->
 								<div class="btn-group">
-									<button class="btn btn-link dropdown-toggle" ui-sref="addUser">
+									<button class="btn btn-link dropdown-toggle" ng-click="loginSignUp('signup')">
 										Sign Up
 								    </button>
 							    </div>
 							<!-- Currency Ends -->
 							<!-- Languages Starts -->
 								<div class="btn-group">
-									<button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+									<button class="btn btn-link dropdown-toggle" ng-show="showLogIn" ng-click="loginSignUp('login')">
 										Member Login
-										<i class="fa fa-caret-down"></i>
 									</button>
-									<div class="dropdown-menu">
-						                <form action="" role="form">
-						                  <div class="form-group">
-						                    <label for="user">User</label>
-						                    <input type="text" class="form-control" id="user" placeholder="User" />
-						                    <label for="password">Password</label>
-						                    <input type="password" class="form-control" id="password" placeholder="Password" />
-						                  </div>
-						                  <button type="submit" class="btn btn-default">Sign in</button>
-						                </form>
-						              </div>
+									<button class="btn btn-link dropdown-toggle" ng-click="logout()" ng-show="showLogOut">
+										Log Out
+									</button>
 
 								</div>
 							<!-- Languages Ends -->
@@ -286,6 +277,7 @@
 		<!-- Ends -->
 		</header>
 	<!-- Header Section Ends -->
+	<div class="container">{{welcomeMessage}}</div>
 	<div>
 		<div ui-view class="view-animation"></div>
 	</div> 
