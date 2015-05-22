@@ -19,33 +19,33 @@
 							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
-								<form class="form-horizontal" role="form">
+								<form name="userForm" class="form-horizontal" role="form">
 								<!-- Personal Information Starts -->
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="inputFname" placeholder="Full Name">
+											<input type="text" class="form-control" ng-model="userForm.fullName" required placeholder="Full Name">
 										</div>
 									</div>
 									
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
 										<div class="col-sm-9">
-											<input type="email" class="form-control" id="inputEmail" placeholder="Email">
+											<input type="text" class="form-control" ng-model="userForm.emailId" required placeholder="Email">
 										</div>
 									</div>
 									
 									
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="inputPhone" placeholder="Phone">
+											<input type="text" class="form-control" ng-model="userForm.mobileNo" required placeholder="Phone">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputFax" class="col-sm-3 control-label">Alternate No :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="inputFax" placeholder="Alternate No">
+											<input type="text" class="form-control" ng-model="userForm.alternateNo" placeholder="Alternate No">
 										</div>
 									</div>
 								<!-- Personal Information Ends -->
@@ -55,7 +55,7 @@
 								<!-- Delivery Information Starts -->
 									
 									<div class="form-group">
-										<label for="address" class="col-lg-3 control-label">Address</label>
+										<label class="col-lg-3 control-label required">Address</label>
 										<div class="col-lg-9">
 											<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
 											<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
@@ -70,13 +70,13 @@
 									<div class="form-group">
 										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
 										<div class="col-sm-9">
-											<input type="password" class="form-control" id="inputPassword" placeholder="Password">
+											<input type="password" class="form-control" ng-model="userForm.password" required placeholder="Password">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputRePassword" class="col-sm-3 control-label">Re-Password :</label>
 										<div class="col-sm-9">
-											<input type="password" class="form-control" id="inputRePassword" placeholder="Re-Password">
+											<input type="password" class="form-control" ng-model="userForm.rePassword" required placeholder="Re-Password">
 										</div>
 									</div>
 									<div class="form-group">
@@ -100,14 +100,14 @@
 										<div class="col-sm-offset-3 col-sm-9">
 											<div class="checkbox">
 												<label>
-													<input type="checkbox"> I'v read and agreed on Conditions
+													<input type="checkbox" ng-model="agreeCheck" required> I have read and agreed on Conditions
 												</label>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-sm-offset-3 col-sm-9">
-											<button type="submit" class="btn btn-warning">
+											<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="submit()">
 												Register
 											</button>
 										</div>
@@ -115,7 +115,8 @@
 								<!-- Password Area Ends -->
 								</form>
 							<!-- Registration Form Starts -->
-							</div>							
+							</div>
+							<div style="color:red">{{signUpFailMessage}}</div>							
 						</div>
 					<!-- Registration Block Ends -->
 					</div>
@@ -197,6 +198,14 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">Login Information</h3>
 							</div>
+							<div class="row">
+			                   <a style="color:red">{{loginFailMessage}}</a>
+			                </div>
+			                <div class="msg-block" ng-show="myForm.$error">
+							  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+							    Passwords don't match.
+							  </span>
+							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
 								<form class="form-horizontal" role="form">
@@ -225,9 +234,7 @@
 											<a href="#">Forgot password?</a>
 											
 										</div>
-										<div class="row">
-			                              <a style="color:red">{{loginFailMessage}}</a>
-			                           </div>
+										
 									</div>
 								<!-- Password Area Ends -->
 								</form>

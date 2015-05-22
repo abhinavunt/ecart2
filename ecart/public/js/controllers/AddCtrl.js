@@ -6,19 +6,40 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 
     $scope.submit = function(){
     	
-    	var userData ={
+    	if($scope.userForm.$invalid) return false;
+    	
+    	else if(validateEmail($scope.userForm.emailId)==false){
+    		$scope.signUpFailMessage = "Please provide a valid email address!!!";
+    		return false;
+    	}
+    	else if($scope.userForm.fullName.length<3){
+    		$scope.signUpFailMessage = "Your Full Name should contain atleast 3 characters!!!";
+    		return false;
+    	}
     		
-    			fullName : $scope.userForm.fullName,
-    			emailId : $scope.userForm.emailId,
-    			password : $scope.userForm.password,
-    			mobileNo : $scope.userForm.mobileNo,
-    			alternateNo : $scope.userForm.alternateNo,
-    			address : $scope.userForm.address
-    			
-    	};
+    	else if($scope.userForm.password != $scope.userForm.rePassword){
+    		$scope.signUpFailMessage = "Passwords are not Matching !!!";
+    		return false;
+    	}
     	
+    	else if($scope.userForm.mobileNo.length!=10 || $scope.userForm.alternateNo.length!=10){
+    		$scope.signUpFailMessage = "Mobile No. Or Alternate No. must contain 10 digits !!!";
+    		return false;
+    	}
     	
-    	$http({
+    	else{
+    	
+    	var userData ={
+			
+				fullName : $scope.userForm.fullName,
+				emailId : $scope.userForm.emailId,
+				password : $scope.userForm.password,
+				mobileNo : $scope.userForm.mobileNo,
+				alternateNo : $scope.userForm.alternateNo,
+				address : $scope.userForm.address
+		};
+		
+		$http({
             url: '/user/addUser',
             method: "POST",
             data: JSON.stringify(userData),
@@ -26,12 +47,12 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
           }).success(function (data, status, headers, config) {
         	  $location.path("/");
         	  $scope.signUpBtnDisable = true;
-            }).error(function (data, status, headers, config) {
+          }).error(function (data, status, headers, config) {
               
-            });
-    
-    	
-    	
+          });
+    		
+    	}
+		
     };
     
     
@@ -58,6 +79,14 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   		 console.log('Error: ' + data);
 		 });
      }
+    
+    function validateEmail(email) {
+    	
+    	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    	if (!filter.test(email))  return false;
+        else true;
+    }
+     
     
 });    
       
