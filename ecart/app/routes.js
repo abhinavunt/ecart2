@@ -62,14 +62,48 @@
 					alternateNo : req.body.alternateNo,
 					address : req.body.address
 			 };
-			  
-			//insert record
-			db.collection('user').insert(userInfo, function(err, records) {
-				if (err) throw err;
-				console.log("Record added as "+records[0]._id);
-				 return res.json({"status":"successfullyAdded","user":records[0]});
-			});
 			
+			
+			db.collection('user').findOne({emailId: req.body.emailId}, function(err, user) {
+				  if (err) {
+					  return res.json({"status":"failed","message":"Internal Error Occured. Please try after sometime !!!"});
+				  }else if(user){
+					  return res.json({"status":"failed","message":"This Email Id already exists. Please use some other Email Id !!!"});
+				  }else{
+					//insert record
+						db.collection('user').insert(userInfo, function(err, records) {
+							if (err){
+								return res.json({"status":"failed","message":"Internal Error Occured. Please try after sometime !!!"});	
+							}else{
+								return res.json({"status":"success","user":records[0]});
+							}
+							
+						});  
+				  }});
+		});
+		
+		//login user
+		app.post('/user/login', function(req, res) {
+			var db = req.db;
+			var emailId = req.param("emailId");
+			var password = req.param("password");
+						
+						
+			db.collection('user').findOne({emailId: emailId,password:password},function(err, user) {
+				if (err) { 
+					// user not found 
+					
+					return res.json({"status":"fail","message":"Internal Error Occured!!!"});
+				}else if(!user){
+					// incorrect username
+					
+					 return res.json({"status":"fail","message":"Incorrect Email or Password !!!"});
+				}else{
+					// User has authenticated OK
+					
+					 return res.json({"status":"pass","user":user});
+				}
+			});
 		});
 		
 		//Add menu Item at Level-0
@@ -411,31 +445,6 @@
 		   		}
 			};
 			
-			
-		app.post('/user/login', function(req, res) {
-			var db = req.db;
-			var emailId = req.param("emailId");
-			var password = req.param("password");
-						
-						
-			db.collection('user').findOne({emailId: emailId,password:password},function(err, user) {
-				if (err) { 
-					// user not found 
-					
-					return res.json({"status":"fail","message":"Internal Error Occured!!!"});
-				}else if(!user){
-					// incorrect username
-					
-					 return res.json({"status":"fail","message":"Incorrect Email or Password !!!"});
-				}else{
-					// User has authenticated OK
-					
-					 return res.json({"status":"pass","user":user});
-				}
-			});
-		});
-		
-		
 		// getting order list
 		app.get('/order/orderList', function(req, res) {
 			

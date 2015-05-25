@@ -6,7 +6,16 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 
     $scope.submit = function(){
     	
-    	if($scope.userForm.$invalid) return false;
+    	if( typeof($scope.userForm.fullName)=='undefined'||$scope.userForm.fullName==''||
+	        typeof($scope.userForm.emailId)=='undefined'||$scope.userForm.emailId==''||
+			typeof($scope.userForm.mobileNo)=='undefined'||$scope.userForm.mobileNo==''||
+			typeof($scope.userForm.address)=='undefined'||$scope.userForm.address==''||
+			typeof($scope.userForm.password)=='undefined'||$scope.userForm.password==''||
+			typeof($scope.userForm.rePassword)=='undefined'||$scope.userForm.rePassword=='')
+    	{
+    		$scope.signUpFailMessage = "Required(*) field/(s) are missing !!!";
+    		return false;
+    	}
     	
     	else if(validateEmail($scope.userForm.emailId)==false){
     		$scope.signUpFailMessage = "Please provide a valid email address!!!";
@@ -45,8 +54,16 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
             data: JSON.stringify(userData),
             headers: {'Content-Type': 'application/json'}
           }).success(function (data, status, headers, config) {
-        	  $location.path("/");
-        	  $scope.signUpBtnDisable = true;
+        	  if(data.status=="failed"){
+        		  $scope.signUpFailMessage = data.message;  
+        	  }else{
+        		$cookieStore.put('loggedIn',true);
+	   			$cookieStore.remove('user');
+		   		$cookieStore.put('user',data.user);
+		   		$scope.loginFailMessage="";
+		   		$location.path("/");
+        	}
+        	  
           }).error(function (data, status, headers, config) {
               
           });
@@ -57,6 +74,18 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     
     
     $scope.login = function(){
+    	
+    	if(typeof($scope.loginEmainId)=='undefined'||$scope.loginEmainId==''||
+    	   typeof($scope.loginPassword)=='undefined'||$scope.loginPassword=='')
+    	{
+    		$scope.loginFailMessage = "Required(*) field/(s) are missing !!!";
+    		return false;
+    	}
+    	
+    	else if(validateEmail($scope.loginEmainId)==false){
+    		$scope.signUpFailMessage = "Please provide a valid email address!!!";
+    		return false;
+    	}
     	
     	$http({
 	   	    url: '/user/login', 

@@ -24,14 +24,14 @@
 									<div class="form-group required">
 										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="userForm.fullName" required placeholder="Full Name">
+											<input type="text" class="form-control" ng-model="userForm.fullName"  placeholder="Full Name">
 										</div>
 									</div>
 									
 									<div class="form-group required">
 										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="userForm.emailId" required placeholder="Email">
+											<input type="text" class="form-control" ng-model="userForm.emailId"  placeholder="Email">
 										</div>
 									</div>
 									
@@ -39,7 +39,7 @@
 									<div class="form-group required">
 										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="userForm.mobileNo" required placeholder="Phone">
+											<input type="text" class="form-control" ng-model="userForm.mobileNo"  placeholder="Phone">
 										</div>
 									</div>
 									<div class="form-group">
@@ -54,8 +54,8 @@
 									</h3>
 								<!-- Delivery Information Starts -->
 									
-									<div class="form-group">
-										<label class="col-lg-3 control-label required">Address</label>
+									<div class="form-group required">
+										<label class="col-lg-3 control-label">Address</label>
 										<div class="col-lg-9">
 											<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
 											<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
@@ -67,16 +67,16 @@
 										Password
 									</h3>
 								<!-- Password Area Starts -->
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
 										<div class="col-sm-9">
-											<input type="password" class="form-control" ng-model="userForm.password" required placeholder="Password">
+											<input type="password" class="form-control" ng-model="userForm.password"  placeholder="Password">
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputRePassword" class="col-sm-3 control-label">Re-Password :</label>
 										<div class="col-sm-9">
-											<input type="password" class="form-control" ng-model="userForm.rePassword" required placeholder="Re-Password">
+											<input type="password" class="form-control" ng-model="userForm.rePassword"  placeholder="Re-Password">
 										</div>
 									</div>
 									<div class="form-group">
@@ -100,7 +100,7 @@
 										<div class="col-sm-offset-3 col-sm-9">
 											<div class="checkbox">
 												<label>
-													<input type="checkbox" ng-model="agreeCheck" required> I have read and agreed on Conditions
+													<input type="checkbox" ng-model="agreeCheck"> I have read and agreed on Conditions
 												</label>
 											</div>
 										</div>
@@ -198,9 +198,7 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">Login Information</h3>
 							</div>
-							<div class="row">
-			                   <a style="color:red">{{loginFailMessage}}</a>
-			                </div>
+							
 			                <div class="msg-block" ng-show="myForm.$error">
 							  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
 							    Passwords don't match.
@@ -210,13 +208,13 @@
 							<!-- Registration Form Starts -->
 								<form class="form-horizontal" role="form">
 								<!-- Personal Information Starts -->
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
 										<div class="col-sm-9">
 											<input type="email" class="form-control" ng-model="loginEmainId" placeholder="Email">
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group required">
 										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
 										<div class="col-sm-9">
 											<input type="password" class="form-control" ng-model="loginPassword" placeholder="Password">
@@ -239,7 +237,8 @@
 								<!-- Password Area Ends -->
 								</form>
 							<!-- Registration Form Starts -->
-							</div>							
+							</div>
+							<div style="color:red">{{loginFailMessage}}</div>						
 						</div>
 					<!-- Registration Block Ends -->
 					</div>
