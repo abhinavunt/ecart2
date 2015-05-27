@@ -4,6 +4,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
        $scope.user = $cookieStore.get('user');
+       $scope.headerTab ="";
+       $scope.headerTabUrl="";
+       
        
        if(typeof($cookieStore.get('grandTotal'))=='undefined'){
     	   $scope.grandTotal = 0;
@@ -35,6 +38,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
    			   $scope.showLogIn = false;
    	   		   $scope.showLogOut = true;
    	   		   $scope.user = $cookieStore.get('user');
+   	   		   $scope.headerTab = $cookieStore.get('headerTab');
+   	   		   if($scope.headerTab=="My Account") $scope.headerTabUser=true;
+   	   		   else if($scope.headerTab=="Admin Portal") $scope.headerTabAdmin=true;
+   	   		   $scope.headerTabUrl = $cookieStore.get('headerTabUrl');
+   	   		  
    	   		}
        });
        
@@ -51,15 +59,22 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
      	  else if(key=='login') $scope.showLoginPage = true;
        }
        
-     
-      
-	    
-	  //User Log Out
+       $scope.headTabSwitch = function(){
+    	   $scope.headerTabUrl = $cookieStore.get('headerTabUrl');
+    	   $state.go($scope.headerTabUrl,{reload: true}); 
+       }
+       
+      //User Log Out
 	  $scope.logout = function(){
 		  $cookieStore.put('loggedIn',false);
+		  $cookieStore.remove('headerTab');
+		  $cookieStore.remove('headerTabUrl');
+		  $scope.headerTabUser=false;
+		  $scope.headerTabAdmin=false;
 		  $scope.showLogIn = true;
 		  $scope.showLogOut = false;
 		  $cookieStore.remove('user');
+		  $scope.headerTab="";
 		  $scope.welcomeMessage =''; 
 		  $location.path("/");
 		  

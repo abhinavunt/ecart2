@@ -117,18 +117,11 @@
 										</a>
 									</li>
 									<li>
-										<a href="#">
-											<i class="fa fa-user" title="My Account"></i>
+										<a href="#" ng-click="headTabSwitch()">
+											<i class="fa fa-user"  title="Admin Portal" ng-show="headerTabUser"></i>
+											<i class="fa fa-users" title="My Account" ng-show="headerTabAdmin"></i>
 											<span class="hidden-sm hidden-xs">
-												My Account
-											</span>
-										</a>
-									</li>
-									<li>
-										<a ui-sref="adminPortal">
-											<i class="fa fa-users" title="Admin Portal"></i>
-											<span class="hidden-sm hidden-xs">
-												Admin Portal
+												{{headerTab}}
 											</span>
 										</a>
 									</li>

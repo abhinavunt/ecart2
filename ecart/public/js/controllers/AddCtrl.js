@@ -58,6 +58,8 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
         		  $scope.signUpFailMessage = data.message;  
         	  }else{
         		$cookieStore.put('loggedIn',true);
+        		$cookieStore.put('headerTab',data.headerTab);
+        		$cookieStore.put('headerTabUrl',data.routeUrl);
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";
@@ -83,7 +85,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     	}
     	
     	else if(validateEmail($scope.loginEmainId)==false){
-    		$scope.signUpFailMessage = "Please provide a valid email address!!!";
+    		$scope.loginFailMessage = "Please provide a valid email address!!!";
     		return false;
     	}
     	
@@ -94,6 +96,8 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   	 }).success(function(data) {
 	   		 if(data.status=="pass"){
 	   			$cookieStore.put('loggedIn',true);
+	   			$cookieStore.put('headerTab',data.headerTab);
+	   			$cookieStore.put('headerTabUrl',data.routeUrl);
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";

@@ -75,7 +75,7 @@
 							if (err){
 								return res.json({"status":"failed","message":"Internal Error Occured. Please try after sometime !!!"});	
 							}else{
-								return res.json({"status":"success","user":records[0]});
+								return res.json({"status":"success","headerTab":"My Account","user":records[0]});
 							}
 							
 						});  
@@ -92,16 +92,16 @@
 			db.collection('user').findOne({emailId: emailId,password:password},function(err, user) {
 				if (err) { 
 					// user not found 
-					
 					return res.json({"status":"fail","message":"Internal Error Occured!!!"});
+					
 				}else if(!user){
 					// incorrect username
+					return res.json({"status":"fail","message":"Incorrect Email or Password !!!"});
 					
-					 return res.json({"status":"fail","message":"Incorrect Email or Password !!!"});
 				}else{
 					// User has authenticated OK
-					
-					 return res.json({"status":"pass","user":user});
+					if(user.role=="administrator") return res.json({"status":"pass","headerTab":"Admin Portal","routeUrl":"adminPortal", "user":user});
+					else return res.json({"status":"pass","headerTab":"My Account","routeUrl":"userPortal","user":user});
 				}
 			});
 		});

@@ -7,7 +7,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		.state('home', {
 			url:'/',
 			templateUrl: 'views/home.html',
-			controller: 'HeadController'
+			
 		})
 
 		
@@ -96,6 +96,13 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		
 			
 					})
+					
+		.state('userPortal', {
+			url:'/userPortal',
+			templateUrl: 'views/user.html'
+			//controller: 'UserController'
+			
+		})
 					
 		
 		.state('signup', {
