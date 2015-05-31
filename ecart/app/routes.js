@@ -75,7 +75,7 @@
 							if (err){
 								return res.json({"status":"failed","message":"Internal Error Occured. Please try after sometime !!!"});	
 							}else{
-								return res.json({"status":"success","headerTab":"My Account","user":records[0]});
+								return res.json({"status":"success","role":"customer","user":records[0]});
 							}
 							
 						});  
@@ -100,8 +100,8 @@
 					
 				}else{
 					// User has authenticated OK
-					if(user.role=="administrator") return res.json({"status":"pass","headerTab":"Admin Portal","routeUrl":"adminPortal", "user":user});
-					else return res.json({"status":"pass","headerTab":"My Account","routeUrl":"userPortal","user":user});
+					if(user.role=="administrator") return res.json({"status":"pass","role":"admin", "user":user});
+					else return res.json({"status":"pass","role":"customer","user":user});
 				}
 			});
 		});

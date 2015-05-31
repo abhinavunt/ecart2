@@ -58,8 +58,9 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
         		  $scope.signUpFailMessage = data.message;  
         	  }else{
         		$cookieStore.put('loggedIn',true);
-        		$cookieStore.put('headerTab',data.headerTab);
-        		$cookieStore.put('headerTabUrl',data.routeUrl);
+        		//$cookieStore.put('headerTab',data.headerTab);
+        		//$cookieStore.put('headerTabUrl',data.routeUrl);
+        		$cookieStore.put('userType',data.role);
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";
@@ -95,9 +96,11 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   	    params: {emailId: $scope.loginEmainId,password:$scope.loginPassword}
 	   	 }).success(function(data) {
 	   		 if(data.status=="pass"){
+	   			
 	   			$cookieStore.put('loggedIn',true);
-	   			$cookieStore.put('headerTab',data.headerTab);
-	   			$cookieStore.put('headerTabUrl',data.routeUrl);
+	   			$cookieStore.put('userType',data.role);
+	   			//$cookieStore.put('headerTab',data.headerTab);
+	   			//$cookieStore.put('headerTabUrl',data.routeUrl);
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";

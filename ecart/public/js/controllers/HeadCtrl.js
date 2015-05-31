@@ -4,9 +4,6 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
        $scope.user = $cookieStore.get('user');
-       $scope.headerTab ="";
-       $scope.headerTabUrl="";
-       
        
        if(typeof($cookieStore.get('grandTotal'))=='undefined'){
     	   $scope.grandTotal = 0;
@@ -18,6 +15,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	  $scope.showLogIn = false;
     	  $scope.showLogOut = true;
     	  $scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName;
+    	  $scope.userType = $cookieStore.get('userType');
+	   	  if($scope.userType=="customer")$scope.headerTabUser=true;
+	      else if($scope.userType=="admin")$scope.headerTabAdmin=true;
        }else{
     	  $cookieStore.put('loggedIn',false);
     	  $scope.showLogIn = true;
@@ -38,12 +38,17 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
    			   $scope.showLogIn = false;
    	   		   $scope.showLogOut = true;
    	   		   $scope.user = $cookieStore.get('user');
-   	   		   $scope.headerTab = $cookieStore.get('headerTab');
-   	   		   if($scope.headerTab=="My Account") $scope.headerTabUser=true;
-   	   		   else if($scope.headerTab=="Admin Portal") $scope.headerTabAdmin=true;
-   	   		   $scope.headerTabUrl = $cookieStore.get('headerTabUrl');
-   	   		  
-   	   		}
+   	   		   $scope.userType = $cookieStore.get('userType');
+   	   		   
+   	   		   if($scope.userType=="customer"){
+   	   			$scope.headerTabUser=true;
+   	   			$scope.headerTabAdmin=false;
+   	   		   }
+   	   		   else if($scope.userType=="admin"){
+   	   			$scope.headerTabUser=false;
+   	   			$scope.headerTabAdmin=true;
+   	   		   }
+   	   	   }
        });
        
        
@@ -59,16 +64,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
      	  else if(key=='login') $scope.showLoginPage = true;
        }
        
-       $scope.headTabSwitch = function(){
-    	   $scope.headerTabUrl = $cookieStore.get('headerTabUrl');
-    	   $state.go($scope.headerTabUrl,{reload: true}); 
-       }
-       
       //User Log Out
 	  $scope.logout = function(){
 		  $cookieStore.put('loggedIn',false);
-		  $cookieStore.remove('headerTab');
-		  $cookieStore.remove('headerTabUrl');
 		  $scope.headerTabUser=false;
 		  $scope.headerTabAdmin=false;
 		  $scope.showLogIn = true;
@@ -79,6 +77,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 		  $location.path("/");
 		  
 	  }
+	 
       
        //month list for payment gateway page
        var months = [{"selectMonth":"01(Jan)"},{"selectMonth":"02(Fab)"},{"selectMonth":"03(Mar)"},
