@@ -103,6 +103,15 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			//controller: 'UserController'
 			
 		})
+		
+		.state('adminAuthFailed', {
+			url:'/adminAuthFailed',
+			templateUrl: 'views/adminAuthFailed.html'
+			//controller: 'UserController'
+			
+		})
+		
+		
 					
 		
 		.state('signup', {

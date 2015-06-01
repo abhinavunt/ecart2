@@ -101,15 +101,15 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   			$cookieStore.put('userType',data.role);
 	   			//$cookieStore.put('headerTab',data.headerTab);
 	   			//$cookieStore.put('headerTabUrl',data.routeUrl);
+	   			$cookieStore.put('authKey',data.key);
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";
 		   		$location.path("/");
-	   			
-	   		 }else{
+		   	}else{
 	   			$scope.loginFailMessage = data.message;
 	   			
-	   		 }
+	   		}
 	   
 	   	 }).error(function(data) {
 	   		 console.log('Error: ' + data);

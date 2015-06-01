@@ -11,7 +11,7 @@ var multer  = require('multer');
 var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
 var port = process.env.PORT || 3000; // set our port
-
+var adminAuthenticationKey = '876##2!bf$$23jht@@@RD';
 
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +34,7 @@ app.use(function(req,res,next){
     req.db = db;
     req.fs=fs;
     req.mongo = mongo;
+    req.adminKey = adminAuthenticationKey;
     next();
 });
 

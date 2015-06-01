@@ -50,7 +50,30 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
    	   		   }
    	   	   }
        });
+      
+       $scope.getAdminPage = function(){
+    	   
+    	   $http({
+               url: '/user/adminValidation',
+               method: "POST",
+               data: {key:$cookieStore.get('authKey')},
+               headers: {'Content-Type': 'application/json'}
+             }).success(function (data, status, headers, config) {
+            	 if(data.authResult=="pass"){
+            		 $state.go('adminPortal',{reload: true});
+            	 }else if(data.authResult=="fail"){
+            		 $state.go('adminAuthFailed');
+            	 }
+             }).error(function (data, status, headers, config) {
+           
+             }); 
+    	   
+    	   
+       }
        
+       $scope.getMyAccount = function(){
+    	   $state.go('userPortal',{reload: true}); 
+       }
        
        $scope.loginSignUp = function(key){
     	  

@@ -38,6 +38,7 @@
 	<script src="js/controllers/ItemCtrl.js"></script>
 	<script src="js/controllers/ShowItemCtrl.js"></script>
 	<script src="js/controllers/GetItemCtrl.js"></script>
+	<script src="js/controllers/AdminCtrl.js"></script>
 	<script src="js/controllers/AdminChartCtrl.js"></script>
 	<script src="js/controllers/AdminOrderCtrl.js"></script>
 	<script src="js/services/NerdService.js"></script>
@@ -118,7 +119,7 @@
 									</li>
 									
 									<li ng-show="headerTabUser">
-										<a href="#" ui-sref="userPortal">
+										<a ng-click="getMyAccount()">
 											<i class="fa fa-user" title="My Account"></i>
 											<span class="hidden-sm hidden-xs">
 											   My Account
@@ -127,7 +128,7 @@
 									</li>
 									
 									<li ng-show="headerTabAdmin">
-										<a href="#" ui-sref="adminPortal">
+										<a ng-click="getAdminPage()">
 											<i class="fa fa-users"  title="Admin Portal"></i>
 											<span class="hidden-sm hidden-xs">
 												Admin Portal

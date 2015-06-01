@@ -85,6 +85,7 @@
 		//login user
 		app.post('/user/login', function(req, res) {
 			var db = req.db;
+			var adminKey = req.adminKey;
 			var emailId = req.param("emailId");
 			var password = req.param("password");
 						
@@ -100,10 +101,18 @@
 					
 				}else{
 					// User has authenticated OK
-					if(user.role=="administrator") return res.json({"status":"pass","role":"admin", "user":user});
-					else return res.json({"status":"pass","role":"customer","user":user});
+					if(user.role=="administrator") return res.json({"status":"pass","role":"admin","key":adminKey, "user":user});
+					else return res.json({"status":"pass","role":"customer","key":"cust","user":user});
 				}
 			});
+		});
+		
+		app.post('/user/adminValidation',function(req,res){
+			var adminKey = req.adminKey;
+			var testKey = req.body.key;
+			console.log(testKey);
+			if(testKey==adminKey) res.json({"authResult":"pass"});
+			else res.json({"authResult":"fail"});
 		});
 		
 		//Add menu Item at Level-0
