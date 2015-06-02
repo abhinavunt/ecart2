@@ -1,22 +1,22 @@
-<div class="container">
+<div class="container" ng-controller="UserController">
 	<div class=" col-lg-2 list-group-info">
        <div class="row">
      		<a class="list-group-item active ">Categories</a>
-     		<a href="#" ui-sref=".orderHistory" class="list-group-item">Order History</a>
-     		<a href="#" ui-sref=".personalInfo" class="list-group-item">Personal Information</a>
-     		<a href="#" ui-sref=".expenseCharts" class="list-group-item">Expense Charts</a>
+     		<a ng-click="orderHistory()" class="list-group-item">Order History</a>
+     		<a ng-click="personalInfo()" class="list-group-item">Personal Information</a>
+     		<a ng-click="expenseChart()" class="list-group-item">Expense Charts</a>
   		</div>
     </div>
 	<div class=" col-lg-10">
-			
+		<div class="row">
+			<div class="col-lg-12">
+				<div ui-view>
+				</div>
+			</div>
+		</div>		
 	</div>
  
 
 
-<div class="row">
-	<div class="col-lg-12">
-		<div ui-view>
-		</div>
-	</div>
-</div>
+
 </div>

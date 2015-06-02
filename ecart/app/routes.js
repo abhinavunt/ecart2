@@ -115,6 +115,47 @@
 			else res.json({"authResult":"fail"});
 		});
 		
+		
+		app.get('/user/orderHistory',function(req,res){
+			
+			var db = req.db;
+			var emailIdVal = req.param("emailId");
+			var totalRecords;
+			var firstDateVal = req.param("firstDate");
+			var lastDateVal = req.param("lastDate");
+			var limitVal = parseInt(req.param("limit"));
+			
+			console.log(limitVal);
+			if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+				
+				db.collection('order').count(function (err, count){
+					if (err) throw err;
+					else{
+						 totalRecords = count;
+						 db.collection('order').find({emailId:emailIdVal},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items,totalRecords:totalRecords});
+						 });
+					}
+				});
+			
+			}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+				
+				db.collection('order').find({emailId:emailIdVal}).toArray(function (err, items) {
+				res.json({items:items});
+			});
+
+			}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+				
+				db.collection('order').find({emailId:emailIdVal}).toArray(function (err, items) {
+				res.json({items:items});
+			});		
+			
+			}
+			
+		});
+		
+		
 		//Add menu Item at Level-0
 		app.post('/menu/addMenuItemLevelZero', function(req, res) {
 			var db = req.db;

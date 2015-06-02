@@ -104,6 +104,24 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			
 		})
 		
+			.state('userPortal.orderHistory', {
+						url:'/orderHistory',
+						templateUrl: 'views/userTemplates/orderHistory.html',
+						controller: 'UserController'
+			})
+				
+			.state('userPortal.personalInfo', {
+						url:'/personalInfo',
+						templateUrl: 'views/userTemplates/personalInfo.html',
+						controller: 'UserController'
+			})
+			
+			.state('userPortal.expenseChart', {
+						url:'/expenseChart',
+						templateUrl: 'views/userTemplates/expenseChart.html',
+						controller: 'UserController'
+			})
+		
 		.state('adminAuthFailed', {
 			url:'/adminAuthFailed',
 			templateUrl: 'views/adminAuthFailed.html'
