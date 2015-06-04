@@ -6,7 +6,7 @@
 						<div class="panel panel-smart">
 							<div class="panel-heading">
 								<h3 class="panel-title">Personal Information</h3>
-								<a>Edit Information</a>
+								<a ng-click="editInformation()">Edit Information</a>
 							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
@@ -15,14 +15,14 @@
 									<div class="form-group required">
 										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="user.fullName" ng-disabled="true"  placeholder="Full Name">
+											<input type="text" class="form-control" ng-model="user.fullName" ng-disabled="!fullNameEnable"  placeholder="Full Name">
 										</div>
 									</div>
 									
 									<div class="form-group required">
 										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="user.emailId" ng-disabled="true"  placeholder="Email">
+											<input type="text" class="form-control" ng-model="user.emailId" ng-disabled="!emailIdEnable"  placeholder="Email">
 										</div>
 									</div>
 									
@@ -30,13 +30,13 @@
 									<div class="form-group required">
 										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="user.mobileNo" ng-disabled="true"  placeholder="Phone">
+											<input type="text" class="form-control" ng-model="user.mobileNo" ng-disabled="!mobileNoEnable"  placeholder="Phone">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputFax" class="col-sm-3 control-label">Alternate No :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="user.alternateNo" ng-disabled="true" placeholder="Alternate No">
+											<input type="text" class="form-control" ng-model="user.alternateNo" ng-disabled="!alternateNoEnable" placeholder="Alternate No">
 										</div>
 									</div>
 								<!-- Personal Information Ends -->
@@ -48,7 +48,7 @@
 									<div class="form-group required">
 										<label class="col-lg-3 control-label">Address</label>
 										<div class="col-lg-9">
-											<textarea class="form-control" rows="3" ng-disabled="true" ng-model="user.address"></textarea>
+											<textarea class="form-control" rows="3" ng-disabled="!addressEnable" ng-model="user.address"></textarea>
 											<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
 										</div>
 									</div>

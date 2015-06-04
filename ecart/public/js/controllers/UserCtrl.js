@@ -122,6 +122,11 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 		$state.go('userPortal.personalInfo',{reload: true});
 			
 	}
+	
+	$scope.editInformation = function(){
+		
+		$scope.fullNameEnable = $scope.mobileNoEnable = $scope.alternateNoEnable = $scope.addressEnable = true;
+	}
 
 
 	$scope.expenseChart = function(){
