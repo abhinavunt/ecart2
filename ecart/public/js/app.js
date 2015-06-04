@@ -1,5 +1,5 @@
 // public/js/app.js
-app = angular.module('sampleApp', ['ngRoute','appRoutes','ngAnimate','MenuCtrl','AdminChartCtrl','CompleteOrderCtrl','UserCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll']);
+app = angular.module('sampleApp', ['ngRoute','appRoutes','ngAnimate','MenuCtrl','AdminChartCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll']);
  
  
 app.service('shoppingCartService', function($cookieStore) {

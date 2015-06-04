@@ -73,7 +73,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 					})
 				.state('adminPortal.user', {
 						url:'/user',
-						templateUrl: 'views/adminTemplates/user.html'
+						templateUrl: 'views/adminTemplates/registeredUsers.html'
 		
 			
 					})

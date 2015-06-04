@@ -125,10 +125,9 @@
 			var lastDateVal = req.param("lastDate");
 			var limitVal = parseInt(req.param("limit"));
 			
-			console.log(limitVal);
 			if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
 				
-				db.collection('order').count(function (err, count){
+				db.collection('order').count({emailId:emailIdVal},function (err, count){
 					if (err) throw err;
 					else{
 						 totalRecords = count;
@@ -141,16 +140,16 @@
 			
 			}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
 				
-				db.collection('order').find({emailId:emailIdVal}).toArray(function (err, items) {
-				res.json({items:items});
-			});
+				db.collection('order').find({emailId:emailIdVal, date:{"$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+					res.json({items:items});
+			    });
 
 			}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 				
-				db.collection('order').find({emailId:emailIdVal}).toArray(function (err, items) {
-				res.json({items:items});
-			});		
-			
+				db.collection('order').find({emailId:emailIdVal, date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+		    		items.reverse();   
+		    		res.json({items:items});
+		    	});
 			}
 			
 		});

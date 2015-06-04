@@ -1,4 +1,5 @@
-<div class="row"><h3>Order History</h3></div>
+<div><h3>Order History</h3></div>
+<div ng-hide="noDataFound">
 <div class="row">
 	
 	<table class="table table-bordered table-hover ">
@@ -31,4 +32,8 @@
 		<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
 		<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
 	</div>
+</div>
+</div>
+<div ng-show="noDataFound">
+<span>No Order History Found !!!</span>
 </div>

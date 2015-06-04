@@ -2,13 +2,14 @@
 angular.module('UserCtrl', []).controller('UserController', function($scope,$http,$state,$cookieStore) {
 	
 	$scope.user = {};
-	$scope.firstOrderDate ="notAssigned";
-	$scope.lastOrderDate ="notAssigned";
+	
 	$scope.limitPerPage = 10;
+	$scope.user = $cookieStore.get('user');
 	
 	$scope.orderHistory = function(){
+		$scope.firstOrderDate ="notAssigned";
+		$scope.lastOrderDate ="notAssigned";
 		
-		$scope.user = $cookieStore.get('user');
 		$http({
             url: '/user/orderHistory',
             method: "GET",
@@ -17,26 +18,32 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
          }).success(function(data) {
 
         	 $scope.orderlist = data.items;
-        	 $scope.totalRecords = data.totalRecords; 
-        	 if(data.items.length>0 && data.items.length<=$scope.limitPerPage){
-        		 $scope.fromOrderNo = 1;
-        		 $scope.toOrderNo = data.items.length;
-        		 $scope.hideToFrom=false;
-        	 }else if(data.items.length>0 && data.items.length>$scope.limitPerPage){
-        		 $scope.fromOrderNo = 1;
-        		 $scope.toOrderNo = $scope.limitPerPage;
-        		 $scope.hideToFrom=false;
-        	 }else if(data.items.length==0){
-        		 $scope.hideToFrom=true;
+        	 if(data.items.length==0){
+        		 $scope.noDataFound=true;
+        	 }else{
+        		 $scope.totalRecords = data.totalRecords; 
+            	 if(data.items.length>0 && data.items.length<=$scope.limitPerPage){
+            		 $scope.fromOrderNo = 1;
+            		 $scope.toOrderNo = data.items.length;
+            		 $scope.hideToFrom=false;
+            	 }else if(data.items.length>0 && data.items.length>$scope.limitPerPage){
+            		 $scope.fromOrderNo = 1;
+            		 $scope.toOrderNo = $scope.limitPerPage;
+            		 $scope.hideToFrom=false;
+            	 }else if(data.items.length==0){
+            		 $scope.hideToFrom=true;
+            	 }
+            	 
+            	 if($scope.totalRecords>$scope.fromOrderNo+($scope.limitPerPage-1)) $scope.disableNextButton =false;
+            	 else $scope.disableNextButton =true; 
+            	 
+            	 $scope.disablePrevButton =true;
+            	 
+            	 $scope.firstOrderDate = data.items[0].date;
+            	 $scope.lastOrderDate = data.items[data.items.length-1].date;
+            	 $scope.noDataFound=false;
         	 }
         	 
-        	 if($scope.totalRecords>$scope.fromOrderNo+($scope.limitPerPage-1)) $scope.disableNextButton =false;
-        	 else $scope.disableNextButton =true; 
-        	 
-        	 $scope.disablePrevButton =true;
-        	 
-        	 $scope.firstOrderDate = data.items[0].date;
-        	 $scope.lastOrderDate = data.items[data.items.length-1].date;
          
          
         	 $state.go('userPortal.orderHistory',{reload: true}); 
@@ -49,9 +56,8 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 	
 	$scope.nextPage = function(){
 		
-		
 		$http({
-            url: '/order/orderList',
+            url: '/user/orderHistory',
             method: "GET",
             params: {emailId: $scope.user.emailId, firstDate: "notAssigned", lastDate: $scope.lastOrderDate, limit:$scope.limitPerPage}
          }).success(function(data) {
@@ -79,26 +85,19 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 	
 	$scope.previousPage = function(){
 		
-		var parameter;
-		if($scope.searchCriteriaVal==4){
-			parameter = {limit: $scope.orderPerPg,firstDate:$scope.firstOrderDate,lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal,criteriaYear:$scope.criteriaYear, criteriaMonth:$scope.criteriaMonth};
-		}else{
-			parameter = {limit: $scope.orderPerPg,firstDate:$scope.firstOrderDate,lastDate:"notAssigned",searchCriteriaVal:$scope.searchCriteriaVal};
-		}
-		
 		$http({
-            url: '/order/orderList',
+            url: '/user/orderHistory',
             method: "GET",
-            params: parameter
+            params: {emailId: $scope.user.emailId, firstDate: $scope.firstOrderDate , lastDate: "notAssigned", limit:$scope.limitPerPage}
          }).success(function(data) {
         	 $scope.orderlist = data.items;
         	 
-        	 if($scope.toOrderNo - $scope.fromOrderNo+1 == $scope.orderPerPg){
-        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.orderPerPg;
-        		 $scope.toOrderNo = $scope.toOrderNo - $scope.orderPerPg; 
-        	 }else if($scope.toOrderNo - $scope.fromOrderNo+1 < $scope.orderPerPg){
+        	 if($scope.toOrderNo - $scope.fromOrderNo+1 == $scope.limitPerPage){
+        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.limitPerPage;
+        		 $scope.toOrderNo = $scope.toOrderNo - $scope.limitPerPage; 
+        	 }else if($scope.toOrderNo - $scope.fromOrderNo+1 < $scope.limitPerPage){
         		 $scope.toOrderNo = $scope.fromOrderNo - 1;
-        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.orderPerPg;
+        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.limitPerPage;
         	 }
         	 
         	 if($scope.fromOrderNo == 1) $scope.disablePrevButton =true;
@@ -117,6 +116,7 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 		
 		$scope.firstOrderDate ="notAssigned";
 		$scope.lastOrderDate ="notAssigned";
+		
 		
 		
 		$state.go('userPortal.personalInfo',{reload: true});
