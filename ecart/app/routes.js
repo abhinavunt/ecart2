@@ -82,6 +82,30 @@
 				  }});
 		});
 		
+		//Edit User
+		app.post('/user/editUser', function(req, res) {
+			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			var userInfo = {
+					
+					fullName : req.body.fullName,
+					emailId : req.body.emailId,
+					password : req.body.password,
+					mobileNo : req.body.mobileNo,
+					alternateNo : req.body.alternateNo,
+					address : req.body.address
+			 };
+			
+			db.collection('user').update({_id: ObjectID(req.body._id)},userInfo, function(err) {
+				if (err) res.json({"status":"failed","message":"Internal error occured !!! Please try after sometime "});
+				//if (err) throw err;
+				else res.json({"status":"sucess","user":userInfo});
+			});
+			
+		});
+		
 		//login user
 		app.post('/user/login', function(req, res) {
 			var db = req.db;
@@ -614,11 +638,24 @@
 			var year = req.param("year");
 			var start = new Date(year,1,1);
 			var end = new Date(year,12,31);
+			var userType = req.param("userType");
+			
+			if(userType=="admin"){
+				
+				db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'},count:{$sum:1}}}],function(err, months) {
+					if (err) throw err;
+					else res.json(months);
+				});
+				
+			}else if(userType=="customer"){
+				
+				db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end},emailId:req.param("emailId")}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'},count:{$sum:1}}}],function(err, months) {
+					if (err) throw err;
+					else res.json(months);
+				});
+			}
 			 
-			db.collection('order').aggregate([{ $match : {'date':{$gte: start, $lt: end}}},{'$group': {_id: {month: {'$month': '$date'}},total : {$sum : '$grandTotal'},count:{$sum:1}}}],function(err, months) {
-				if (err) throw err;
-				else res.json(months);
-			});
+			
 			
 			
 		});

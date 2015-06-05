@@ -1,9 +1,6 @@
 
-angular.module('AdminChartCtrl',[]).controller('AdminChartController', function($scope,$http) {
+angular.module('AdminChartCtrl',[]).controller('AdminChartController', function($scope,$http,$cookieStore) {
 	
-	
-	
-    
 	$scope.yearList = [];
 	for(var i=1;i>=0;i--){
 		var year = {"year":new Date().getFullYear()-i};
@@ -17,16 +14,22 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 	
 	$scope.selectedItemChanged = function(yearObj){
 		$scope.initYear = yearObj.year;
-		$scope.getChart($scope.initYear);
+		$scope.getChart($scope.initYear,$cookieStore.get('userType'));
 	}
     
 	
-	$scope.getChart = function (yearVal){
+	$scope.getChart = function (yearVal,userType){
+		
+		if(userType=="customer"){
+			var parameters = {year: yearVal, userType:userType, emailId:$cookieStore.get('user').emailId};
+		}else if(userType=="admin"){
+			var parameters = {year: yearVal, userType:userType};
+		}
 		
 		$http({
             url: '/order/getChart',
             method: "GET",
-            params: {year: yearVal}
+            params: parameters
          }).success(function(data) {
 			 $scope.data = data;
         	
@@ -183,7 +186,7 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 	}
     
 	
-	$scope.getChart($scope.initYear);
+	$scope.getChart($scope.initYear,$cookieStore.get('userType'));
     
     
 });

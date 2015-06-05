@@ -31,6 +31,12 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     		return false;
     	}
     	
+    	else if(isNaN($scope.userForm.mobileNo)||isNaN($scope.userForm.alternateNo)){
+    		
+    		$scope.signUpFailMessage = "Mobile No. Or Alternate No. must be digits !!!";
+    		return false;
+    	}
+    	
     	else if($scope.userForm.mobileNo.length!=10 || $scope.userForm.alternateNo.length!=10){
     		$scope.signUpFailMessage = "Mobile No. Or Alternate No. must contain 10 digits !!!";
     		return false;

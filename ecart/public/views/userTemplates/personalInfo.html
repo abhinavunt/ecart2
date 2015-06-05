@@ -6,7 +6,8 @@
 						<div class="panel panel-smart">
 							<div class="panel-heading">
 								<h3 class="panel-title">Personal Information</h3>
-								<a ng-click="editInformation()">Edit Information</a>
+								<button class="btn btn-primary btn-xs" ng-disabled="editInfolink" ng-click="editInformation()">Edit Information</a>
+								
 							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
@@ -26,6 +27,12 @@
 										</div>
 									</div>
 									
+									<div class="form-group required">
+										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" ng-disabled="!passwordEnable" ng-model="user.password"  placeholder="Password">
+										</div>
+									</div>
 									
 									<div class="form-group required">
 										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
@@ -55,12 +62,12 @@
 									
 								<!-- Delivery Information Ends -->
 									
-									<div class="form-group">
+									<div class="form-group" ng-hide="!hideSaveCancel">
 										<div class="col-sm-offset-3 col-sm-9">
-											<button type="submit" class="btn btn-warning" data-ng-click="submit()">
+											<button class="btn btn-success" data-ng-click="save()">
 												Save
 											</button>
-											<button type="submit" class="btn btn-warning" data-ng-click="submit()">
+											<button class="btn btn-warning" data-ng-click="cancel()">
 												Cancel
 											</button>
 										</div>
@@ -70,7 +77,8 @@
 								</form>
 							<!-- Registration Form Starts -->
 							</div>
-							<div style="color:red">{{signUpFailMessage}}</div>							
+							<div style="color:red">{{editUserFailMessage}}</div>
+							<div style="color:green">{{editUserPassMessage}}</div>							
 						</div>
 					<!-- Registration Block Ends -->
 					</div>

@@ -125,10 +125,82 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 	
 	$scope.editInformation = function(){
 		
-		$scope.fullNameEnable = $scope.mobileNoEnable = $scope.alternateNoEnable = $scope.addressEnable = true;
+		$scope.fullNameEnable = $scope.mobileNoEnable = $scope.hideSaveCancel = $scope.alternateNoEnable = $scope.passwordEnable = $scope.addressEnable = $scope.editInfolink = true;
+		$scope.editUserPassMessage="";
 	}
-
-
+	
+	$scope.cancel= function(){
+		
+		$scope.fullNameEnable = $scope.mobileNoEnable = $scope.hideSaveCancel = $scope.alternateNoEnable = $scope.passwordEnable = $scope.addressEnable = $scope.editInfolink = false;
+	}
+	
+	$scope.save = function(){
+			
+		if( typeof($scope.user.fullName)=='undefined'||$scope.user.fullName==''||
+	        typeof($scope.user.mobileNo)=='undefined'||$scope.user.mobileNo==''||
+			typeof($scope.user.address)=='undefined'||$scope.user.address==''||
+			typeof($scope.user.password)=='undefined'||$scope.user.password=='')
+    	{
+    		$scope.editUserFailMessage = "Required(*) field/(s) are missing !!!";
+    		return false;
+    	}
+    	
+    	else if($scope.user.fullName.length<3){
+    		$scope.editUserFailMessage = "Your Full Name should contain atleast 3 characters!!!";
+    		return false;
+    	}
+    	
+    	else if(isNaN($scope.user.mobileNo)||isNaN($scope.user.alternateNo)){
+    		
+    		$scope.editUserFailMessage = "Mobile No. Or Alternate No. must be digits !!!";
+    		return false;
+    	}
+    	
+    	else if($scope.user.mobileNo.length!=10 || $scope.user.alternateNo.length!=10){
+    		$scope.editUserFailMessage = "Mobile No. Or Alternate No. must contain 10 digits !!!";
+    		return false;
+    	}
+    	
+    	else{
+    	
+    	var userData ={
+    			_id : $cookieStore.get('user')._id,
+				fullName : $scope.user.fullName,
+				emailId : $cookieStore.get('user').emailId,
+				password : $scope.user.password,
+				mobileNo : $scope.user.mobileNo,
+				alternateNo : $scope.user.alternateNo,
+				address : $scope.user.address
+		};
+		
+		$http({
+            url: '/user/editUser',
+            method: "POST",
+            data: JSON.stringify(userData),
+            headers: {'Content-Type': 'application/json'}
+          }).success(function (data, status, headers, config) {
+        	  if(data.status=="failed"){
+        		$scope.editUserFailMessage = data.message;  
+        	  }else{
+        		$cookieStore.remove('user');
+		   		$cookieStore.put('user',data.user);
+		   		$scope.editUserFailMessage="";
+		   		$scope.hideSaveCancel=false;
+		   		$scope.editUserPassMessage="Information has been saved Successfully !!!";
+		   		$scope.fullNameEnable = $scope.mobileNoEnable = $scope.hideSaveCancel = $scope.alternateNoEnable = $scope.passwordEnable = $scope.addressEnable = $scope.editInfolink = false;
+		   		if($cookieStore.get('editUserFlip')==false) $cookieStore.put('editUserFlip',true);
+		   		else $cookieStore.put('editUserFlip',false);
+		   	}
+        	  
+          }).error(function (data, status, headers, config) {
+              
+          });
+    		
+    	}
+		
+    
+	}
+	
 	$scope.expenseChart = function(){
 		
 		$scope.firstOrderDate ="notAssigned";

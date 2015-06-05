@@ -4,6 +4,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
        $scope.user = $cookieStore.get('user');
+       $cookieStore.put('editUserFlip',false);
        
        if(typeof($cookieStore.get('grandTotal'))=='undefined'){
     	   $scope.grandTotal = 0;
@@ -50,6 +51,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
    	   		   }
    	   	   }
        });
+       
+       $scope.$watch(function() { return $cookieStore.get('editUserFlip') }, function() {
+    	   $scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName;
+       });
+       
       
        $scope.getAdminPage = function(){
     	   

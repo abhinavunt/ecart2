@@ -118,8 +118,8 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			
 			.state('userPortal.expenseChart', {
 						url:'/expenseChart',
-						templateUrl: 'views/userTemplates/expenseChart.html',
-						controller: 'UserController'
+						templateUrl: 'views/adminTemplates/chart.html',
+						controller: 'AdminChartController'
 			})
 		
 		.state('adminAuthFailed', {
