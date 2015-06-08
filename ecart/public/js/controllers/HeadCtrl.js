@@ -53,7 +53,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        });
        
        $scope.$watch(function() { return $cookieStore.get('editUserFlip') }, function() {
-    	   $scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName;
+    	   if(typeof($cookieStore.get('user')) != "undefined"){
+    		   $scope.welcomeMessage = "Welcome "+$cookieStore.get('user').fullName;  
+    	   }
        });
        
       
