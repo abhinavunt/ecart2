@@ -355,6 +355,19 @@
 		    });
 		});
 		
+		// Search Latest Items
+		app.get('/item/getLatestItems', function(req, res) {
+			
+			var db = req.db;
+			
+			db.collection('item').find({}).toArray(function (err, items) {
+			   if(err) throw err;
+			   else res.json(items);
+		    });
+		});
+		
+		
+		
 		// Search Brands
 		app.get('/item/searchBrands', function(req, res) {
 			

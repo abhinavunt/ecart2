@@ -12,7 +12,8 @@
 	<script src="libs/jquery/dist/jquery-2.1.1.js"></script>
 	<script src="libs/jquery/dist/jquery.tabletojson.js"></script>
 	<script src="libs/angular/angular.min.js"></script>
-	<script src="libs/angular-route/angular-route.min.js"></script>
+	
+	<script src="libs/angular-route/angular-route.min.js"></script> 
 	<script src="libs/bootstrap/dist/js/bootstrap-modal.js"></script>
 	<script src="libs/angular-ui-route/angular-ui-router.js"></script>
 	<script src="libs/angular-animate/angular-animate.js"></script>
@@ -28,8 +29,11 @@
 	<script src="libs/angular_infiniteScroll/ng-infinite-scroll.js"></script>
 
 	
+
+	
 	
 	<!-- ANGULAR CUSTOM -->
+	<script src="js/controllers/HomeCtrl.js"></script>
 	<script src="js/controllers/UserCtrl.js"></script>
 	<script src="js/controllers/RegisteredUsersCtrl.js"></script>
 	<script src="js/controllers/CompleteOrderCtrl.js"></script>
@@ -63,29 +67,7 @@
     
     <link href="css/jasny-bootstrap.css" rel="stylesheet">
 	<link href="css/yamm.css" rel="stylesheet">
-	<script>
-	$('#myCarousel').carousel({
-		  interval: 40000
-		});
 
-		$('.carousel .item').each(function(){
-		  var next = $(this).next();
-		  if (!next.length) {
-		    next = $(this).siblings(':first');
-		  }
-		  next.children(':first-child').clone().appendTo($(this));
-
-		  if (next.next().length>0) {
-		 
-		      next.next().children(':first-child').clone().appendTo($(this)).addClass('rightest');
-		      
-		  }
-		  else {
-		      $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-		     
-		  }
-		});
-	</script>
 </head>
 
 

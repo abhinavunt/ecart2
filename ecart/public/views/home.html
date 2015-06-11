@@ -1,4 +1,5 @@
 <!-- Slider Section Starts -->
+<div ng-controller="HomeController">
 		<div class="slider">
 			<div class="container">
 				<div id="main-carousel" class="carousel slide" data-ride="carousel">
@@ -51,67 +52,79 @@
 				<h2 class="product-head">Latest Products</h2>
 			<!-- Heading Ends -->
 			<!-- Products Row Starts -->
-				<div class="container">
-  
-        
-
-        <div class="well">
-            <div id="myCarousel" class="carousel slide" data-interval="false">
-                
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="row">
-                            <div class="col-xs-3"><a href="#x"><img src="http://placehold.it/500x500" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x"><img src="http://placehold.it/500x500" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x"><img src="http://placehold.it/500x500" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x"><img src="http://placehold.it/500x500" alt="Image" class="img-responsive"></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                            <div class="col-xs-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" class="img-responsive"></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                </div>
-                <!--/carousel-inner--> <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
-            </div>
-            <!--/myCarousel-->
-        </div>
-        <!--/well-->
-   
-</div>
+				
+				<div class="row list-group col-lg-12">
+					<div class="col-lg-12">
+					<div class="form-group">
+						<div>
+							<button class="btn btn-default pull-right fa fa-chevron-right"  data-ng-click="next()"></button>
+							<button class="btn btn-default pull-right fa fa-chevron-left" data-ng-click="previous()"></button>
+						</div>
+					</div>
+					</div>
+			   		<div class="item  col-xs-3 col-lg-3" data-ng-repeat="item in latestItemShow">
+			            <div class="thumbnail">
+			          		<img class="group list-group-image" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item)"/>
+			                <div class="caption">
+			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item)">{{item.name}}</h4>
+			               
+			                 <div class="row">
+			                      <div class="col-xs-12 col-md-7">
+			                         <h4 >{{amount.selected.Price}}  Rs.</h4>  
+			                      </div>
+			                     
+			                      <div class="col-xs-12 col-md-5">
+			                           <!-- <select  class="form-control input-sm" ng-change="onChangeAmount()">
+			                                                <option data-ng-repeat="amtPrice in item.amountprice">{{amtPrice.Amount}}</option>
+			                                     </select> -->
+			                                     <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
+			                                          ng-model="amount.selected"
+			                                          ng-options="amtPrice.Amount for amtPrice in item.amountprice">
+			                                      </select>
+			                                     </div>
+			                  </div>
+			                  <div class="row">
+			                      <div class="col-lg-6 col-md-2 col-sm-1">
+			                            <button class="btn btn-xs btn-warning">Description</button>
+			                      </div>
+			                      <div ng-hide="isSelected(amount.selected)">
+			                             <div class="col-lg-2 col-md-2 col-sm-1"">
+			                               <p>Qty</p> 
+			                             </div>
+			                             <div class="col-lg-4 col-md-2 col-sm-1">
+			                                   <select class="form-control input-sm"
+			                                          ng-init="quantity.selected=quantityList[0]"
+			                                          ng-model="quantity.selected"
+			                                          ng-options="qnt.quantity for qnt in quantityList">
+			                                               </select>
+			                             </div>
+			                      </div>
+			                  </div>
+			                  <div class="row">
+			                     <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
+			                                           <button class="btn btn-xs btn-success add-to-cart" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add to Cart</button>
+			                                           
+			                      </div>
+			                      <div class="input-group"  ng-show="isSelected(amount.selected)">
+			                                     <span class="input-group-btn">
+			                                         <button type="button" class="btn btn-sm btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
+			                                           <span class="glyphicon glyphicon-minus"></span>
+			                                         </button>
+			                                     </span>
+			                                    <input type="text" name="quant[2]" class="form-control input-sm input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
+			                                   
+			                                     <span class="input-group-btn">
+			                                         <button type="button" class="btn btn-sm btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
+			                                             <span class="glyphicon glyphicon-plus"></span>
+			                                         </button>
+			                                     </span>
+			                                 </div>
+			                  </div>
+			                </div>
+			             </div>
+			        </div>
+			      </div>
+  				
 			<!-- Products Row Ends -->
 			</div>
 		</section>
@@ -274,4 +287,5 @@
 			<!-- Products Row Ends -->
 			</div>
 		</section>
+</div>
 	<!-- Specials Products Ends -->
