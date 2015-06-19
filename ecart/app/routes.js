@@ -134,7 +134,6 @@
 		app.post('/user/adminValidation',function(req,res){
 			var adminKey = req.adminKey;
 			var testKey = req.body.key;
-			console.log(testKey);
 			if(testKey==adminKey) res.json({"authResult":"pass"});
 			else res.json({"authResult":"fail"});
 		});
@@ -424,6 +423,7 @@
 					othernames : req.body.othernames,
 					description : req.body.description,
 					availability : req.body.availability,
+					isOfferCheck : req.body.isOfferCheck,
 					imageId : req.body.imageId,
 					amountprice : amtPriceObj
 			};

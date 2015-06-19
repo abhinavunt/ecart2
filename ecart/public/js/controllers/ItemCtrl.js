@@ -7,6 +7,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.addItemButtonVal=true;
 	$scope.searchItemVal=true;
 	$scope.amountPriceRow=[];
+	$scope.showOfferTable = false;
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
@@ -102,12 +103,44 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		
 		$scope.itemForm = {
-				 availabilityCheck: 'yes'
+				 availabilityCheck: 'yes',
+				 isOfferCheck: 'no'
 		};
-
+		
+		$scope.offerRadioChange = function(value){
+			if(value=='yes') {
+				$scope.showOfferTable = true;
+				if($scope.amountPriceRow.length!=0){
+					for(var i=0;i<$scope.amountPriceRow.length;i++){
+						$scope.amountPriceRow[i]["OfferCheck"] = true;
+						$scope.amountPriceRow[i]["OfferPrice"] = "";
+					}
+				}
+			}
+			else{
+				
+				$scope.showOfferTable = false;
+				if($scope.amountPriceRow.length!=0){
+					for(var i=0;i<$scope.amountPriceRow.length;i++){
+						delete $scope.amountPriceRow[i]["OfferCheck"];
+						delete $scope.amountPriceRow[i]["OfferPrice"];
+					}
+				}
+			}
+		}
+		
+		
+		
 		$scope.addAmountPriceRow = function() {
-			 var newRow = { "Amount" : "","Price" : "", "Availability" : "Available"};
-			 $scope.amountPriceRow.push(newRow);
+			
+			if($scope.showOfferTable){
+				
+				 var newRow = { "OfferCheck":true,"Amount" : "","Price" : "","OfferPrice":"","Availability" : "Available"};
+				 $scope.amountPriceRow.push(newRow);
+			}else{
+				 var newRow = { "Amount" : "","Price" : "", "Availability" : "Available"};
+				 $scope.amountPriceRow.push(newRow);
+			}
 		};
 		
 		$scope.deleteAmountPriceRow = function(index) {
@@ -117,6 +150,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		
 		$scope.addItem = function(){
+			
 	    	
 	    	var file = $scope.itemImage;
 	    	
@@ -139,14 +173,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	    			othernames:$scope.itemForm.otherNames,
 	  	    			description:$scope.itemForm.description,
 	  	    			availability:$scope.itemForm.availabilityCheck,
-	  	    			amountprice:$('#amtPriceTableId').tableToJSON(),
+	  	    			isOfferCheck:$scope.itemForm.isOfferCheck,
+	  	    			amountprice:$scope.amountPriceRow,
 	  	    			imageId:ImgId
 	  	    		};
-	        	  
+	           
 	           $http({
 	  	            url: '/item/addItem',
 	  	            method: "POST",
-	  	            data: JSON.stringify(item),
+	  	            data: angular.toJson(item),
 	  	            headers: {'Content-Type': 'application/json'}
 	  	       }).success(function (data, status, headers, config,imageName) {
 	  	    	    $scope.itemList.unshift(item);
@@ -157,7 +192,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	       });
 	           
 	          });
-	    	};
+	    };
 	    	
 	    $scope.editItem = function(item){
 	    	 
