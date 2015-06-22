@@ -129,6 +129,29 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		}
 		
 		
+		$scope.offerRadioChangeEdit = function(value){
+			if(value=='yes') {
+				$scope.showOfferTableEdit =true;
+				if($scope.amountPriceRowEdit.length!=0){
+					for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
+						$scope.amountPriceRowEdit[i]["OfferCheck"] = true;
+						$scope.amountPriceRowEdit[i]["OfferPrice"] = "";
+					}
+				}
+			}
+			else{
+				
+				$scope.showOfferTableEdit = false;
+				if($scope.amountPriceRowEdit.length!=0){
+					for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
+						delete $scope.amountPriceRowEdit[i]["OfferCheck"];
+						delete $scope.amountPriceRowEdit[i]["OfferPrice"];
+					}
+				}
+			}
+		}
+		
+		
 		
 		$scope.addAmountPriceRow = function() {
 			
