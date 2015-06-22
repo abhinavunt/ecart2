@@ -88,13 +88,12 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	    params: {category: $scope.menuLevelTwoId}
 	    	 }).success(function(data) {
 	    		 if(data.length==0){
-	    			 $scope.itemList = []; 
-	    		 }else{
-	    			 $.each(data, function(){
-							$scope.itemList = data;
-							
-					 });
-	    		 }
+	    			 $scope.itemList = [];
+	    		}else{
+    			 $.each(data, function(){
+						$scope.itemList = data;
+				 });
+	    		}
 	    		 
 	    	}).error(function(data) {
 	    		 console.log('Error: ' + data);
@@ -232,18 +231,18 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    
 	    $scope.removeItem = function(item){
 	    	$http({
-		  	            url: '/item/removeItem',
-		  	            method: "POST",
-		  	            data: {itemId:item._id,imageId:item.imageId},
-		  	            headers: {'Content-Type': 'application/json'}
-		  	          }).success(function (data, status, headers, config,imageName) {
-			  	        	$scope.removeButtonValEdit=true;
-			  	        	$scope.closeThisDialog();
-			  	        	var index=$scope.itemList.indexOf(item);
-			  	        	$scope.itemList.splice(index,1);
-		  	          }).error(function (data, status, headers, config) {
-		  	        	alert("Failed : Item could not be removed !!!");
-		  	          });
+	  	            url: '/item/removeItem',
+	  	            method: "POST",
+	  	            data: {itemId:item._id,imageId:item.imageId},
+	  	            headers: {'Content-Type': 'application/json'}
+	  	          }).success(function (data, status, headers, config,imageName) {
+		  	        	$scope.removeButtonValEdit=true;
+		  	        	$scope.closeThisDialog();
+		  	        	var index=$scope.itemList.indexOf(item);
+		  	        	$scope.itemList.splice(index,1);
+	  	          }).error(function (data, status, headers, config) {
+	  	        	alert("Failed : Item could not be removed !!!");
+	  	          });
 	    };
 	    
 	    
@@ -251,9 +250,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    
 	    		
 	    $scope.editItemOpenPopUp = function(item){
+	    	
+	    		
+	    		
 	    		$scope.itemDetails = item;
 	    		$scope.amountPriceRowEdit = item.amountprice;
 	    		$scope.itemImageEdit = 'temp_upload/'+item.imageId;
+	    		
+	    		if($scope.itemDetails.isOfferCheck=='yes') $scope.showOfferTableEdit =true;
+	    		else $scope.showOfferTableEdit =false;
 	    		
 	    		var dialog = ngDialog.open({
 	    	            template: 'views/adminTemplates/editItemPopUp.html',
@@ -263,8 +268,13 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    }
 	    
 	    $scope.addAmountPriceRowEdit = function() {
-			 var newRow = { "Amount" : "","Price" : "", "Availability" : "Available"};
-			 $scope.amountPriceRowEdit.push(newRow);
+			 if($scope.showOfferTableEdit){
+				 var newRow = { "OfferCheck":true,"Amount" : "","Price" : "","OfferPrice":"","Availability" : "Available"};
+				 $scope.amountPriceRowEdit.push(newRow);
+			}else{
+				 var newRow = { "Amount" : "","Price" : "", "Availability" : "Available"};
+				 $scope.amountPriceRowEdit.push(newRow);
+			}
 		};
 	    
 	    $scope.deleteAmountPriceRowEdit = function(index) {
