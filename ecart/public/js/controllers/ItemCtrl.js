@@ -274,13 +274,23 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		
 	    $scope.editItemOpenPopUp = function(item){
 	    	
+	    		$scope.amountPriceRowEdit = [];
 	    		
 	    		
-	    		$scope.itemDetails = item;
-	    		$scope.amountPriceRowEdit = item.amountprice;
-	    		$scope.itemImageEdit = 'temp_upload/'+item.imageId;
+	    		$scope.itemNameEdit = item.name;
+	    		$scope.brandEdit = item.brand;
+	    		$scope.othernamesEdit = item.othernames;
+	    		$scope.availabilityEdit = item.availability;
+	    		$scope.imageIdEdit = item.imageId;
+	    		$scope.isOfferCheckEdit = item.isOfferCheck;
 	    		
-	    		if($scope.itemDetails.isOfferCheck=='yes') $scope.showOfferTableEdit =true;
+	    		for(var i=0;i<item.amountprice.length;i++){
+	    			$scope.amountPriceRowEdit.push(item.amountprice[i]);
+	    		}
+	    		
+	    		
+	    		
+	    		if($scope.isOfferCheckEdit=='yes') $scope.showOfferTableEdit =true;
 	    		else $scope.showOfferTableEdit =false;
 	    		
 	    		var dialog = ngDialog.open({

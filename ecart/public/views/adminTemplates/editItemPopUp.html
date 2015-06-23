@@ -20,21 +20,21 @@
                   <div class="form-group">
                     <label for="itemName" class="col-lg-3 control-label">Item Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="itemName" placeholder="Item Name" ng-model="itemDetails.name">
+                      <input type="text" class="form-control" id="itemName" placeholder="Item Name" ng-model="itemNameEdit">
                     </div>
                   </div>
                   
                    <div class="form-group">
                     <label for="brand" class="col-lg-3 control-label">Brand</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="brand" placeholder="Brand" ng-model="itemDetails.brand">
+                      <input type="text" class="form-control" id="brand" placeholder="Brand" ng-model="brandEdit">
                     </div>
                   </div>
                   
                    <div class="form-group">
                     <label for="otherNames" class="col-lg-3 control-label">Other Names</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="otherNames" placeholder="Other Names" ng-model="itemDetails.othernames">
+                      <input type="text" class="form-control" id="otherNames" placeholder="Other Names" ng-model="othernamesEdit">
                     </div>
                   </div>
                   
@@ -43,13 +43,13 @@
 					<div class="col-lg-9">
 					  <div class="radio">
 						<label>
-						  <input type="radio" name="optionsRadios" id="optionsRadios1" value="yes" ng-model="itemDetails.availability">
+						  <input type="radio" name="optionsRadios" id="optionsRadios1" value="yes" ng-model="availabilityEdit">
 						  Available
 						</label>
 					  </div>
 					  <div class="radio">
 						<label>
-						  <input type="radio" name="optionsRadios" id="optionsRadios2" value="no" ng-model="itemDetails.availability">
+						  <input type="radio" name="optionsRadios" id="optionsRadios2" value="no" ng-model="availabilityEdit">
 						  Out of Stock
 						</label>
 					  </div>
@@ -61,7 +61,7 @@
 					<div class="container">
 						<div class="fileinput fileinput-new container" data-provides="fileinput">
 						<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 180px; height: 200px;">
-						  <img class="group list-group-image" ng-model="existingImg" src="temp_upload/{{itemDetails.imageId}}" alt="" />
+						  <img class="group list-group-image" ng-model="existingImg" src="temp_upload/{{imageIdEdit}}" alt="" />
 						</div>
 						
 						<div>
@@ -80,7 +80,7 @@
                   <div class="form-group">
                     <label for="description" class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-10">
-                      <textarea class="form-control" rows="3" id="description" ng-model="itemDetails.description"></textarea>
+                      <textarea class="form-control" rows="3" id="description" ng-model="descriptionEdit"></textarea>
                     </div>
                   </div>
 				</div>
@@ -91,13 +91,13 @@
 					<div class="col-lg-10">
 					  <div class="radio">
 						<label>
-						  <input type="radio" name="isOfferRadio" id="isOfferRadioId" value="yes" ng-model="itemDetails.isOfferCheck" ng-change='offerRadioChangeEdit(itemDetails.isOfferCheck)'>
+						  <input type="radio" name="isOfferRadio" id="isOfferRadioId" value="yes" ng-model="isOfferCheckEdit" ng-change='offerRadioChangeEdit(isOfferCheckEdit)'>
 						  Yes
 						</label>
 					  </div>
 					  <div class="radio">
 						<label>
-						  <input type="radio" name="isOfferRadio" id="isOfferRadioId" value="no" ng-model="itemDetails.isOfferCheck" ng-change='offerRadioChangeEdit(itemDetails.isOfferCheck)'>
+						  <input type="radio" name="isOfferRadio" id="isOfferRadioId" value="no" ng-model="isOfferCheckEdit" ng-change='offerRadioChangeEdit(isOfferCheckEdit)'>
 						  No
 						</label>
 					  </div>
