@@ -148,7 +148,8 @@
 							  	<td><input type="checkbox" ng-checked="row.OfferCheck" ng-model="row.OfferCheck"></td>
 							    <td><input class="form-control input-sm" type="text" ng-model="row.Amount"></td>
 								<td><input class="form-control input-sm" type="text" ng-model="row.Price"></td>
-								<td><input class="form-control input-sm" type="text" ng-model="row.OfferPrice" ng-disabled="!row.OfferCheck"></td>
+								<td ng-if="row.OfferCheck"><input class="form-control input-sm" type="text"  ng-model="row.OfferPrice" ng-disabled="!row.OfferCheck"></td>
+							    <td ng-if="!row.OfferCheck"><input class="form-control input-sm" type="text" ng-model="noOfferPrice" ng-disabled="!row.OfferCheck"></td>
 								<td><select class="form-control input-sm" ng-model="row.Availability"><option>Available</option><option>Not Available</option></select></td>
 								<td><button type="button" title="Remove this row" ng-click="deleteAmountPriceRowEdit($index)">X</button></td>
 							  </tr>

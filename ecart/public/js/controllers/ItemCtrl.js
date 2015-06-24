@@ -8,6 +8,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.searchItemVal=true;
 	$scope.amountPriceRow=[];
 	$scope.showOfferTable = false;
+	$scope.noOfferPrice="";
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
@@ -217,6 +218,29 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    };
 	    	
 	    $scope.editItem = function(item){
+	    	
+	    	var amountPriceRowEditFnl=[];
+	    	for(var i=0;$scope.amountPriceRowEdit.length;i++){
+	    		if($scope.amountPriceRowEdit[i].OfferCheck=='true'){
+	    			var obj = { "OfferCheck":item.amountPriceRowEdit[i].OfferCheck,
+	    						"Amount" : item.amountPriceRowEdit[i].Amount,
+	    						"Price" : item.amountPriceRowEdit[i].Price,
+	    						"OfferPrice":item.amountPriceRowEdit[i].OfferPrice,
+	    						"Availability" : item.amountPriceRowEdit[i].Availability };
+	    			amountPriceRowEditFnl.unshift(obj);
+	    			
+	    		}else{
+	    			var obj = { "OfferCheck":item.amountPriceRowEdit[i].OfferCheck,
+    						"Amount" : item.amountPriceRowEdit[i].Amount,
+    						"Price" : item.amountPriceRowEdit[i].Price,
+    						"Availability" : item.amountPriceRowEdit[i].Availability };
+	    			amountPriceRowEditFnl.push(obj);
+	    		}
+	    	}
+	    	
+	    	
+	    	
+	    	
 	    	 
 	    	if(typeof $scope.newImg=='undefined'){
 	    		
