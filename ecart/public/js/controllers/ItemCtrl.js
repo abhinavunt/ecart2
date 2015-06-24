@@ -275,20 +275,35 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    $scope.editItemOpenPopUp = function(item){
 	    	
 	    		$scope.amountPriceRowEdit = [];
-	    		
-	    		
 	    		$scope.itemNameEdit = item.name;
 	    		$scope.brandEdit = item.brand;
 	    		$scope.othernamesEdit = item.othernames;
 	    		$scope.availabilityEdit = item.availability;
+	    		$scope.descriptionEdit = item.description;
 	    		$scope.imageIdEdit = item.imageId;
 	    		$scope.isOfferCheckEdit = item.isOfferCheck;
 	    		
-	    		for(var i=0;i<item.amountprice.length;i++){
-	    			$scope.amountPriceRowEdit.push(item.amountprice[i]);
+	    		if($scope.isOfferCheckEdit){
+	    			
+	    			for(var i=0;i<item.amountprice.length;i++){
+		    			var amountpriceObj = { "OfferCheck":item.amountprice[i].OfferCheck,
+						    					"Amount" : item.amountprice[i].Amount,
+						    					"Price" : item.amountprice[i].Price,
+						    					"OfferPrice":item.amountprice[i].OfferPrice,
+						    					"Availability" : item.amountprice[i].Availability };
+		    		      $scope.amountPriceRowEdit.push(amountpriceObj);
+		    		}
+	    			
+	    		}else{
+	    			for(var i=0;i<item.amountprice.length;i++){
+	    				var amountpriceObj = { 
+		    					"Amount" : item.amountprice[i].Amount,
+		    					"Price" : item.amountprice[i].Price,
+		    					"Availability" : item.amountprice[i].Availability };
+		
+		    					$scope.amountPriceRowEdit.push(amountpriceObj);
+		    		}
 	    		}
-	    		
-	    		
 	    		
 	    		if($scope.isOfferCheckEdit=='yes') $scope.showOfferTableEdit =true;
 	    		else $scope.showOfferTableEdit =false;
