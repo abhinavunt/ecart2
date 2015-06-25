@@ -355,13 +355,20 @@
 		});
 		
 		// Search Latest Items
-		app.get('/item/getLatestItems', function(req, res) {
+		app.get('/item/getLatestAndOfferItems', function(req, res) {
 			
 			var db = req.db;
 			
-			db.collection('item').find({}).toArray(function (err, items) {
+			db.collection('item').find({isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).toArray(function (err, latestItems) {
 			   if(err) throw err;
-			   else res.json(items);
+			   else{
+				   db.collection('item').find({isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).toArray(function (err, offerItems) {
+					  if(err) throw err;
+					  else res.json({"latestItems":latestItems,"offerItems":offerItems});
+				   });
+				   
+				   
+			   }
 		    });
 		});
 		
@@ -418,6 +425,7 @@
 					categoryZeroId : ObjectID(req.body.categoryZeroId),
   	    			categoryOneId : ObjectID(req.body.categoryOneId),
   	    			categoryTwoId : ObjectID(req.body.categoryTwoId),
+  	    			createdAt : new Date(),
 					name : req.body.name,
 					brand : req.body.brand,
 					othernames : req.body.othernames,
