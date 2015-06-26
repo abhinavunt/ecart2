@@ -457,8 +457,9 @@
 					othernames : req.body.othernames,
 					description : req.body.description,
 					availability : req.body.availability,
+					isOfferCheck: req.body.isOfferCheck,
 					imageId : req.body.imageId,
-					amountprice : amtPriceObj
+					amountprice : amtPriceObj,
 			};
 			
 			//edit record

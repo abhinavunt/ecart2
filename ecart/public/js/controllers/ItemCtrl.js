@@ -133,6 +133,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		$scope.offerRadioChangeEdit = function(value){
 			if(value=='yes') {
 				$scope.showOfferTableEdit =true;
+				$scope.isOfferCheckEdit =value;
 				if($scope.amountPriceRowEdit.length!=0){
 					for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
 						$scope.amountPriceRowEdit[i]["OfferCheck"] = true;
@@ -143,6 +144,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			else{
 				
 				$scope.showOfferTableEdit = false;
+				$scope.isOfferCheckEdit =value;
 				if($scope.amountPriceRowEdit.length!=0){
 					for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
 						delete $scope.amountPriceRowEdit[i]["OfferCheck"];
@@ -217,56 +219,61 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	          });
 	    };
 	    	
-	    $scope.editItem = function(item){
+	    $scope.editItem = function(itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit, descriptionEdit, isOfferCheckEdit){
 	    	
-	    	var amountPriceRowEditFnl=[];
-	    	for(var i=0;$scope.amountPriceRowEdit.length;i++){
-	    		if($scope.amountPriceRowEdit[i].OfferCheck=='true'){
-	    			var obj = { "OfferCheck":item.amountPriceRowEdit[i].OfferCheck,
-	    						"Amount" : item.amountPriceRowEdit[i].Amount,
-	    						"Price" : item.amountPriceRowEdit[i].Price,
-	    						"OfferPrice":item.amountPriceRowEdit[i].OfferPrice,
-	    						"Availability" : item.amountPriceRowEdit[i].Availability };
-	    			amountPriceRowEditFnl.unshift(obj);
-	    			
-	    		}else{
-	    			var obj = { "OfferCheck":item.amountPriceRowEdit[i].OfferCheck,
-    						"Amount" : item.amountPriceRowEdit[i].Amount,
-    						"Price" : item.amountPriceRowEdit[i].Price,
-    						"Availability" : item.amountPriceRowEdit[i].Availability };
-	    			amountPriceRowEditFnl.push(obj);
-	    		}
-	    	}
+	    	$scope.amountPriceRowEditFnl=[];
+	    	if($scope.isOfferCheckEdit=='yes'){
+	    		for(var i=0; i<$scope.amountPriceRowEdit.length; i++){
+		    		if($scope.amountPriceRowEdit[i].OfferCheck==true){
+		    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
+		    						"Amount" : $scope.amountPriceRowEdit[i].Amount,
+		    						"Price" : $scope.amountPriceRowEdit[i].Price,
+		    						"OfferPrice":$scope.amountPriceRowEdit[i].OfferPrice,
+		    						"Availability" : $scope.amountPriceRowEdit[i].Availability };
+		    			$scope.amountPriceRowEditFnl.unshift(obj);
+		    			
+		    		}else{
+		    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
+	    						"Amount" : $scope.amountPriceRowEdit[i].Amount,
+	    						"Price" : $scope.amountPriceRowEdit[i].Price,
+	    						"Availability" : $scope.amountPriceRowEdit[i].Availability };
+		    			$scope.amountPriceRowEditFnl.push(obj);
+		    		}
+		    	}
+	    	}else $scope.amountPriceRowEditFnl = $scope.amountPriceRowEdit;
+	    		 
 	    	
 	    	
-	    	
-	    	
-	    	 
 	    	if(typeof $scope.newImg=='undefined'){
-	    		
+	    	
 	    	 var item ={
-	    			 	itemId:item._id,
+	    			 	itemId:$scope.selectedRowItemId,
 	    			 	categoryZeroId:$scope.menuLevelZeroId,
 	  	    			categoryOneId:$scope.menuLevelOneId,
 	  	    			categoryTwoId:$scope.menuLevelTwoId,
-	  	    			name:$scope.itemDetails.name,
-	  	    			brand:$scope.itemDetails.brand,
-	  	    			othernames:$scope.itemDetails.othernames,
-	  	    			description:$scope.itemDetails.description,
-	  	    			availability:$scope.itemDetails.availability,
-	  	    			amountprice:$('#amtPriceTableId').tableToJSON(),
-	  	    			imageId:item.imageId
-		  	    		};
+	  	    			name:itemNameEdit,
+	  	    			brand:brandEdit,
+	  	    			othernames:othernamesEdit,
+	  	    			description:descriptionEdit,
+	  	    			availability:availabilityEdit,
+	  	    			isOfferCheck:isOfferCheckEdit,
+	  	    			amountprice:$scope.amountPriceRowEditFnl,
+	  	    			imageId:imageIdEdit
+		  	    	};
 	    	 
-	    		
-	    	  $http({
+	    	 $http({
 		  	            url: '/item/editItem',
 		  	            method: "POST",
-		  	            data: JSON.stringify(item),
+		  	            data: angular.toJson(item),
 		  	            headers: {'Content-Type': 'application/json'}
 		  	          }).success(function (data, status, headers, config,imageName) {
+		  	        	for(var i=0; i<$scope.itemList.length; i++){
+		  	        		if($scope.itemList[i]._id==$scope.selectedRowItemId){
+		  	        			$scope.itemList[i] =item; 
+		  	        		}
+		  	        	}
 		  	        	$scope.submitButtonValEdit=true;
-		  	        	$scope.closeThisDialog();
+		  	        	ngDialog.close();
 		  	          }).error(function (data, status, headers, config) {
 		  	              
 		  	          });
@@ -276,18 +283,24 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	}
 	    };
 	    
-	    $scope.removeItem = function(item){
+	    $scope.removeItem = function(){
 	    	$http({
 	  	            url: '/item/removeItem',
 	  	            method: "POST",
-	  	            data: {itemId:item._id,imageId:item.imageId},
+	  	            data: {itemId:$scope.selectedRowItemId,imageId:$scope.imageIdEdit},
 	  	            headers: {'Content-Type': 'application/json'}
 	  	          }).success(function (data, status, headers, config,imageName) {
 		  	        	$scope.removeButtonValEdit=true;
-		  	        	$scope.closeThisDialog();
-		  	        	var index=$scope.itemList.indexOf(item);
+		  	        	ngDialog.close();
+		  	        	var index;
+		  	        	for(var i=0;i<$scope.itemList.length;i++){
+		  	        		if($scope.itemList[i]._id==$scope.selectedRowItemId){
+		  	        			index = $scope.itemList.indexOf($scope.itemList[i]);
+		  	        			break;
+		  	        		}
+		  	        	}
 		  	        	$scope.itemList.splice(index,1);
-	  	          }).error(function (data, status, headers, config) {
+		  	      }).error(function (data, status, headers, config) {
 	  	        	alert("Failed : Item could not be removed !!!");
 	  	          });
 	    };
@@ -306,6 +319,8 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		$scope.descriptionEdit = item.description;
 	    		$scope.imageIdEdit = item.imageId;
 	    		$scope.isOfferCheckEdit = item.isOfferCheck;
+	    		$scope.selectedRowItemId = item._id;
+	    		$scope.submitButtonValEdit=false;
 	    		
 	    		if($scope.isOfferCheckEdit){
 	    			
