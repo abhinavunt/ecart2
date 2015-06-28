@@ -266,7 +266,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	            headers: {'Content-Type': 'application/json'}
 		  	          }).success(function (data, status, headers, config,imageName) {
 		  	        	for(var i=0; i<$scope.itemList.length; i++){
-		  	        		if($scope.itemList[i]._id==$scope.selectedRowItemId){
+		  	        		if($scope.itemList[i]._id==editItemRowId){
 		  	        			$scope.itemList[i] =item; 
 		  	        		}
 		  	        	}
