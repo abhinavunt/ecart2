@@ -439,8 +439,8 @@
 			//insert record
 			db.collection('item').insert(itemInfo, function(err, records) {
 				if (err) throw err;
-				console.log("Record added as "+records[0]._id);
-				res.json(records[0]._id);
+				console.log("Record added as "+records[0]);
+				res.json({"item":records[0]});
 			});
 		});
 		
@@ -448,6 +448,7 @@
 		app.post('/item/editItem', function(req, res) {
 			
 			var db = req.db;
+			var fs = req.fs;
 			var mongo = req.mongo;
 			var amtPriceObj = req.body.amountprice;
 			var ObjectID = mongo.ObjectID;
@@ -471,9 +472,19 @@
 			};
 			
 			//edit record
+			console.log(req.body.itemId);
 			db.collection('item').update({_id: ObjectID(req.body.itemId)},itemInfo, function(err) {
 				if (err) throw err;
-				else res.json({"out":"sucess"});
+				else {
+					if(req.body.oldImageId=="NoOldImage"){
+						res.json({"out":"sucess"});
+					}else{
+						var filePath = 'public/temp_upload/'+req.body.oldImageId;
+						fs.unlinkSync(filePath);
+						res.json({"out":"sucess"});
+					}
+					
+				}
 			});
 		});
 		
@@ -481,12 +492,15 @@
 		app.post('/item/removeItem', function(req, res) {
 			
 			var db = req.db;
-			//console.log(req.body.itemId);
-			/*var id ={_id: toObjectID(req.body.itemId)};
-			console.log(id);*/
+			var fs = req.fs;
+			
 			db.collection('item').removeById(req.body.itemId,function(err,records) {
 				if(err) throw err;
-		      else res.json({"out":"removed"});
+		      else {
+		    	  var filePath = 'public/temp_upload/'+req.body.imageId;
+				  fs.unlinkSync(filePath);
+		    	  res.json({"out":"removed"});
+		      }
 		   });
 		});
 		

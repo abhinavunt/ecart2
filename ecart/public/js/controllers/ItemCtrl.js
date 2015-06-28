@@ -178,7 +178,6 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			
 	    	
 	    	var file = $scope.itemImage;
-	    	
 	    	$scope.upload = $upload.upload({
 	    		url: '/item/addImage',
                 method: 'POST',                 
@@ -209,8 +208,8 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	            data: angular.toJson(item),
 	  	            headers: {'Content-Type': 'application/json'}
 	  	       }).success(function (data, status, headers, config,imageName) {
-	  	    	    $scope.itemList.unshift(item);
-	  	        	$scope.submitButtonVal=true;
+	  	    	   	$scope.itemList.unshift(data.item);
+	  	    	    $scope.submitButtonVal=true;
 	  	        	$scope.closeThisDialog();
 	  	       }).error(function (data, status, headers, config) {
 	  	              
@@ -219,7 +218,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	          });
 	    };
 	    	
-	    $scope.editItem = function(itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit, descriptionEdit, isOfferCheckEdit){
+	    $scope.editItem = function(editItemRowId, itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit){
 	    	
 	    	$scope.amountPriceRowEditFnl=[];
 	    	if($scope.isOfferCheckEdit=='yes'){
@@ -242,12 +241,10 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		    	}
 	    	}else $scope.amountPriceRowEditFnl = $scope.amountPriceRowEdit;
 	    		 
-	    	
-	    	
-	    	if(typeof $scope.newImg=='undefined'){
+	    	if(typeof newImg=='undefined'){
 	    	
 	    	 var item ={
-	    			 	itemId:$scope.selectedRowItemId,
+	    			 	itemId:editItemRowId,
 	    			 	categoryZeroId:$scope.menuLevelZeroId,
 	  	    			categoryOneId:$scope.menuLevelOneId,
 	  	    			categoryTwoId:$scope.menuLevelTwoId,
@@ -258,7 +255,8 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	  	    			availability:availabilityEdit,
 	  	    			isOfferCheck:isOfferCheckEdit,
 	  	    			amountprice:$scope.amountPriceRowEditFnl,
-	  	    			imageId:imageIdEdit
+	  	    			imageId:imageIdEdit,
+	  	    			oldImageId:"NoOldImage"
 		  	    	};
 	    	 
 	    	 $http({
@@ -280,6 +278,49 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		
 	    	}else{
 	    		
+	    			$scope.upload = $upload.upload({
+		    		url: '/item/addImage',
+	                method: 'POST',                 
+	                file: newImg
+	              }).progress(function(evt) {
+		            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		          }).success(function(data, status, headers, config) {
+		        	 
+		        	  var item ={
+			    			 	itemId:editItemRowId,
+			    			 	categoryZeroId:$scope.menuLevelZeroId,
+			  	    			categoryOneId:$scope.menuLevelOneId,
+			  	    			categoryTwoId:$scope.menuLevelTwoId,
+			  	    			name:itemNameEdit,
+			  	    			brand:brandEdit,
+			  	    			othernames:othernamesEdit,
+			  	    			description:descriptionEdit,
+			  	    			availability:availabilityEdit,
+			  	    			isOfferCheck:isOfferCheckEdit,
+			  	    			amountprice:$scope.amountPriceRowEditFnl,
+			  	    			imageId:data.ImgId,
+			  	    			oldImageId:imageIdEdit
+				  	    	};
+			    	
+		        	 //alert(angular.toJson(item)); 
+			    	 $http({
+				  	            url: '/item/editItem',
+				  	            method: "POST",
+				  	            data: angular.toJson(item),
+				  	            headers: {'Content-Type': 'application/json'}
+				  	          }).success(function (data, status, headers, config,imageName) {
+				  	        	for(var i=0; i<$scope.itemList.length; i++){
+				  	        		if($scope.itemList[i]._id==editItemRowId){
+				  	        			$scope.itemList[i] =item; 
+				  	        		}
+				  	        	}
+				  	        	$scope.submitButtonValEdit=true;
+				  	        	ngDialog.close();
+				  	          }).error(function (data, status, headers, config) {
+				  	              
+				  	          });
+		        	  
+		          });
 	    	}
 	    };
 	    
@@ -319,8 +360,9 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		$scope.descriptionEdit = item.description;
 	    		$scope.imageIdEdit = item.imageId;
 	    		$scope.isOfferCheckEdit = item.isOfferCheck;
-	    		$scope.selectedRowItemId = item._id;
+	    		$scope.editItemRowId = item._id;
 	    		$scope.submitButtonValEdit=false;
+	    		$scope.removeButtonValEdit=false;
 	    		
 	    		if($scope.isOfferCheckEdit){
 	    			
