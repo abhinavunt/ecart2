@@ -1,10 +1,30 @@
-E cart Task
+Admin section:
 
-Item Section Admin Page
+	Order Portal:
+		1. Implement different colors for order rows based on their status ("Order Placed","In Process", "Delivered")
+		2. Implement incremental Integer Order Id.
+		3. Print option functionality for order Pop-up.
+		
+	
+	Item:
+		1. Implement Item Search
+		2. Add/Edit Item validation.
+		3. Add warning message before removing Item
+		4.
+	
+	Menu:
+	
+	User:
+		1. Edit User functionality 
+		
+	
+	Feedback:
+		1. Implement Feedback table
+	
+	Customize Info:
+	
+	Business Chart:
 
-1. Edit Item Functionality at Admin section
-2. Image cropping Functionality
-3. Out of stock functionality and related CSS changes on Item's image
-4. Item "Not available" implementation and disable that item in item image
-5. Validation for all input types in add item section (Ex Price should be a positive number )
-6. Enable item search on above admin item table 
+
+
+User section:
