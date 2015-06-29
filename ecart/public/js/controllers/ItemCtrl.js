@@ -79,7 +79,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	$scope.menuLevelTwoId = menuObj._id;
 	        $scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
-	    	
+	    	$scope.keyword="";
 	    	
 	    	
 	    	$http({
@@ -446,6 +446,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		$scope.searchItemByKeyword = function(keyWord){
 			
 			$scope.disableCriteriaSelect=true;
+			$scope.addItemButtonVal = true;
 			$scope.itemList = [];
 			if(!(keyWord.replace(/\s/g,"")==""|| typeof(keyWord)=='undefined')){
 					
