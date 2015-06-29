@@ -5,17 +5,16 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.submitButtonValEdit=false;
 	$scope.removeButtonValEdit=false;
 	$scope.addItemButtonVal=true;
-	$scope.searchItemVal=true;
 	$scope.amountPriceRow=[];
 	$scope.showOfferTable = false;
+	$scope.disableCriteriaSelect=true;
 	$scope.noOfferPrice="";
+	$scope.searchCriteriaList=[{"criteria":"Show All"},{"criteria":"Only Offers"},{"criteria":"Only Items"}];
+	$scope.showItemList=[{"itemPerPage":"10 Items/Page"},{"itemPerPage":"20 Items/Page"},{"itemPerPage":"30 Items/Page"}]
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
-		
-		$.each(data, function(){
 			$scope.menulist = data;
-		 });
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
@@ -80,22 +79,20 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	$scope.menuLevelTwoId = menuObj._id;
 	        $scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
-	    	$scope.addItemButtonVal=false;
-	    	$scope.searchItemVal=false;
+	    	
+	    	
 	    	
 	    	$http({
 	    	    url: '/item/searchItems', 
 	    	    method: "GET",
 	    	    params: {category: $scope.menuLevelTwoId}
 	    	 }).success(function(data) {
-	    		 if(data.length==0){
-	    			 $scope.itemList = [];
-	    		}else{
-    			 $.each(data, function(){
-						$scope.itemList = data;
-				 });
-	    		}
 	    		 
+	    		 if(data.length==0) $scope.itemList = [];
+	    		 else $scope.itemList = data;
+	    		 $scope.disableCriteriaSelect=false;
+    			 $scope.addItemButtonVal=false; 
+    			 
 	    	}).error(function(data) {
 	    		 console.log('Error: ' + data);
 			});
@@ -364,6 +361,8 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		$scope.submitButtonValEdit=false;
 	    		$scope.removeButtonValEdit=false;
 	    		
+	    		getCategory2(item._id);
+	    		
 	    		if($scope.isOfferCheckEdit){
 	    			
 	    			for(var i=0;i<item.amountprice.length;i++){
@@ -396,6 +395,39 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	    });
 	    }
 	    
+	    var getCategory2 = function(itemId){
+	    	$scope.itemList.forEach(function(itemListObj){
+	    		if(itemListObj._id==itemId){
+	    			var catZeroId = itemListObj.categoryZeroId;
+	    			var catOneId = itemListObj.categoryOneId;
+	    			var catTwoId = itemListObj.categoryTwoId;
+	    			
+	    			var catZeroName ="";
+	    			var catOneName ="";
+	    			var catTwoName ="";
+	    			
+	    			$scope.menulist.forEach(function(menuListObj){
+	    				if(menuListObj._id==catZeroId){
+	    					catZeroName = menuListObj.name;
+	    					
+	    					menuListObj.sub.forEach(function(subMenuListObj){
+	    						if(subMenuListObj._id==catOneId){
+	    							catOneName = subMenuListObj.name;
+	    							
+	    							subMenuListObj.supersub.forEach(function(superSubMenuListObj){
+	    								if(superSubMenuListObj._id==catTwoId){
+	    									catTwoName = superSubMenuListObj.name;
+	    									$scope.category2 = catZeroName+' > '+catOneName+' > '+catTwoName;
+	    								}
+	    							})
+	    						}
+	    					})
+	    				}
+	    			})
+	    		}	
+	    	})
+	    }
+	    
 	    $scope.addAmountPriceRowEdit = function() {
 			 if($scope.showOfferTableEdit){
 				 var newRow = { "OfferCheck":true,"Amount" : "","Price" : "","OfferPrice":"","Availability" : "Available"};
@@ -410,6 +442,28 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			
 			$scope.amountPriceRowEdit.splice(index,1);
 		};
+		
+		$scope.searchItemByKeyword = function(keyWord){
+			
+			$scope.disableCriteriaSelect=true;
+			$scope.itemList = [];
+			if(!(keyWord.replace(/\s/g,"")==""|| typeof(keyWord)=='undefined')){
+					
+					$http({
+	                   url: '/item/liveSearch',
+	                   method: "POST",
+	                   data: {keyWord:keyWord},
+	                   headers: {'Content-Type': 'application/json'}
+	                 }).success(function (data, status, headers, config) {
+	                      if(data.length==0) $scope.itemList = [];
+	                      else $scope.itemList = data;
+	                      $scope.category="";
+	                 }).error(function (data, status, headers, config) {
+	               
+	                 });
+	               
+           }
+		}
 	
 
 });

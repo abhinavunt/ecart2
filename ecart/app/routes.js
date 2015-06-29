@@ -660,7 +660,7 @@
 		// live item search
 		app.post('/item/liveSearch', function(req, res) {
 			var db = req.db;
-			var query = {$or:[{ name: new RegExp(req.body.keyWord,'i')},{othernames : new RegExp(req.body.keyWord,'i')}]};
+			var query = {$or:[{ name: new RegExp(req.body.keyWord,'i')},{othernames : new RegExp(req.body.keyWord,'i')},{brand : new RegExp(req.body.keyWord,'i')}]};
 			  
 			db.collection('item').find(query).toArray(function (err, items) {
 		        res.json(items);

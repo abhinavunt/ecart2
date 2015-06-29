@@ -1,7 +1,7 @@
 <div ng-controller="ItemController">
 	
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-2">
 			<div class="btn" >
             <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="">
                 Select Menu <span class="caret"></span>
@@ -24,46 +24,42 @@
               </li>
             </ul>
             </div>
-            
-       <!-- <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
-                Dropdown <span class="caret"></span>
-            </a>
-    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-              <li><a href="#">Some action</a></li>
-              <li><a href="#">Some other action</a></li>
-              <li class="divider"></li>
-              <li class="dropdown-submenu">
-                <a tabindex="-1" href="#">Hover me for more options</a>
-                <ul class="dropdown-menu">
-                  <li><a tabindex="-1" href="#">Second level</a></li>
-                  <li class="dropdown-submenu">
-                    <a href="#">Even More..</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">3rd level</a></li>
-                    	<li><a href="#">3rd level</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">Second level</a></li>
-                  <li><a href="#">Second level</a></li>
-                </ul>
-              </li>
-            </ul> -->
-		</div>
+        </div>
 		
 		<div class="col-lg-4">
-		  <div class="col-lg-12" style="margin-top: 10px;">
-				<div id="banner" >
-					<div class="row">
-						<input type="text" class="form-control col-lg-8" placeholder="Item Search" ng-disabled="searchItemVal">
-					</div>
-          
+		  <div style="margin-top: 10px;">
+				<div class="input-group input-group-md">
+				  <input type="text" class="form-control" placeholder="Global Item Search" ng-model="keyword">
+				  <span class="input-group-addon" ng-click="searchItemByKeyword(keyword)">Search</span>
 				</div>
 			</div>
+		
 		</div>
 		
+		<div class="col-lg-2">
+			<div style="margin-top: 10px;" >
+				<select class="form-control input-md" 
+					ng-init="searchCriteria=searchCriteriaList[0]"
+	                ng-model="searchCriteria"
+	                ng-disabled="disableCriteriaSelect"
+	                ng-options="searchCriteriaListObj.criteria for searchCriteriaListObj in searchCriteriaList"
+	                ng-change="selectedSearchCriteria(searchCriteria)">
+	        	</select>
+        	</div>	
+		</div>
 		
+		<div class="col-lg-2">
+			<div style="margin-top: 10px;">
+				<select class="form-control input-md" 
+					ng-init="showCriteria=showItemList[0]"
+	                ng-model="showCriteria"
+	                ng-options="showItemListObj.itemPerPage for showItemListObj in showItemList"
+	                ng-change="selectedSearchCriteria(searchCriteria)">
+	        	</select>
+        	</div>
+		</div>
 		
-		<div class="col-lg-4">
+		<div class="col-lg-2">
 			<a href="" class="btn btn-primary btn-success pull-right" style="margin-top: 10px;" ng-disabled="addItemButtonVal" ng-click="clickToOpen();">Add Item</a>
 		</div>
        
