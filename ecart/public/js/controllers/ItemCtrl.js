@@ -264,7 +264,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	          }).success(function (data, status, headers, config,imageName) {
 		  	        	for(var i=0; i<$scope.itemList.length; i++){
 		  	        		if($scope.itemList[i]._id==editItemRowId){
-		  	        			$scope.itemList[i] =item; 
+		  	        			$scope.itemList[i] =data.itemObj; 
 		  	        		}
 		  	        	}
 		  	        	$scope.submitButtonValEdit=true;
@@ -308,7 +308,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 				  	          }).success(function (data, status, headers, config,imageName) {
 				  	        	for(var i=0; i<$scope.itemList.length; i++){
 				  	        		if($scope.itemList[i]._id==editItemRowId){
-				  	        			$scope.itemList[i] =item; 
+				  	        			$scope.itemList[i] =data.itemObj; 
 				  	        		}
 				  	        	}
 				  	        	$scope.submitButtonValEdit=true;
@@ -396,37 +396,35 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    }
 	    
 	    var getCategory2 = function(itemId){
-	    	$scope.itemList.forEach(function(itemListObj){
-	    		if(itemListObj._id==itemId){
-	    			var catZeroId = itemListObj.categoryZeroId;
-	    			var catOneId = itemListObj.categoryOneId;
-	    			var catTwoId = itemListObj.categoryTwoId;
+			for(var i=0;i<$scope.itemList.length;i++){
+				if($scope.itemList[i]._id==itemId){
+	    			var catZeroId = $scope.itemList[i].categoryZeroId;
+	    			var catOneId = $scope.itemList[i].categoryOneId;
+	    			var catTwoId = $scope.itemList[i].categoryTwoId;
 	    			
 	    			var catZeroName ="";
 	    			var catOneName ="";
 	    			var catTwoName ="";
-	    			
-	    			$scope.menulist.forEach(function(menuListObj){
-	    				if(menuListObj._id==catZeroId){
-	    					catZeroName = menuListObj.name;
-	    					
-	    					menuListObj.sub.forEach(function(subMenuListObj){
-	    						if(subMenuListObj._id==catOneId){
-	    							catOneName = subMenuListObj.name;
-	    							
-	    							subMenuListObj.supersub.forEach(function(superSubMenuListObj){
-	    								if(superSubMenuListObj._id==catTwoId){
-	    									catTwoName = superSubMenuListObj.name;
+	    			for(var j=0;j<$scope.menulist.length;j++){
+						if($scope.menulist[j]._id==catZeroId){
+	    					catZeroName = $scope.menulist[j].name;
+	    					for(var k=0;k<$scope.menulist[j].sub.length;k++){
+	    						if($scope.menulist[j].sub[k]._id==catOneId){
+	    							catOneName = $scope.menulist[j].sub[k].name;
+	    							for(var l=0;l<$scope.menulist[j].sub[k].supersub.length;l++){
+	    								if($scope.menulist[j].sub[k].supersub[l]._id==catTwoId){
+	    									catTwoName = $scope.menulist[j].sub[k].supersub[l].name;
 	    									$scope.category2 = catZeroName+' > '+catOneName+' > '+catTwoName;
+											break;
+	    									}
 	    								}
-	    							})
+	    							}
 	    						}
-	    					})
+	    					}
 	    				}
-	    			})
-	    		}	
-	    	})
-	    }
+	    			}	
+	    		}
+	    	}
 	    
 	    $scope.addAmountPriceRowEdit = function() {
 			 if($scope.showOfferTableEdit){

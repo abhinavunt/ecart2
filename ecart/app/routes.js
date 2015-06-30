@@ -477,11 +477,13 @@
 				if (err) throw err;
 				else {
 					if(req.body.oldImageId=="NoOldImage"){
-						res.json({"out":"sucess"});
+						itemInfo["_id"] = req.body.itemId;
+						res.json({"itemObj":itemInfo});
 					}else{
 						var filePath = 'public/temp_upload/'+req.body.oldImageId;
 						fs.unlinkSync(filePath);
-						res.json({"out":"sucess"});
+						itemInfo["_id"] = req.body.itemId;
+						res.json({"itemObj":itemInfo});
 					}
 					
 				}
