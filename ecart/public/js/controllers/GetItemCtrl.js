@@ -16,7 +16,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	//Search Items
 		   		   $scope.categoryTwoId = category;
 		   		   $http({
-                      url: '/item/searchItems',
+                      url: '/item/searchItemsDisplay',
                       method: "GET",
                       params: {category: category}
                    }).success(function(data) {

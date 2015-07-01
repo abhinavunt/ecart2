@@ -449,6 +449,19 @@
 				    }
 		});
 		
+	    app.get('/item/searchItemsDisplay', function(req, res) {
+			
+		    var db = req.db;
+		    var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			var searchMenuId = req.param("category");
+			
+			db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)}).toArray(function (err, items) {
+				res.json(items);
+			});
+		});
+		
 		// Search Latest Items
 		app.get('/item/getLatestAndOfferItems', function(req, res) {
 			
