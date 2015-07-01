@@ -9,8 +9,16 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.showOfferTable = false;
 	$scope.disableCriteriaSelect=true;
 	$scope.noOfferPrice="";
-	$scope.searchCriteriaList=[{"criteria":"Show All"},{"criteria":"Only Offers"},{"criteria":"Only Items"}];
-	$scope.showItemList=[{"itemPerPage":"10 Items/Page"},{"itemPerPage":"20 Items/Page"},{"itemPerPage":"30 Items/Page"}]
+	$scope.searchCriteriaList=[{"criteria":"Show All","value":1},{"criteria":"Only Offers","value":2},{"criteria":"Only Items","value":3}];
+	$scope.showItemList=[{"itemPerPage":"10 Items/Page","value":10},{"itemPerPage":"20 Items/Page","value":20},{"itemPerPage":"30 Items/Page","value":30}]
+	$scope.hideToFrom=true;
+	$scope.disablePrevButton=true;
+	$scope.disableNextButton=true;
+	
+	$scope.firstOrderDate ="notAssigned";
+	$scope.lastOrderDate ="notAssigned";
+	$scope.itemPerPage = $scope.showItemList[0].value;
+	$scope.criteriaType = $scope.searchCriteriaList[0].value;
 	
 	$http.get('/menu/menulist')
 	.success(function(data) {
@@ -72,8 +80,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    
 		
 	    
-	    $scope.searchItems = function(menuObj){
-	    	
+	    $scope.searchItems = function(menuObj,firstOrderDate,lastOrderDate,itemPerPage,criteriaType){
 	    	
 	    	$scope.menuLevelTwoName = menuObj.name;
 	    	$scope.menuLevelTwoId = menuObj._id;
@@ -85,14 +92,42 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	$http({
 	    	    url: '/item/searchItems', 
 	    	    method: "GET",
-	    	    params: {category: $scope.menuLevelTwoId}
+	    	    params: {searchMenuId: $scope.menuLevelTwoId, firstDate: firstOrderDate, lastDate: lastOrderDate, limit:itemPerPage, searchCriteriaVal:criteriaType}
 	    	 }).success(function(data) {
 	    		 
-	    		 if(data.length==0) $scope.itemList = [];
-	    		 else $scope.itemList = data;
+	    		 
+	    		 if(data.items.length==0) $scope.itemList = [];
+	    		 else $scope.itemList = data.items;
 	    		 $scope.disableCriteriaSelect=false;
-    			 $scope.addItemButtonVal=false; 
-    			 
+    			 $scope.addItemButtonVal=false;
+	    		 
+	        	 if(data.items.length==0){
+	        		 $scope.noDataFound=true;
+	        	 }else{
+	        		 $scope.totalRecords = data.totalRecords; 
+	            	 if(data.items.length>0 && data.items.length<=itemPerPage){
+	            		 $scope.fromOrderNo = 1;
+	            		 $scope.toOrderNo = data.items.length;
+	            		 $scope.hideToFrom=false;
+	            	 }else if(data.items.length>0 && data.items.length>itemPerPage){
+	            		 $scope.fromOrderNo = 1;
+	            		 $scope.toOrderNo = itemPerPage;
+	            		 $scope.hideToFrom=false;
+	            	 }else if(data.items.length==0){
+	            		 $scope.hideToFrom=true;
+	            	 }
+	            	 
+	            	 if($scope.totalRecords>$scope.fromOrderNo+(itemPerPage-1)) $scope.disableNextButton =false;
+	            	 else $scope.disableNextButton =true; 
+	            	 
+	            	 $scope.disablePrevButton =true;
+	            	 
+	            	 $scope.firstOrderDate = data.items[0].createdAt;
+	            	 $scope.lastOrderDate = data.items[data.items.length-1].createdAt;
+	            	 $scope.noDataFound=false;
+	        	 }
+	        	 
+	        	 
 	    	}).error(function(data) {
 	    		 console.log('Error: ' + data);
 			});
@@ -464,6 +499,12 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	                 });
 	               
            }
+		}
+		
+		$scope.searchItemsFn = function(menuObj){
+			
+			 $scope.searchItems(menuObj,$scope.firstOrderDate,$scope.lastOrderDate,$scope.itemPerPage,$scope.criteriaType);
+			
 		}
 	
 

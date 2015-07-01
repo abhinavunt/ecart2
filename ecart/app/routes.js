@@ -341,17 +341,112 @@
 		 });
 		
 		
-		// Search Items
+		// getting order list
 		app.get('/item/searchItems', function(req, res) {
 			
-			var category = req.param("category");
-			var db = req.db;
-			var mongo = req.mongo;
-			var ObjectID = mongo.ObjectID;
-			
-			db.collection('item').find({categoryTwoId: ObjectID(category)}).toArray(function (err, items) {
-		       res.json(items);
-		    });
+			    var db = req.db;
+			    var mongo = req.mongo;
+				var ObjectID = mongo.ObjectID;
+			    var limitVal = parseInt(req.param("limit"));
+			    var firstDateVal = req.param("firstDate");
+			    var lastDateVal = req.param("lastDate");
+			    var searchCriteriaVal = req.param("searchCriteriaVal");
+				var searchMenuId = req.param("searchMenuId");
+				var totalRecords;
+			    
+				//search for All Items
+			    if(searchCriteriaVal==1){
+			    	
+			    	if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+				    	db.collection('item').count({categoryTwoId: ObjectID(searchMenuId)},function (err, count){
+					    	if (err) throw err;
+					    	else{
+					    		 totalRecords = count;
+					    		 console.log(limitVal);
+					    		 
+					    		 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
+					    			 console.log(limitVal);
+					    			 console.log(items.length);
+								    res.json({items:items,totalRecords:totalRecords});
+								 });
+					    	}
+					    });
+				     }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+				    	// for getting Next data
+				    	
+				    	db.collection('order').find({date:{"$gte":firstDate, "$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+					        res.json({items:items});
+				    	});
+				    	
+				     }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+				    	// for getting Previous data
+				    	 db.collection('order').find({date:{"$gt":new Date(firstDateVal),"$lt":lastDate}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+					    		items.reverse();   
+					    		res.json({items:items});
+					     });
+				     }
+			    	
+				    }else if(searchCriteriaVal==2){
+						//search for only Offer
+				    	var query = {$or:[{fullName: new RegExp(req.param("keyword"),'i')},{mobileNo : new RegExp(req.param("keyword"),'i')}]};
+				    	if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+				    		db.collection('order').count(query,function (err, count){
+						    	if (err) throw err;
+						    	else{
+						    		 totalRecords = count;
+						    		 db.collection('order').find(query,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+									    res.json({items:items,totalRecords:totalRecords});
+									 });
+						    	}
+						    });
+				    	}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+				    		var queryNext = {$and:[query,{date:{"$lt":new Date(lastDateVal)}}]};
+				    		db.collection('order').find(queryNext,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+						       res.json({items:items});
+					    	});
+				    		
+				    		
+				    	}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+				    		var queryPrev = {$and:[query,{date:{"$gt":new Date(firstDateVal)}}]};
+				    		db.collection('order').find(queryPrev,{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+				    			items.reverse();
+				    			res.json({items:items});
+					    	});
+				    	}
+				    	
+				    	
+				    	
+				    }else if(searchCriteriaVal==3){
+					    //search for only Items
+				    	var d = new Date();
+					    d.setDate(d.getDate()-(searchCriteriaVal-1));
+					    
+					    if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+					    	db.collection('order').count({date:{$gte: d}},function (err, count){
+						    	if (err) throw err;
+						    	else{
+						    		 totalRecords = count;
+						    		 db.collection('order').find({date:{$gte: d}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+									        res.json({items:items,totalRecords:totalRecords});
+									 });
+						    	}
+						    });
+					    	
+					    }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+					    	// for getting Next data
+					    	
+					    	db.collection('order').find({date:{"$gte":d, "$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+						        res.json({items:items});
+					    	});
+					    	
+					    }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+					    	// for getting Previous data
+					    	db.collection('order').find({date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
+					    		items.reverse();   
+					    		res.json({items:items});
+					    	});
+					     }
+				    }
 		});
 		
 		// Search Latest Items

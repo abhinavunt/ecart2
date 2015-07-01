@@ -15,7 +15,7 @@
 					<a href="" ng-mouseover="hoverInLevelOne(submenu);">{{submenu.name}}</a>
 						<ul class="dropdown-menu">
                  		 	<li data-ng-repeat="supersubmenu in submenu.supersub">
-								<a href="" ng-click="searchItems(supersubmenu)">{{supersubmenu.name}}</a>
+								<a href="" ng-click="searchItemsFn(supersubmenu)">{{supersubmenu.name}}</a>
 				  			</li>
                  		</ul>
 				  </li>
@@ -68,7 +68,8 @@
 		<div class="col-lg-12">{{category}}</div>
 	</div>
 
-<div style="margin-top: 10px;">
+<div ng-hide="noDataFound">
+<div class="row">
 <table class="table table-bordered table-hover ">
   <thead>
     <tr>
@@ -103,33 +104,20 @@
 		<td class="col-md-2" ng-click="editItemOpenPopUp(item)">{{item.description}}</td>
 		
 	</tr> 
-	
-
-	
-	
-    <!-- <tr>
-      <td>Image</td>
-      <td>Amul Milk</td>
-      <td>Amul</td>
-      <td>
-      
-      <div class="dropdown">
-                  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="">
-                Amount/Price <span class="caret"></span>
-            </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">500gm - 30Rs</a></li>
-                  <li><a href="#">1kg - 60Rs</a></li>
-                  <li><a href="#">5kg - 200Rs</a></li>
-                </ul>
-              </div>
-      </td>
-      <td>Its a full fat Cow Milk</td>
-      <td>Doodh</td>
-      
-    </tr> -->
-  
   </tbody>
 </table> 
+</div>
+<div class="row">
+	<div class="col-lg-10 pull right">
+	  	<h5 class="pull-right" ng-hide="hideToFrom">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
+	</div>
+	<div class="col-lg-2">
+		<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
+		<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
+	</div>
+</div>
+</div>
+<div ng-show="noDataFound">
+<span>No Item Found !!!</span>
 </div>
 </div>
