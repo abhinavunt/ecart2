@@ -461,6 +461,7 @@
 					categoryZeroId : ObjectID(req.body.categoryZeroId),
   	    			categoryOneId : ObjectID(req.body.categoryOneId),
   	    			categoryTwoId : ObjectID(req.body.categoryTwoId),
+  	    			createdAt: new Date(req.body.createdAt),
 					name : req.body.name,
 					brand : req.body.brand,
 					othernames : req.body.othernames,
@@ -472,7 +473,6 @@
 			};
 			
 			//edit record
-			console.log(req.body.itemId);
 			db.collection('item').update({_id: ObjectID(req.body.itemId)},itemInfo, function(err) {
 				if (err) throw err;
 				else {

@@ -239,93 +239,94 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	}else $scope.amountPriceRowEditFnl = $scope.amountPriceRowEdit;
 	    		 
 	    	if(typeof newImg=='undefined'){
-	    	
-	    	 var item ={
-	    			 	itemId:editItemRowId,
-	    			 	categoryZeroId:$scope.menuLevelZeroId,
-	  	    			categoryOneId:$scope.menuLevelOneId,
-	  	    			categoryTwoId:$scope.menuLevelTwoId,
-	  	    			name:itemNameEdit,
-	  	    			brand:brandEdit,
-	  	    			othernames:othernamesEdit,
-	  	    			description:descriptionEdit,
-	  	    			availability:availabilityEdit,
-	  	    			isOfferCheck:isOfferCheckEdit,
-	  	    			amountprice:$scope.amountPriceRowEditFnl,
-	  	    			imageId:imageIdEdit,
-	  	    			oldImageId:"NoOldImage"
-		  	    	};
-	    	 
-	    	 $http({
-		  	            url: '/item/editItem',
-		  	            method: "POST",
-		  	            data: angular.toJson(item),
-		  	            headers: {'Content-Type': 'application/json'}
-		  	          }).success(function (data, status, headers, config,imageName) {
-		  	        	for(var i=0; i<$scope.itemList.length; i++){
-		  	        		if($scope.itemList[i]._id==editItemRowId){
-		  	        			$scope.itemList[i] =data.itemObj; 
-		  	        		}
-		  	        	}
-		  	        	$scope.submitButtonValEdit=true;
-		  	        	ngDialog.close();
-		  	          }).error(function (data, status, headers, config) {
-		  	              
-		  	          });
-	    		
-	    	}else{
-	    		
-	    			$scope.upload = $upload.upload({
-		    		url: '/item/addImage',
-	                method: 'POST',                 
-	                file: newImg
-	              }).progress(function(evt) {
-		            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-		          }).success(function(data, status, headers, config) {
-		        	 
-		        	  var item ={
-			    			 	itemId:editItemRowId,
-			    			 	categoryZeroId:$scope.menuLevelZeroId,
-			  	    			categoryOneId:$scope.menuLevelOneId,
-			  	    			categoryTwoId:$scope.menuLevelTwoId,
-			  	    			name:itemNameEdit,
-			  	    			brand:brandEdit,
-			  	    			othernames:othernamesEdit,
-			  	    			description:descriptionEdit,
-			  	    			availability:availabilityEdit,
-			  	    			isOfferCheck:isOfferCheckEdit,
-			  	    			amountprice:$scope.amountPriceRowEditFnl,
-			  	    			imageId:data.ImgId,
-			  	    			oldImageId:imageIdEdit
-				  	    	};
-			    	
-		        	 //alert(angular.toJson(item)); 
-			    	 $http({
-				  	            url: '/item/editItem',
-				  	            method: "POST",
-				  	            data: angular.toJson(item),
-				  	            headers: {'Content-Type': 'application/json'}
-				  	          }).success(function (data, status, headers, config,imageName) {
-				  	        	for(var i=0; i<$scope.itemList.length; i++){
-				  	        		if($scope.itemList[i]._id==editItemRowId){
-				  	        			$scope.itemList[i] =data.itemObj; 
-				  	        		}
-				  	        	}
-				  	        	$scope.submitButtonValEdit=true;
-				  	        	ngDialog.close();
-				  	          }).error(function (data, status, headers, config) {
-				  	              
-				  	          });
-		        	  
-		          });
-	    	}
+		    	
+		    	 var item ={
+		    			 	itemId:editItemRowId,
+		    			 	categoryZeroId:$scope.menuLevelZeroId,
+		  	    			categoryOneId:$scope.menuLevelOneId,
+		  	    			categoryTwoId:$scope.menuLevelTwoId,
+		  	    			createdAt:$scope.createdAt,
+		  	    			name:itemNameEdit,
+		  	    			brand:brandEdit,
+		  	    			othernames:othernamesEdit,
+		  	    			description:descriptionEdit,
+		  	    			availability:availabilityEdit,
+		  	    			isOfferCheck:isOfferCheckEdit,
+		  	    			amountprice:$scope.amountPriceRowEditFnl,
+		  	    			imageId:imageIdEdit,
+		  	    			oldImageId:"NoOldImage"
+			  	    	};
+		    	 
+		    	 $http({
+			  	            url: '/item/editItem',
+			  	            method: "POST",
+			  	            data: angular.toJson(item),
+			  	            headers: {'Content-Type': 'application/json'}
+			  	          }).success(function (data, status, headers, config,imageName) {
+			  	        	for(var i=0; i<$scope.itemList.length; i++){
+			  	        		if($scope.itemList[i]._id==editItemRowId){
+			  	        			$scope.itemList[i] =data.itemObj; 
+			  	        		}
+			  	        	}
+			  	        	$scope.submitButtonValEdit=true;
+			  	        	ngDialog.close();
+			  	          }).error(function (data, status, headers, config) {
+			  	              
+			  	          });
+		    		
+		    	}else{
+		    		
+		    			$scope.upload = $upload.upload({
+			    		url: '/item/addImage',
+		                method: 'POST',                 
+		                file: newImg
+		              }).progress(function(evt) {
+			            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			          }).success(function(data, status, headers, config) {
+			        	 
+			        	  var item ={
+				    			 	itemId:editItemRowId,
+				    			 	categoryZeroId:$scope.menuLevelZeroId,
+				  	    			categoryOneId:$scope.menuLevelOneId,
+				  	    			categoryTwoId:$scope.menuLevelTwoId,
+				  	    			createdAt:$scope.createdAt,
+				  	    			name:itemNameEdit,
+				  	    			brand:brandEdit,
+				  	    			othernames:othernamesEdit,
+				  	    			description:descriptionEdit,
+				  	    			availability:availabilityEdit,
+				  	    			isOfferCheck:isOfferCheckEdit,
+				  	    			amountprice:$scope.amountPriceRowEditFnl,
+				  	    			imageId:data.ImgId,
+				  	    			oldImageId:imageIdEdit
+					  	    	};
+				    	
+			        	  $http({
+					  	            url: '/item/editItem',
+					  	            method: "POST",
+					  	            data: angular.toJson(item),
+					  	            headers: {'Content-Type': 'application/json'}
+					  	          }).success(function (data, status, headers, config,imageName) {
+					  	        	for(var i=0; i<$scope.itemList.length; i++){
+					  	        		if($scope.itemList[i]._id==editItemRowId){
+					  	        			$scope.itemList[i] =data.itemObj; 
+					  	        		}
+					  	        	}
+					  	        	$scope.submitButtonValEdit=true;
+					  	        	ngDialog.close();
+					  	          }).error(function (data, status, headers, config) {
+					  	              
+					  	          });
+			        	  
+			          });
+		    	}
 	    };
 	    
-	    $scope.removeItem = function(){
+	    $scope.removeItem = function(editItemRowId,imageIdEdit){
 	    	$http({
 	  	            url: '/item/removeItem',
 	  	            method: "POST",
-	  	            data: {itemId:$scope.selectedRowItemId,imageId:$scope.imageIdEdit},
+	  	            data: {itemId:editItemRowId,imageId:imageIdEdit},
 	  	            headers: {'Content-Type': 'application/json'}
 	  	          }).success(function (data, status, headers, config,imageName) {
 		  	        	$scope.removeButtonValEdit=true;
@@ -360,6 +361,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		$scope.editItemRowId = item._id;
 	    		$scope.submitButtonValEdit=false;
 	    		$scope.removeButtonValEdit=false;
+	    		$scope.createdAt = item.createdAt;
 	    		
 	    		getCategory2(item._id);
 	    		
