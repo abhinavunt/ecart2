@@ -353,7 +353,7 @@
 			    var searchCriteriaVal = req.param("searchCriteriaVal");
 				var searchMenuId = req.param("searchMenuId");
 				var totalRecords;
-			    
+				
 				//search for All Items
 			    if(searchCriteriaVal==1){
 			    	
@@ -362,26 +362,22 @@
 					    	if (err) throw err;
 					    	else{
 					    		 totalRecords = count;
-					    		 console.log(limitVal);
-					    		 
 					    		 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
-					    			 console.log(limitVal);
-					    			 console.log(items.length);
-								    res.json({items:items,totalRecords:totalRecords});
+					    			 res.json({items:items,totalRecords:totalRecords});
 								 });
 					    	}
 					    });
 				     }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
 				    	// for getting Next data
 				    	
-				    	db.collection('order').find({date:{"$gte":firstDate, "$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+				    	db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
 					        res.json({items:items});
 				    	});
 				    	
 				     }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 				    	// for getting Previous data
-				    	 db.collection('order').find({date:{"$gt":new Date(firstDateVal),"$lt":lastDate}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
-					    		items.reverse();   
+				    	 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId), createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, items) {
+					    		items.reverse();
 					    		res.json({items:items});
 					     });
 				     }

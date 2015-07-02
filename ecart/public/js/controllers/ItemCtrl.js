@@ -84,7 +84,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	
 	    	$scope.menuLevelTwoName = menuObj.name;
 	    	$scope.menuLevelTwoId = menuObj._id;
-	        $scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
+	    	$scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
 	    	$scope.keyword="";
 	    	
@@ -94,7 +94,6 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	    method: "GET",
 	    	    params: {searchMenuId: $scope.menuLevelTwoId, firstDate: firstOrderDate, lastDate: lastOrderDate, limit:itemPerPage, searchCriteriaVal:criteriaType}
 	    	 }).success(function(data) {
-	    		 
 	    		 
 	    		 if(data.items.length==0) $scope.itemList = [];
 	    		 else $scope.itemList = data.items;
@@ -132,6 +131,64 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		 console.log('Error: ' + data);
 			});
 		};
+		
+		$scope.nextPage = function(){
+			
+			$http({
+				url: '/item/searchItems', 
+	    	    method: "GET",
+	            params: {searchMenuId:$scope.menuLevelTwoId, firstDate:"notAssigned", lastDate:$scope.lastOrderDate, limit:$scope.itemPerPage, searchCriteriaVal:$scope.criteriaType}
+	         }).success(function(data) {
+	        	 $scope.itemList = data.items;
+	        	 
+	        	 if(data.items.length<=$scope.itemPerPage){
+	        		 $scope.fromOrderNo = $scope.fromOrderNo + $scope.itemPerPage;
+	        		 $scope.toOrderNo = $scope.toOrderNo + data.items.length;
+	        	 }else if(data.items.length>$scope.itemPerPage){
+	        		 $scope.fromOrderNo = $scope.fromOrderNo + $scope.itemPerPage;
+	        		 $scope.toOrderNo = $scope.toOrderNo+$scope.itemPerPage;
+	        	 }
+	        	 
+	        	 if($scope.toOrderNo<$scope.totalRecords) $scope.disableNextButton =false;
+	        	 else $scope.disableNextButton =true;
+	        	 
+	        	 $scope.disablePrevButton = false;
+	        	 $scope.firstOrderDate = data.items[0].createdAt;
+	        	 $scope.lastOrderDate = data.items[data.items.length-1].createdAt;
+	        	 
+	         }).error(function(data) {
+				console.log('Error: ' + data);
+			 });
+		}
+		
+		$scope.previousPage = function(){
+			
+			$http({
+				url: '/item/searchItems', 
+	    	    method: "GET",
+	            params: {searchMenuId:$scope.menuLevelTwoId, firstDate:$scope.firstOrderDate, lastDate:"notAssigned", limit:$scope.itemPerPage, searchCriteriaVal:$scope.criteriaType}
+	         }).success(function(data) {
+	        	 $scope.itemList = data.items;
+	        	 
+	        	 if($scope.toOrderNo - $scope.fromOrderNo+1 == $scope.itemPerPage){
+	        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.itemPerPage;
+	        		 $scope.toOrderNo = $scope.toOrderNo - $scope.itemPerPage; 
+	        	 }else if($scope.toOrderNo - $scope.fromOrderNo+1 < $scope.itemPerPage){
+	        		 $scope.toOrderNo = $scope.fromOrderNo - 1;
+	        		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.itemPerPage;
+	        	 }
+	        	 
+	        	 if($scope.fromOrderNo == 1) $scope.disablePrevButton =true;
+	        	 else $scope.disablePrevButton =false;
+	        	 
+	        	 $scope.disableNextButton =false;
+	        	 $scope.firstOrderDate = data.items[0].createdAt;
+	        	 $scope.lastOrderDate = data.items[data.items.length-1].createdAt;
+	         
+	         }).error(function(data) {
+				console.log('Error: ' + data);
+			 });
+		}
 		
 		
 		$scope.itemForm = {
@@ -503,8 +560,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		$scope.searchItemsFn = function(menuObj){
 			
-			 $scope.searchItems(menuObj,$scope.firstOrderDate,$scope.lastOrderDate,$scope.itemPerPage,$scope.criteriaType);
+			 $scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
 			
+		}
+		
+		$scope.selectedSearchCriteria = function(searchCriteria){
+			 $scope.criteriaType = searchCriteria;
+			 var menuObj ={"_id":"SameObjectId"};
+			
+			 $scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
 		}
 	
 
