@@ -538,16 +538,16 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			$scope.amountPriceRowEdit.splice(index,1);
 		};
 		
-		$scope.searchItemByKeyword = function(keyWord){
+		$scope.searchItemByKeyword = function(){
 			
 			$scope.disableCriteriaSelect=true;
 			$scope.addItemButtonVal = true;
-			if(!(keyWord.replace(/\s/g,"")==""|| typeof(keyWord)=='undefined')){
+			if(!($scope.keyword.replace(/\s/g,"")==""|| typeof($scope.keyword)=='undefined')){
 					
 					$http({
 	                   url: '/item/searchItemByKeyword',
 	                   method: "POST",
-	                   data: {keyWord:keyWord,limit:$scope.itemPerPage},
+	                   data: {keyWord:$scope.keyword,limit:$scope.itemPerPage},
 	                   headers: {'Content-Type': 'application/json'}
 	                 }).success(function (data, status, headers, config) {
 	                	 if(data.items.length==0) $scope.itemList = [];
@@ -608,7 +608,12 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		$scope.showItemCriteria = function(showItemObj){
 			$scope.itemPerPage = showItemObj.value;
 			var menuObj ={"_id":"SameObjectId"};
-			$scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+			if($scope.category==""){
+				$scope.searchItemByKeyword();
+			}else{
+				$scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+			}
+			
 		}
 	
 
