@@ -53,8 +53,9 @@
 				<select class="form-control input-md" 
 					ng-init="showCriteria=showItemList[0]"
 	                ng-model="showCriteria"
+	                ng-disabled="disableShowItemSelect"
 	                ng-options="showItemListObj.itemPerPage for showItemListObj in showItemList"
-	                ng-change="selectedSearchCriteria(searchCriteria)">
+	                ng-change="showItemCriteria(showCriteria)">
 	        	</select>
         	</div>
 		</div>

@@ -8,6 +8,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.amountPriceRow=[];
 	$scope.showOfferTable = false;
 	$scope.disableCriteriaSelect=true;
+	$scope.disableShowItemSelect=true;
 	$scope.noOfferPrice="";
 	$scope.searchCriteriaList=[{"criteria":"Show All","value":1},{"criteria":"Only Offers","value":2},{"criteria":"Only Items","value":3}];
 	$scope.showItemList=[{"itemPerPage":"10 Items/Page","value":10},{"itemPerPage":"20 Items/Page","value":20},{"itemPerPage":"30 Items/Page","value":30}]
@@ -82,12 +83,13 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    
 	    $scope.searchItems = function(menuObj,firstOrderDate,lastOrderDate,itemPerPage,criteriaType){
 	    	
-	    	$scope.menuLevelTwoName = menuObj.name;
-	    	$scope.menuLevelTwoId = menuObj._id;
-	    	$scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
-	    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
-	    	$scope.keyword="";
-	    	
+	    	if(menuObj._id!="SameObjectId"){
+	    		$scope.menuLevelTwoName = menuObj.name;
+		    	$scope.menuLevelTwoId = menuObj._id;
+		    	$scope.category = 'Category:- '+$scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
+		    	$scope.category2 = $scope.menuLevelZeroName+' > '+$scope.menuLevelOneName+' > '+ $scope.menuLevelTwoName;
+		    	$scope.keyword="";
+	    	}
 	    	
 	    	$http({
 	    	    url: '/item/searchItems', 
@@ -98,6 +100,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    		 if(data.items.length==0) $scope.itemList = [];
 	    		 else $scope.itemList = data.items;
 	    		 $scope.disableCriteriaSelect=false;
+	    		 $scope.disableShowItemSelect=false;
     			 $scope.addItemButtonVal=false;
 	    		 
 	        	 if(data.items.length==0){
@@ -539,24 +542,56 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			
 			$scope.disableCriteriaSelect=true;
 			$scope.addItemButtonVal = true;
-			$scope.itemList = [];
 			if(!(keyWord.replace(/\s/g,"")==""|| typeof(keyWord)=='undefined')){
 					
 					$http({
-	                   url: '/item/liveSearch',
+	                   url: '/item/searchItemByKeyword',
 	                   method: "POST",
-	                   data: {keyWord:keyWord},
+	                   data: {keyWord:keyWord,limit:$scope.itemPerPage},
 	                   headers: {'Content-Type': 'application/json'}
 	                 }).success(function (data, status, headers, config) {
-	                      if(data.length==0) $scope.itemList = [];
-	                      else $scope.itemList = data;
-	                      $scope.category="";
+	                	 if(data.items.length==0) $scope.itemList = [];
+	    	    		 else $scope.itemList = data.items;
+	    	    		 $scope.disableCriteriaSelect=true;
+	        			 $scope.addItemButtonVal=true;
+	        			 $scope.disableShowItemSelect=false;
+	        			 $scope.category="";
+	        			
+	    	    		 
+	    	        	 if(data.items.length==0){
+	    	        		 $scope.noDataFound=true;
+	    	        	 }else{
+	    	        		 $scope.totalRecords = data.totalRecords; 
+	    	            	 if(data.items.length>0 && data.items.length<=$scope.itemPerPage){
+	    	            		 $scope.fromOrderNo = 1;
+	    	            		 $scope.toOrderNo = data.items.length;
+	    	            		 $scope.hideToFrom=false;
+	    	            	 }else if(data.items.length>0 && data.items.length>$scope.itemPerPage){
+	    	            		 $scope.fromOrderNo = 1;
+	    	            		 $scope.toOrderNo = $scope.itemPerPage;
+	    	            		 $scope.hideToFrom=false;
+	    	            	 }else if(data.items.length==0){
+	    	            		 $scope.hideToFrom=true;
+	    	            	 }
+	    	            	 
+	    	            	 if($scope.totalRecords>$scope.fromOrderNo+($scope.itemPerPage-1)) $scope.disableNextButton =false;
+	    	            	 else $scope.disableNextButton =true; 
+	    	            	 
+	    	            	 $scope.disablePrevButton =true;
+	    	            	 
+	    	            	 $scope.firstOrderDate = data.items[0].createdAt;
+	    	            	 $scope.lastOrderDate = data.items[data.items.length-1].createdAt;
+	    	            	 $scope.noDataFound=false;
+	    	        	 }
+	                     
 	                 }).error(function (data, status, headers, config) {
 	               
 	                 });
 	               
            }
 		}
+		
+		
 		
 		$scope.searchItemsFn = function(menuObj){
 			
@@ -565,10 +600,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		}
 		
 		$scope.selectedSearchCriteria = function(searchCriteria){
-			 $scope.criteriaType = searchCriteria;
+			 $scope.criteriaType = searchCriteria.value;
 			 var menuObj ={"_id":"SameObjectId"};
-			
 			 $scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+		}
+		
+		$scope.showItemCriteria = function(showItemObj){
+			$scope.itemPerPage = showItemObj.value;
+			var menuObj ={"_id":"SameObjectId"};
+			$scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
 		}
 	
 

@@ -383,66 +383,77 @@
 				     }
 			    	
 				    }else if(searchCriteriaVal==2){
-						//search for only Offer
-				    	var query = {$or:[{fullName: new RegExp(req.param("keyword"),'i')},{mobileNo : new RegExp(req.param("keyword"),'i')}]};
+				    	
 				    	if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
-				    		db.collection('order').count(query,function (err, count){
+					    	db.collection('item').count({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"yes"},function (err, count){
 						    	if (err) throw err;
 						    	else{
 						    		 totalRecords = count;
-						    		 db.collection('order').find(query,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
-									    res.json({items:items,totalRecords:totalRecords});
+						    		 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
+						    			 res.json({items:items,totalRecords:totalRecords});
 									 });
 						    	}
 						    });
-				    	}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
-				    		var queryNext = {$and:[query,{date:{"$lt":new Date(lastDateVal)}}]};
-				    		db.collection('order').find(queryNext,{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
-						       res.json({items:items});
-					    	});
-				    		
-				    		
-				    	}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
-				    		var queryPrev = {$and:[query,{date:{"$gt":new Date(firstDateVal)}}]};
-				    		db.collection('order').find(queryPrev,{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
-				    			items.reverse();
-				    			res.json({items:items});
-					    	});
-				    	}
-				    	
-				    	
-				    	
-				    }else if(searchCriteriaVal==3){
-					    //search for only Items
-				    	var d = new Date();
-					    d.setDate(d.getDate()-(searchCriteriaVal-1));
-					    
-					    if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
-					    	db.collection('order').count({date:{$gte: d}},function (err, count){
-						    	if (err) throw err;
-						    	else{
-						    		 totalRecords = count;
-						    		 db.collection('order').find({date:{$gte: d}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
-									        res.json({items:items,totalRecords:totalRecords});
-									 });
-						    	}
-						    });
-					    	
-					    }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+					     }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
 					    	// for getting Next data
 					    	
-					    	db.collection('order').find({date:{"$gte":d, "$lt":new Date(lastDateVal)}},{"sort" : [['date', -1]]}).limit(limitVal).toArray(function (err, items) {
+					    	db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"yes",createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
 						        res.json({items:items});
 					    	});
 					    	
-					    }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+					     }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 					    	// for getting Previous data
-					    	db.collection('order').find({date:{"$gt":new Date(firstDateVal)}},{"sort" : [['date', 1]]}).limit(limitVal).toArray(function (err, items) {
-					    		items.reverse();   
-					    		res.json({items:items});
-					    	});
+					    	 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"yes",createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, items) {
+						    		items.reverse();
+						    		res.json({items:items});
+						     });
 					     }
+				    	
+				    }else if(searchCriteriaVal==3){
+				    	
+				    	if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+					    	db.collection('item').count({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"no"},function (err, count){
+						    	if (err) throw err;
+						    	else{
+						    		 totalRecords = count;
+						    		 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
+						    			 res.json({items:items,totalRecords:totalRecords});
+									 });
+						    	}
+						    });
+					     }else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+					    	// for getting Next data
+					    	
+					    	db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"no",createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, items) {
+						        res.json({items:items});
+					    	});
+					    	
+					     }else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+					    	// for getting Previous data
+					    	 db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),isOfferCheck:"no",createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, items) {
+						    		items.reverse();
+						    		res.json({items:items});
+						     });
+					     }
+				    	
 				    }
+		});
+		
+		// search item by keyword
+		app.post('/item/searchItemByKeyword', function(req, res) {
+			var db = req.db;
+			var query = {$or:[{ name: new RegExp(req.param("keyWord"),'i')},{othernames : new RegExp(req.param("keyWord"),'i')},{brand : new RegExp(req.param("keyWord"),'i')}]};
+			var totalRecords;
+			
+			db.collection('item').count(query,function (err, count){
+		    	if (err) throw err;
+		    	else{
+		    		 totalRecords = count;
+		    		 db.collection('item').find(query,{"sort" : [['createdAt', -1]]}).limit(req.param("limit")).toArray(function (err, items) {
+		    			 res.json({items:items,totalRecords:totalRecords});
+					 });
+		    	}
+		    });
 		});
 		
 	    app.get('/item/searchItemsDisplay', function(req, res) {
