@@ -442,18 +442,40 @@
 		// search item by keyword
 		app.post('/item/searchItemByKeyword', function(req, res) {
 			var db = req.db;
-			var query = {$or:[{ name: new RegExp(req.param("keyWord"),'i')},{othernames : new RegExp(req.param("keyWord"),'i')},{brand : new RegExp(req.param("keyWord"),'i')}]};
 			var totalRecords;
+			var firstDateVal = req.param("firstDate");
+		    var lastDateVal = req.param("lastDate");
+		    var limit = parseInt(req.param("limit"));
 			
-			db.collection('item').count(query,function (err, count){
-		    	if (err) throw err;
-		    	else{
-		    		 totalRecords = count;
-		    		 db.collection('item').find(query,{"sort" : [['createdAt', -1]]}).limit(req.param("limit")).toArray(function (err, items) {
-		    			 res.json({items:items,totalRecords:totalRecords});
-					 });
-		    	}
-		    });
+			if(firstDateVal=="notAssigned" && lastDateVal=="notAssigned"){
+				console.log("Inside keyword both notAssigned");
+				var query = {$or:[{ name: new RegExp(req.param("keyWord"),'i')},{othernames : new RegExp(req.param("keyWord"),'i')},{brand : new RegExp(req.param("keyWord"),'i')}]};
+				db.collection('item').count(query,function (err, count){
+			    	if (err) throw err;
+			    	else{
+			    		 totalRecords = count;
+			    		 db.collection('item').find(query,{"sort" : [['createdAt', -1]]}).limit(limit).toArray(function (err, items) {
+			    			 res.json({items:items,totalRecords:totalRecords});
+						 });
+			    	}
+			    });
+				
+			}else if(firstDateVal=="notAssigned" && lastDateVal!="notAssigned"){
+				console.log("Inside keyword next");
+				var query = {$or:[{ name: new RegExp(req.param("keyWord"),'i')},{othernames : new RegExp(req.param("keyWord"),'i')},{brand : new RegExp(req.param("keyWord"),'i')}],createdAt:{"$lt":new Date(lastDateVal)}};
+				db.collection('item').find(query,{"sort" : [['createdAt', -1]]}).limit(limit).toArray(function (err, items) {
+	    			 res.json({items:items});
+				 });
+				
+			}else if(firstDateVal!="notAssigned" && lastDateVal=="notAssigned"){
+				console.log("Inside keyword previous");
+				var query = {$or:[{ name: new RegExp(req.param("keyWord"),'i')},{othernames : new RegExp(req.param("keyWord"),'i')},{brand : new RegExp(req.param("keyWord"),'i')}],createdAt:{"$gt":new Date(firstDateVal)}};
+				db.collection('item').find(query,{"sort" : [['createdAt', -1]]}).limit(limit).toArray(function (err, items) {
+	    			 res.json({items:items,totalRecords:totalRecords});
+				 });
+				
+			}
+			
 		});
 		
 	    app.get('/item/searchItemsDisplay', function(req, res) {
