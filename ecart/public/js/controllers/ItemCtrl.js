@@ -192,23 +192,29 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		$scope.searchItemsFn = function(menuObj){
 			
-			 $scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+			$scope.firstOrderDate ="notAssigned";
+        	$scope.lastOrderDate = "notAssigned";
+			$scope.searchItems(menuObj,$scope.firstOrderDate,$scope.lastOrderDate,$scope.itemPerPage,$scope.criteriaType);
 			
 		}
 		
 		$scope.selectedSearchCriteria = function(searchCriteria){
 			 $scope.criteriaType = searchCriteria.value;
 			 var menuObj ={"_id":"SameObjectId"};
-			 $scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+			 $scope.firstOrderDate ="notAssigned";
+	         $scope.lastOrderDate = "notAssigned";
+			 $scope.searchItems(menuObj,$scope.firstOrderDate,$scope.lastOrderDate,$scope.itemPerPage,$scope.criteriaType);
 		}
 		
 		$scope.showItemCriteria = function(showItemObj){
+			$scope.firstOrderDate ="notAssigned";
+	        $scope.lastOrderDate = "notAssigned";
 			$scope.itemPerPage = showItemObj.value;
-			var menuObj ={"_id":"SameObjectId"};
 			if(!($scope.keyword.replace(/\s/g,"")==""|| typeof($scope.keyword)=='undefined')){
 				$scope.searchItemByKeyword();
 			}else if($scope.category!=""){
-				$scope.searchItems(menuObj,"notAssigned","notAssigned",$scope.itemPerPage,$scope.criteriaType);
+				var menuObj ={"_id":"SameObjectId"};
+				$scope.searchItems(menuObj,$scope.firstOrderDate,$scope.lastOrderDate,$scope.itemPerPage,$scope.criteriaType);
 			}
 		}
 		
