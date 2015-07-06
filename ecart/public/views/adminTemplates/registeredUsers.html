@@ -1,31 +1,46 @@
-<div class="row" ng-controller="RegisteredUsersController">
-	<div class="col-lg-12">
-			<h4>Registered Users</h4>
-	
-					<table class="table table-bordered table-hover ">
-					<thead>
-						<tr>
-							<th>Full Name</th>
-							<th>Email Id</th>
-							<th>Mobile No</th>
-							<th>Alternate No</th>
-							<th>Address</th>
-						</tr>
-					</thead>
-					<tbody>
-  
-					<tr class="active" data-ng-repeat="user in userlist">
-					<td>{{user.fullName}}</td>
-					<td>{{user.emailId}}</td>
-					<td>{{user.mobileNo}}</td>
-					<td>{{user.alternateNo}}</td>
-					<td>{{user.address}}</td>
-					</tr>
-    	
-					</tbody>
-					</table> 
-	
+<div ng-controller="RegisteredUsersController">
+<div class="row">
+	<div class="col-lg-10">
+		<h4>Registered Users</h4>	
 	</div>
+	<div class="col-lg-2">
+		<div style="margin-top: 10px;">
+			<select class="form-control input-md" 
+				ng-init="showCriteria=showItemList[0]"
+	               ng-model="showCriteria"
+	               ng-disabled="disableShowItemSelect"
+	               ng-options="showItemListObj.itemPerPage for showItemListObj in showItemList"
+	               ng-change="showItemCriteria(showCriteria)">
+	       	</select>
+        </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<table class="table table-bordered table-hover ">
+			<thead>
+				<tr>
+					<th>Full Name</th>
+					<th>Email Id</th>
+					<th>Mobile No</th>
+					<th>Alternate No</th>
+					<th>Address</th>
+				</tr>
+			</thead>
+			<tbody>
+ 
+				<tr class="active" data-ng-repeat="user in userlist">
+				<td>{{user.fullName}}</td>
+				<td>{{user.emailId}}</td>
+				<td>{{user.mobileNo}}</td>
+				<td>{{user.alternateNo}}</td>
+				<td>{{user.address}}</td>
+				</tr>
+   	
+			</tbody>
+		</table> 
+	</div>	
+</div>
 </div>
 
 
