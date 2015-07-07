@@ -41,12 +41,68 @@
 		
 		// getting users list
 		app.get('/user/getUsers', function(req, res) {
+			var db = req.db;
+			var totalRecords;
+			var firstDateVal = req.param("firstDate");
+			var lastDateVal = req.param("lastDate");
+			var limitVal = parseInt(req.param("limit"));
+			var keyword = req.param("keyword");
 			
-			    var db = req.db;
-			    db.collection('user').find().toArray(function (err, items) {
-			        res.json(items);
-			    });
-			
+			if(keyword.replace(/\s/g,"")==""|| typeof(keyword)=='undefined'){
+				
+				if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+					
+					db.collection('user').count(function (err, count){
+						if (err) throw err;
+						else{
+							 totalRecords = count;
+							 db.collection('user').find({},{"sort" : [['createdAt',-1]]} ).limit(limitVal).toArray(function (err, users) {
+								 if (err) throw err;
+								 else res.json({users:users,totalRecords:totalRecords});
+							 });
+						 }
+					});
+				
+				}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+					// for next data
+					db.collection('user').find().toArray(function (err, items) {
+						res.json(items);
+					});
+				
+				}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+					// for previous data
+					db.collection('user').find().toArray(function (err, items) {
+						res.json(items);
+					});
+				}
+				
+			}else{
+				if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+					
+					db.collection('user').count(function (err, count){
+						if (err) throw err;
+						else{
+							 totalRecords = count;
+							 db.collection('user').find({},{"sort" : [['createdAt',-1]]} ).limit(limitVal).toArray(function (err, users) {
+								 if (err) throw err;
+								 else res.json({users:users,totalRecords:totalRecords});
+							 });
+						 }
+					});
+				
+				}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+					// for next data
+					db.collection('user').find().toArray(function (err, items) {
+						res.json(items);
+					});
+				
+				}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+					// for previous data
+					db.collection('user').find().toArray(function (err, items) {
+						res.json(items);
+					});
+				}
+			}
 		});
 		
 		//Add a new user

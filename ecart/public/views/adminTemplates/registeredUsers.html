@@ -1,16 +1,24 @@
 <div ng-controller="RegisteredUsersController">
 <div class="row">
-	<div class="col-lg-10">
+	<div class="col-lg-2">
 		<h4>Registered Users</h4>	
+	</div>
+	<div class="col-lg-5" style="margin-top: 10px;">
+		<div class="input-group input-group-md">
+		  <input type="text" class="form-control" placeholder="Search by Customer Name or Contact No or Email Id" ng-model="keyword">
+		  <span class="input-group-addon" ng-click="searchUserByKeyword(keyword)">Search</span>
+		</div>	
+	</div>
+	<div class="col-lg-3" style="margin-top: 10px;">
+			
 	</div>
 	<div class="col-lg-2">
 		<div style="margin-top: 10px;">
 			<select class="form-control input-md" 
-				ng-init="showCriteria=showItemList[0]"
-	               ng-model="showCriteria"
-	               ng-disabled="disableShowItemSelect"
-	               ng-options="showItemListObj.itemPerPage for showItemListObj in showItemList"
-	               ng-change="showItemCriteria(showCriteria)">
+				    ng-init="showCriteria=showItemList[0]"
+	                ng-model="showCriteria"
+	                ng-options="showItemListObj.itemPerPage for showItemListObj in showItemList"
+	                ng-change="showItemCriteria(showCriteria)">
 	       	</select>
         </div>
 	</div>
@@ -40,6 +48,16 @@
 			</tbody>
 		</table> 
 	</div>	
+</div>
+
+<div class="row">
+	<div class="col-lg-10 pull right">
+	  <h5 class="pull-right" ng-hide="hideToFrom">{{fromOrderNo}} - {{toOrderNo}} of {{totalRecords}}</h5>
+	</div>
+	<div class="col-lg-2">
+	<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
+	<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
+	</div>
 </div>
 </div>
 
