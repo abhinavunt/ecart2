@@ -48,6 +48,9 @@
 			var limitVal = parseInt(req.param("limit"));
 			var keyword = req.param("keyword");
 			
+			
+			
+			
 			if(keyword.replace(/\s/g,"")==""|| typeof(keyword)=='undefined'){
 				
 				if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
@@ -65,25 +68,29 @@
 				
 				}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
 					// for next data
-					db.collection('user').find().toArray(function (err, items) {
-						res.json(items);
+					db.collection('user').find({createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, users) {
+						console.log(users);
+						res.json({users:users});
 					});
 				
 				}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 					// for previous data
-					db.collection('user').find().toArray(function (err, items) {
-						res.json(items);
+					db.collection('user').find({createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, users) {
+						users.reverse();
+						res.json({users:users});
 					});
 				}
 				
 			}else{
+				
+				
 				if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
-					
-					db.collection('user').count(function (err, count){
+					var query = {$or:[{ fullName: new RegExp(keyword,'i')},{emailId : new RegExp(keyword,'i')},{mobileNo : new RegExp(keyword,'i')}]};
+					db.collection('user').count(query,function (err, count){
 						if (err) throw err;
 						else{
 							 totalRecords = count;
-							 db.collection('user').find({},{"sort" : [['createdAt',-1]]} ).limit(limitVal).toArray(function (err, users) {
+							 db.collection('user').find(query,{"sort" : [['createdAt',-1]]} ).limit(limitVal).toArray(function (err, users) {
 								 if (err) throw err;
 								 else res.json({users:users,totalRecords:totalRecords});
 							 });
@@ -92,16 +99,20 @@
 				
 				}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
 					// for next data
-					db.collection('user').find().toArray(function (err, items) {
-						res.json(items);
+					var query = {$or:[{ fullName: new RegExp(keyword,'i')},{emailId : new RegExp(keyword,'i')},{mobileNo : new RegExp(keyword,'i')}],createdAt:{"$lt":new Date(lastDateVal)}};
+				    db.collection('user').find({createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, users) {
+						res.json({users:users});
 					});
 				
 				}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
 					// for previous data
-					db.collection('user').find().toArray(function (err, items) {
-						res.json(items);
+					var query = {$or:[{ fullName: new RegExp(keyword,'i')},{emailId : new RegExp(keyword,'i')},{mobileNo : new RegExp(keyword,'i')}],createdAt:{"$gt":new Date(firstDateVal)}};
+					db.collection('user').find({createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, users) {
+						users.reverse();
+						res.json({users:users});
 					});
 				}
+			
 			}
 		});
 		
