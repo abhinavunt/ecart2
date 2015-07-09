@@ -15,6 +15,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.hideToFrom=true;
 	$scope.disablePrevButton=true;
 	$scope.disableNextButton=true;
+	$scope.addItemFailMessage="";
 	
 	$scope.firstOrderDate ="notAssigned";
 	$scope.lastOrderDate ="notAssigned";
@@ -371,46 +372,81 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		$scope.addItem = function(){
 			
+			if( typeof($scope.itemForm.itemName)=='undefined'||$scope.itemForm.itemName==''||
+				typeof($scope.itemForm.brand)=='undefined'||$scope.itemForm.brand=='')
+	    	{
+	    		$scope.addItemFailMessage = "Required(*) field/(s) are missing !!!";
+	    		return false;
+	    	}
 	    	
-	    	var file = $scope.itemImage;
-	    	$scope.upload = $upload.upload({
-	    		url: '/item/addImage',
-                method: 'POST',                 
-                file: file
-              }).progress(function(evt) {
-	            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-	          }).success(function(data, status, headers, config) {
-	        	  var ImgId = data.ImgId;
-	        	  var item ={
-	  	    			
-	  	    			categoryZeroId:$scope.menuLevelZeroId,
-	  	    			categoryOneId:$scope.menuLevelOneId,
-	  	    			categoryTwoId:$scope.menuLevelTwoId,
-	  	    			category : $scope.category2,
-	  	    			name:$scope.itemForm.itemName,
-	  	    			brand:$scope.itemForm.brand,
-	  	    			othernames:$scope.itemForm.otherNames,
-	  	    			description:$scope.itemForm.description,
-	  	    			availability:$scope.itemForm.availabilityCheck,
-	  	    			isOfferCheck:$scope.itemForm.isOfferCheck,
-	  	    			amountprice:$scope.amountPriceRow,
-	  	    			imageId:ImgId
-	  	    		};
-	           
-	           $http({
-	  	            url: '/item/addItem',
-	  	            method: "POST",
-	  	            data: angular.toJson(item),
-	  	            headers: {'Content-Type': 'application/json'}
-	  	       }).success(function (data, status, headers, config,imageName) {
-	  	    	   	$scope.itemList.unshift(data.item);
-	  	    	    $scope.submitButtonVal=true;
-	  	        	$scope.closeThisDialog();
-	  	       }).error(function (data, status, headers, config) {
-	  	              
-	  	       });
-	           
-	          });
+	    	else if(typeof($scope.itemImage)=="undefined"){
+	    		$scope.addItemFailMessage = "Please select Image !!!";
+	    		return false;
+	    	}
+			
+	    	else if($scope.amountPriceRow.length==0){
+	    		$scope.addItemFailMessage = "Please fill entries in Amount/Price table !!!";
+	    		return false;
+	    	}
+	    		
+	    	else if($scope.userForm.password != $scope.userForm.rePassword){
+	    		$scope.addItemFailMessage = "Passwords are not Matching !!!";
+	    		return false;
+	    	}
+	    	
+	    	else if(isNaN($scope.userForm.mobileNo)||isNaN($scope.userForm.alternateNo)){
+	    		
+	    		$scope.addItemFailMessage = "Mobile No. Or Alternate No. must be digits !!!";
+	    		return false;
+	    	}
+	    	
+	    	else if($scope.userForm.mobileNo.length!=10 || $scope.userForm.alternateNo.length!=10){
+	    		$scope.addItemFailMessage = "Mobile No. Or Alternate No. must contain 10 digits !!!";
+	    		return false;
+	    	}
+			
+			
+	    	
+			/*else{
+	    		$scope.upload = $upload.upload({
+		    		url: '/item/addImage',
+	                method: 'POST',                 
+	                file: $scope.itemImage
+	              }).progress(function(evt) {
+		            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		          }).success(function(data, status, headers, config) {
+		        	  var ImgId = data.ImgId;
+		        	  var item ={
+		  	    			
+		  	    			categoryZeroId:$scope.menuLevelZeroId,
+		  	    			categoryOneId:$scope.menuLevelOneId,
+		  	    			categoryTwoId:$scope.menuLevelTwoId,
+		  	    			category : $scope.category2,
+		  	    			name:$scope.itemForm.itemName,
+		  	    			brand:$scope.itemForm.brand,
+		  	    			othernames:$scope.itemForm.otherNames,
+		  	    			description:$scope.itemForm.description,
+		  	    			availability:$scope.itemForm.availabilityCheck,
+		  	    			isOfferCheck:$scope.itemForm.isOfferCheck,
+		  	    			amountprice:$scope.amountPriceRow,
+		  	    			imageId:ImgId
+		  	    		};
+		           
+		           $http({
+		  	            url: '/item/addItem',
+		  	            method: "POST",
+		  	            data: angular.toJson(item),
+		  	            headers: {'Content-Type': 'application/json'}
+		  	       }).success(function (data, status, headers, config,imageName) {
+		  	    	   	$scope.itemList.unshift(data.item);
+		  	    	    $scope.submitButtonVal=true;
+		  	        	$scope.closeThisDialog();
+		  	       }).error(function (data, status, headers, config) {
+		  	              
+		  	       });
+		           
+		          });	
+	    	}*/
 	    };
 	    	
 	    $scope.editItem = function(editItemRowId, itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit){
@@ -640,12 +676,4 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			
 			$scope.amountPriceRowEdit.splice(index,1);
 		};
-		
-		
-		
-		
-		
-		
-	
-
 });
