@@ -372,42 +372,9 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		$scope.addItem = function(){
 			
-			if( typeof($scope.itemForm.itemName)=='undefined'||$scope.itemForm.itemName==''||
-				typeof($scope.itemForm.brand)=='undefined'||$scope.itemForm.brand=='')
-	    	{
-	    		$scope.addItemFailMessage = "Required(*) field/(s) are missing !!!";
-	    		return false;
-	    	}
-	    	
-	    	else if(typeof($scope.itemImage)=="undefined"){
-	    		$scope.addItemFailMessage = "Please select Image !!!";
-	    		return false;
-	    	}
-			
-	    	else if($scope.amountPriceRow.length==0){
-	    		$scope.addItemFailMessage = "Please fill entries in Amount/Price table !!!";
-	    		return false;
-	    	}
-	    		
-	    	else if($scope.userForm.password != $scope.userForm.rePassword){
-	    		$scope.addItemFailMessage = "Passwords are not Matching !!!";
-	    		return false;
-	    	}
-	    	
-	    	else if(isNaN($scope.userForm.mobileNo)||isNaN($scope.userForm.alternateNo)){
-	    		
-	    		$scope.addItemFailMessage = "Mobile No. Or Alternate No. must be digits !!!";
-	    		return false;
-	    	}
-	    	
-	    	else if($scope.userForm.mobileNo.length!=10 || $scope.userForm.alternateNo.length!=10){
-	    		$scope.addItemFailMessage = "Mobile No. Or Alternate No. must contain 10 digits !!!";
-	    		return false;
-	    	}
-			
-			
-	    	
-			/*else{
+			$scope.addItemValidation();
+				/*
+				
 	    		$scope.upload = $upload.upload({
 		    		url: '/item/addImage',
 	                method: 'POST',                 
@@ -446,8 +413,14 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	       });
 		           
 		          });	
-	    	}*/
+	    	*/
 	    };
+	    
+	   
+	    
+	    var isNumber = function(n) {
+	    	  return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n) && n>=0;
+	    	}
 	    	
 	    $scope.editItem = function(editItemRowId, itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit){
 	    	
@@ -676,4 +649,85 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			
 			$scope.amountPriceRowEdit.splice(index,1);
 		};
+		
+		$scope.addItemValidation = function(){
+			var minOfferCheck = false;
+			
+			if( typeof($scope.itemForm.itemName)=='undefined'||$scope.itemForm.itemName==''||
+				typeof($scope.itemForm.brand)=='undefined'||$scope.itemForm.brand=='')
+	    	{
+	    		$scope.addItemFailMessage = "Required(*) field/(s) are missing !!!";
+	    		return false;
+	    	}
+	    	
+	    	else if(typeof($scope.itemImage)=="undefined"){
+	    		$scope.addItemFailMessage = "Please select Image !!!";
+	    		return false;
+	    	}
+			
+	    	else if($scope.amountPriceRow.length==0){
+	    		$scope.addItemFailMessage = "Please fill entries in Amount/Price table !!!";
+	    		return false;
+	    	}
+	    		
+	    	else if($scope.amountPriceRow.length!=0 && !$scope.showOfferTable){
+	    		
+	    		for(var i=0;i<$scope.amountPriceRow.length;i++){
+	    			if($scope.amountPriceRow[i].Amount==""||$scope.amountPriceRow[i].Price==""||typeof($scope.amountPriceRow[i].Amount)=="undefined"||typeof($scope.amountPriceRow[i].Price)=="undefined"){
+	    				$scope.addItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    	    		return false;
+	    	        }else if(!isNumber($scope.amountPriceRow[i].Price)){
+	    	        	$scope.addItemFailMessage = "Price value must be a positive number !!!";
+	    	    		return false;
+	    	        }
+	    		}
+	    	}else if($scope.amountPriceRow.length!=0 && $scope.showOfferTable){
+	    		
+	    		for(var i=0;i<$scope.amountPriceRow.length;i++){
+	    			
+	    			if($scope.amountPriceRow[i].OfferCheck==true){
+	    				minOfferCheck=true;
+	    				if($scope.amountPriceRow[i].Amount==""|| typeof($scope.amountPriceRow[i].Amount)=="undefined"||
+	    					$scope.amountPriceRow[i].Price=="" || typeof($scope.amountPriceRow[i].Price)=="undefined"||
+	    					$scope.amountPriceRow[i].OfferPrice==""||typeof($scope.amountPriceRow[i].OfferPrice)=="undefined")
+	    				{
+	    						
+	    						$scope.addItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    						return false;
+	    				}else if(!isNumber($scope.amountPriceRow[i].Price)||!isNumber($scope.amountPriceRow[i].OfferPrice)){
+	    						$scope.addItemFailMessage = "Price or Offer Price value must be a positive number !!!";
+	    						return false;
+	    				
+	    				}else if(parseInt($scope.amountPriceRow[i].Price)<parseInt($scope.amountPriceRow[i].OfferPrice)+1){
+							
+							$scope.addItemFailMessage = "Offer Price must be lesser than Price value !!!";
+    						return false;
+						}
+	    			
+	    			}else{
+	    				
+	    				if($scope.amountPriceRow[i].Amount==""|| typeof($scope.amountPriceRow[i].Amount)=="undefined"||
+	    					$scope.amountPriceRow[i].Price=="" || typeof($scope.amountPriceRow[i].Price)=="undefined")
+	    				{
+	    						$scope.addItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    						return false;
+	    				}else if(!isNumber($scope.amountPriceRow[i].Price)){
+	    						$scope.addItemFailMessage = "Price value must be a positive number !!!";
+	    						return false;
+	    				}
+	    			
+	    			}
+	    			
+	    		}
+	    		
+	    		if(!minOfferCheck){
+	    			$scope.addItemFailMessage = "Atleast one offer entry of Amount/Price table must be checked !!!";
+					return false;
+	    		}
+	    		
+	    	}
+			
+			$scope.addItemFailMessage = "";
+			
+		}
 });
