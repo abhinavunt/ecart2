@@ -903,7 +903,7 @@
 		});
 		
 		//default html 
-		app.get('/', function(req, res) {
+		app.get('*', function(req, res) {
 			res.sendfile('./public/views/indexNew.html'); // load our public/index.html file
 		});
 };
