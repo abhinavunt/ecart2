@@ -16,6 +16,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	$scope.disablePrevButton=true;
 	$scope.disableNextButton=true;
 	$scope.addItemFailMessage="";
+	$scope.editItemFailMessage="";
 	
 	$scope.firstOrderDate ="notAssigned";
 	$scope.lastOrderDate ="notAssigned";
@@ -371,11 +372,9 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		
 		$scope.addItem = function(){
-			
 			$scope.addItemValidation();
-				/*
-				
-	    		$scope.upload = $upload.upload({
+			if($scope.addItemValidationCheck){
+				$scope.upload = $upload.upload({
 		    		url: '/item/addImage',
 	                method: 'POST',                 
 	                file: $scope.itemImage
@@ -412,121 +411,121 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	              
 		  	       });
 		           
-		          });	
-	    	*/
-	    };
+		          });
+			}
+		};
 	    
 	   
 	    
-	    var isNumber = function(n) {
-	    	  return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n) && n>=0;
-	    	}
+	   
 	    	
 	    $scope.editItem = function(editItemRowId, itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit){
-	    	
-	    	$scope.amountPriceRowEditFnl=[];
-	    	if($scope.isOfferCheckEdit=='yes'){
-	    		for(var i=0; i<$scope.amountPriceRowEdit.length; i++){
-		    		if($scope.amountPriceRowEdit[i].OfferCheck==true){
-		    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
+	    	$scope.editItemValidation(itemNameEdit,brandEdit);
+	    	if($scope.editItemValidationCheck){
+	    		$scope.amountPriceRowEditFnl=[];
+		    	if($scope.isOfferCheckEdit=='yes'){
+		    		for(var i=0; i<$scope.amountPriceRowEdit.length; i++){
+			    		if($scope.amountPriceRowEdit[i].OfferCheck==true){
+			    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
+			    						"Amount" : $scope.amountPriceRowEdit[i].Amount,
+			    						"Price" : $scope.amountPriceRowEdit[i].Price,
+			    						"OfferPrice":$scope.amountPriceRowEdit[i].OfferPrice,
+			    						"Availability" : $scope.amountPriceRowEdit[i].Availability };
+			    			$scope.amountPriceRowEditFnl.unshift(obj);
+			    			
+			    		}else{
+			    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
 		    						"Amount" : $scope.amountPriceRowEdit[i].Amount,
 		    						"Price" : $scope.amountPriceRowEdit[i].Price,
-		    						"OfferPrice":$scope.amountPriceRowEdit[i].OfferPrice,
 		    						"Availability" : $scope.amountPriceRowEdit[i].Availability };
-		    			$scope.amountPriceRowEditFnl.unshift(obj);
-		    			
-		    		}else{
-		    			var obj = { "OfferCheck":$scope.amountPriceRowEdit[i].OfferCheck,
-	    						"Amount" : $scope.amountPriceRowEdit[i].Amount,
-	    						"Price" : $scope.amountPriceRowEdit[i].Price,
-	    						"Availability" : $scope.amountPriceRowEdit[i].Availability };
-		    			$scope.amountPriceRowEditFnl.push(obj);
-		    		}
-		    	}
-	    	}else $scope.amountPriceRowEditFnl = $scope.amountPriceRowEdit;
-	    		 
-	    	if(typeof newImg=='undefined'){
-		    	
-		    	 var item ={
-		    			 	itemId:editItemRowId,
-		    			 	categoryZeroId:$scope.menuLevelZeroId,
-		  	    			categoryOneId:$scope.menuLevelOneId,
-		  	    			categoryTwoId:$scope.menuLevelTwoId,
-		  	    			createdAt:$scope.createdAt,
-		  	    			name:itemNameEdit,
-		  	    			brand:brandEdit,
-		  	    			othernames:othernamesEdit,
-		  	    			description:descriptionEdit,
-		  	    			availability:availabilityEdit,
-		  	    			isOfferCheck:isOfferCheckEdit,
-		  	    			amountprice:$scope.amountPriceRowEditFnl,
-		  	    			imageId:imageIdEdit,
-		  	    			oldImageId:"NoOldImage"
-			  	    	};
-		    	 
-		    	 $http({
-			  	            url: '/item/editItem',
-			  	            method: "POST",
-			  	            data: angular.toJson(item),
-			  	            headers: {'Content-Type': 'application/json'}
-			  	          }).success(function (data, status, headers, config,imageName) {
-			  	        	for(var i=0; i<$scope.itemList.length; i++){
-			  	        		if($scope.itemList[i]._id==editItemRowId){
-			  	        			$scope.itemList[i] =data.itemObj; 
-			  	        		}
-			  	        	}
-			  	        	$scope.submitButtonValEdit=true;
-			  	        	ngDialog.close();
-			  	          }).error(function (data, status, headers, config) {
-			  	              
-			  	          });
-		    		
-		    	}else{
-		    		
-		    			$scope.upload = $upload.upload({
-			    		url: '/item/addImage',
-		                method: 'POST',                 
-		                file: newImg
-		              }).progress(function(evt) {
-			            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-			          }).success(function(data, status, headers, config) {
-			        	 
-			        	  var item ={
-				    			 	itemId:editItemRowId,
-				    			 	categoryZeroId:$scope.menuLevelZeroId,
-				  	    			categoryOneId:$scope.menuLevelOneId,
-				  	    			categoryTwoId:$scope.menuLevelTwoId,
-				  	    			createdAt:$scope.createdAt,
-				  	    			name:itemNameEdit,
-				  	    			brand:brandEdit,
-				  	    			othernames:othernamesEdit,
-				  	    			description:descriptionEdit,
-				  	    			availability:availabilityEdit,
-				  	    			isOfferCheck:isOfferCheckEdit,
-				  	    			amountprice:$scope.amountPriceRowEditFnl,
-				  	    			imageId:data.ImgId,
-				  	    			oldImageId:imageIdEdit
-					  	    	};
-				    	
-			        	  $http({
-					  	            url: '/item/editItem',
-					  	            method: "POST",
-					  	            data: angular.toJson(item),
-					  	            headers: {'Content-Type': 'application/json'}
-					  	          }).success(function (data, status, headers, config,imageName) {
-					  	        	for(var i=0; i<$scope.itemList.length; i++){
-					  	        		if($scope.itemList[i]._id==editItemRowId){
-					  	        			$scope.itemList[i] =data.itemObj; 
-					  	        		}
-					  	        	}
-					  	        	$scope.submitButtonValEdit=true;
-					  	        	ngDialog.close();
-					  	          }).error(function (data, status, headers, config) {
-					  	              
-					  	          });
-			        	  
-			          });
-		    	}
+			    			$scope.amountPriceRowEditFnl.push(obj);
+			    		}
+			    	}
+		    	}else $scope.amountPriceRowEditFnl = $scope.amountPriceRowEdit;
+		    		 
+		    	if(typeof newImg=='undefined'){
+			    	
+			    	 var item ={
+			    			 	itemId:editItemRowId,
+			    			 	categoryZeroId:$scope.menuLevelZeroId,
+			  	    			categoryOneId:$scope.menuLevelOneId,
+			  	    			categoryTwoId:$scope.menuLevelTwoId,
+			  	    			createdAt:$scope.createdAt,
+			  	    			name:itemNameEdit,
+			  	    			brand:brandEdit,
+			  	    			othernames:othernamesEdit,
+			  	    			description:descriptionEdit,
+			  	    			availability:availabilityEdit,
+			  	    			isOfferCheck:isOfferCheckEdit,
+			  	    			amountprice:$scope.amountPriceRowEditFnl,
+			  	    			imageId:imageIdEdit,
+			  	    			oldImageId:"NoOldImage"
+				  	    	};
+			    	 
+			    	 $http({
+				  	            url: '/item/editItem',
+				  	            method: "POST",
+				  	            data: angular.toJson(item),
+				  	            headers: {'Content-Type': 'application/json'}
+				  	          }).success(function (data, status, headers, config,imageName) {
+				  	        	for(var i=0; i<$scope.itemList.length; i++){
+				  	        		if($scope.itemList[i]._id==editItemRowId){
+				  	        			$scope.itemList[i] =data.itemObj; 
+				  	        		}
+				  	        	}
+				  	        	$scope.submitButtonValEdit=true;
+				  	        	ngDialog.close();
+				  	          }).error(function (data, status, headers, config) {
+				  	              
+				  	          });
+			    		
+			    	}else{
+			    		
+			    			$scope.upload = $upload.upload({
+				    		url: '/item/addImage',
+			                method: 'POST',                 
+			                file: newImg
+			              }).progress(function(evt) {
+				            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+				          }).success(function(data, status, headers, config) {
+				        	 
+				        	  var item ={
+					    			 	itemId:editItemRowId,
+					    			 	categoryZeroId:$scope.menuLevelZeroId,
+					  	    			categoryOneId:$scope.menuLevelOneId,
+					  	    			categoryTwoId:$scope.menuLevelTwoId,
+					  	    			createdAt:$scope.createdAt,
+					  	    			name:itemNameEdit,
+					  	    			brand:brandEdit,
+					  	    			othernames:othernamesEdit,
+					  	    			description:descriptionEdit,
+					  	    			availability:availabilityEdit,
+					  	    			isOfferCheck:isOfferCheckEdit,
+					  	    			amountprice:$scope.amountPriceRowEditFnl,
+					  	    			imageId:data.ImgId,
+					  	    			oldImageId:imageIdEdit
+						  	    	};
+					    	
+				        	  $http({
+						  	            url: '/item/editItem',
+						  	            method: "POST",
+						  	            data: angular.toJson(item),
+						  	            headers: {'Content-Type': 'application/json'}
+						  	          }).success(function (data, status, headers, config,imageName) {
+						  	        	for(var i=0; i<$scope.itemList.length; i++){
+						  	        		if($scope.itemList[i]._id==editItemRowId){
+						  	        			$scope.itemList[i] =data.itemObj; 
+						  	        		}
+						  	        	}
+						  	        	$scope.submitButtonValEdit=true;
+						  	        	ngDialog.close();
+						  	          }).error(function (data, status, headers, config) {
+						  	              
+						  	          });
+				        	  
+				          });
+			    	}
+	    	}
 	    };
 	    
 	    $scope.removeItem = function(editItemRowId,imageIdEdit){
@@ -556,7 +555,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    
 	    		
 	    $scope.editItemOpenPopUp = function(item){
-	    	
+	    		$scope.editItemFailMessage="";
 	    		$scope.amountPriceRowEdit = [];
 	    		$scope.itemNameEdit = item.name;
 	    		$scope.brandEdit = item.brand;
@@ -652,6 +651,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 		$scope.addItemValidation = function(){
 			var minOfferCheck = false;
+			$scope.addItemValidationCheck=false;
 			
 			if( typeof($scope.itemForm.itemName)=='undefined'||$scope.itemForm.itemName==''||
 				typeof($scope.itemForm.brand)=='undefined'||$scope.itemForm.brand=='')
@@ -728,6 +728,91 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	}
 			
 			$scope.addItemFailMessage = "";
+			$scope.addItemValidationCheck=true;
 			
 		}
+		
+		
+		$scope.editItemValidation = function(itemNameEdit,brandEdit){
+			var minOfferCheck = false;
+			$scope.editItemValidationCheck=false;
+			
+			if( typeof(itemNameEdit)=='undefined'||itemNameEdit==''||
+				typeof(brandEdit)=='undefined'||brandEdit=='')
+	    	{
+	    		$scope.editItemFailMessage = "Required(*) field/(s) are missing !!!";
+	    		return false;
+	    	}
+	    	
+	    	
+			else if($scope.amountPriceRowEdit.length==0){
+	    		$scope.editItemFailMessage = "Please fill entries in Amount/Price table !!!";
+	    		return false;
+	    	}
+	    		
+	    	else if($scope.amountPriceRowEdit.length!=0 && !$scope.showOfferTableEdit){
+	    		
+	    		for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
+	    			if($scope.amountPriceRowEdit[i].Amount==""||$scope.amountPriceRowEdit[i].Price==""||typeof($scope.amountPriceRowEdit[i].Amount)=="undefined"||typeof($scope.amountPriceRowEdit[i].Price)=="undefined"){
+	    				$scope.editItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    	    		return false;
+	    	        }else if(!isNumber($scope.amountPriceRowEdit[i].Price)){
+	    	        	$scope.editItemFailMessage = "Price value must be a positive number !!!";
+	    	    		return false;
+	    	        }
+	    		}
+	    	}else if($scope.amountPriceRowEdit.length!=0 && $scope.showOfferTableEdit){
+	    		
+	    		for(var i=0;i<$scope.amountPriceRowEdit.length;i++){
+	    			
+	    			if($scope.amountPriceRowEdit[i].OfferCheck==true){
+	    				minOfferCheck=true;
+	    				if($scope.amountPriceRowEdit[i].Amount==""|| typeof($scope.amountPriceRowEdit[i].Amount)=="undefined"||
+	    					$scope.amountPriceRowEdit[i].Price=="" || typeof($scope.amountPriceRowEdit[i].Price)=="undefined"||
+	    					$scope.amountPriceRowEdit[i].OfferPrice==""||typeof($scope.amountPriceRowEdit[i].OfferPrice)=="undefined")
+	    				{
+	    						
+	    						$scope.editItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    						return false;
+	    				}else if(!isNumber($scope.amountPriceRowEdit[i].Price)||!isNumber($scope.amountPriceRowEdit[i].OfferPrice)){
+	    						$scope.editItemFailMessage = "Price or Offer Price value must be a positive number !!!";
+	    						return false;
+	    				
+	    				}else if(parseInt($scope.amountPriceRowEdit[i].Price)<parseInt($scope.amountPriceRowEdit[i].OfferPrice)+1){
+							
+							$scope.editItemFailMessage = "Offer Price must be lesser than Price value !!!";
+    						return false;
+						}
+	    			
+	    			}else{
+	    				
+	    				if($scope.amountPriceRowEdit[i].Amount==""|| typeof($scope.amountPriceRowEdit[i].Amount)=="undefined"||
+	    					$scope.amountPriceRowEdit[i].Price=="" || typeof($scope.amountPriceRowEdit[i].Price)=="undefined")
+	    				{
+	    						$scope.editItemFailMessage = "Amount/Price table entries can not be blank !!!";
+	    						return false;
+	    				}else if(!isNumber($scope.amountPriceRowEdit[i].Price)){
+	    						$scope.editItemFailMessage = "Price value must be a positive number !!!";
+	    						return false;
+	    				}
+	    			
+	    			}
+	    			
+	    		}
+	    		
+	    		if(!minOfferCheck){
+	    			$scope.editItemFailMessage = "Atleast one offer entry of Amount/Price table must be checked !!!";
+					return false;
+	    		}
+	    		
+	    	}
+			
+			$scope.editItemFailMessage = "";
+			$scope.editItemValidationCheck=true;
+			
+		}
+		
+		var isNumber = function(n) {
+	    	  return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n) && n>=0;
+	    }
 });

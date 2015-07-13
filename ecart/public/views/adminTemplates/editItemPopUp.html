@@ -180,12 +180,15 @@
 				</div>
 					
 					<div class="form-group">
-                      <div class="col-lg-3 col-lg-offset-2">
+                      <div class="col-lg-2 col-lg-offset-1">
                      	<button class="btn btn-success" ng-disabled="submitButtonValEdit" data-ng-click="editItem(editItemRowId,itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit)">Update Item</button>
                      	
                       </div>
                       <div class="col-lg-3">
                      	<button class="btn btn-danger" ng-disabled="removeButtonValEdit" data-ng-click="removeItem(editItemRowId,imageIdEdit)">Remove Item</button>
+                      </div>
+                       <div class="col-lg-6">
+                     	<div style="color:red">{{editItemFailMessage}}</div>
                       </div>
                    </div>
                 </fieldset>
