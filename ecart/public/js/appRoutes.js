@@ -53,7 +53,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		})
 		
 				.state('adminPortal.order', {
-						url:'/order',
+					    url:'/order',
 						templateUrl: 'views/adminTemplates/order.html'
 		
 			
@@ -139,7 +139,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		})
 		
 		.state('searchItems', {
-		url:'/:category/:sideMenu',
+		url:'/:category',
 		templateUrl: 'views/showItems.html',
 		controller: 'GetItemController'
 	});

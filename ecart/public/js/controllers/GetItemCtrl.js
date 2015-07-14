@@ -11,9 +11,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 				}
 	        },true);
 			
+			
+			
 	       //Search Items
 		   	$scope.searchItems = function(category){
             	//Search Items
+		   		
 		   		   $scope.categoryTwoId = category;
 		   		   $http({
                       url: '/item/searchItemsDisplay',
@@ -50,13 +53,16 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                              
                           }
                           
-                          $scope.sideMenu = $stateParams.sideMenu;
+                         
+                          console.log(JSON.stringify($scope.sideMenu));
                           
                   }).error(function(data) {
                           console.log('Error: ' + data);
                   });  
             	  
               };
+              
+            $scope.sideMenu = expandItemService.getMenuObject();
               
             //Search Brands
   		   	$scope.searchBrands = function(category){

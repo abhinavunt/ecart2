@@ -422,7 +422,9 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 		$scope.searchItems = function(categoryTwoId,sideMenuObj){
 			
 			expandItemService.setExpandItemFlag(false);
-			$state.go('searchItems', {category:categoryTwoId,sideMenu:sideMenuObj});
+			expandItemService.setMenuObject(sideMenuObj);
+			//expandItemService.setMenuCategory(categoryTwoId);
+			$state.go('searchItems', {category:categoryTwoId});
 			
 		}
 		

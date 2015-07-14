@@ -103,10 +103,11 @@ app.service('shoppingCartService', function($cookieStore) {
          };
 });
 
-app.service('expandItemService', function() {
+app.service('expandItemService', function($cookieStore) {
 	
 	var itemObjectList=[];
 	var expandItemFlag;
+	var menuObject;
 	
 	var getItem = function(){
 		return itemObjectList;
@@ -125,9 +126,19 @@ app.service('expandItemService', function() {
 		itemObjectList.push(item);
 	}
 	
+	var setMenuObject = function(menuObj){
+		$cookieStore.put('menuObj',menuObj);
+	}
+	
+	var getMenuObject = function(){
+		return $cookieStore.get('menuObj');
+	}
+	
 	return {
 		getItem:getItem,
 		setItem:setItem,
+		getMenuObject:getMenuObject,
+		setMenuObject:setMenuObject,
 		getExpandItemFlag:getExpandItemFlag,
 		setExpandItemFlag:setExpandItemFlag
 	};
