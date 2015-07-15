@@ -54,7 +54,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                           }
                           
                          
-                          console.log(JSON.stringify($scope.sideMenu));
+                         // console.log(JSON.stringify($scope.sideMenu));
                           
                   }).error(function(data) {
                           console.log('Error: ' + data);
@@ -62,7 +62,13 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	  
               };
               
-            $scope.sideMenu = expandItemService.getMenuObject();
+            if(typeof($stateParams.menuObj)=='string'){
+            	$scope.sideMenu = expandItemService.getMenuObject();
+            }else{
+            	$scope.sideMenu = $stateParams.menuObj;
+            	expandItemService.setMenuObject($stateParams.menuObj);
+			}
+            
               
             //Search Brands
   		   	$scope.searchBrands = function(category){

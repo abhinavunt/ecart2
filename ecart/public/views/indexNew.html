@@ -250,7 +250,7 @@
 														</p>
 													</li>
 		
-													<li data-ng-repeat="supersub in submenu.supersub"><a ng-click="searchItems(supersub._id,oneMenu)">{{supersub.name}}</a></li>
+													<li data-ng-repeat="supersub in submenu.supersub"><a ui-sref="searchItems({category:supersub._id, menuObj:oneMenu})">{{supersub.name}}</a></li>
 												</ul>
 											</div>
 										</div>
