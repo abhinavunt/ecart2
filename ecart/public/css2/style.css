@@ -910,8 +910,8 @@ hr{
 		padding:12px 20px;
 		font-size:18px;
 		text-transform:uppercase;
-		color:#ffb400;
-		background:#252a2f;
+		color:#ffffff;
+		background:#134D88;
 	}
 	.list-group, .list-group-item:first-child, .list-group-item:last-child{
 		-webkit-border-radius:0;
@@ -1074,6 +1074,20 @@ hr{
  
  #itemLiveSearch{
  border-radius:0px
+ }
+ 
+ .sidebar{
+     
+   
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-right: 1px solid #eee;
  }
 
 /* Copyright Styles Starts */
