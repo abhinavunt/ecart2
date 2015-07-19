@@ -139,10 +139,16 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		})
 		
 		.state('searchItems', {
-		url:'/:category?menuObj',
+		url:'/searchItems/:category?menuObj',
 		templateUrl: 'views/showItems.html',
 		controller: 'GetItemController'
-	});
+		})
+		
+		.state('expandItem', {
+			url:'/expandItem/:itemObj?menuObj',
+			templateUrl: 'views/expandItem.html',
+			controller: 'ExpandItemController'
+		});
 
 	$locationProvider.html5Mode(true);
 
