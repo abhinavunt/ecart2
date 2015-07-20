@@ -134,11 +134,21 @@ app.service('expandItemService', function($cookieStore) {
 		return $cookieStore.get('menuObj');
 	}
 	
+	var getItemObject = function(){
+		return $cookieStore.get('itemObj');
+	}
+	
+	var setItemObject = function(itemObj){
+		$cookieStore.put('itemObj',itemObj);
+	}
+	
 	return {
 		getItem:getItem,
 		setItem:setItem,
 		getMenuObject:getMenuObject,
 		setMenuObject:setMenuObject,
+		getItemObject:getItemObject,
+		setItemObject:setItemObject,
 		getExpandItemFlag:getExpandItemFlag,
 		setExpandItemFlag:setExpandItemFlag
 	};

@@ -1,191 +1,124 @@
 <div class="container">
 			<div class="row">
-			<!-- Primary Content Starts -->
+			
 			
 				<div class="col-lg-3">
-				<!-- Categories Links Starts -->
-					
-				<!-- Categories Links Ends -->
-				<!-- Shopping Options Starts -->
-					<h3 class="side-heading">Shopping Options</h3>
+				
+					<h3 class="side-heading">{{sideMenu.name}}</h3>
 					<div class="list-group">
-						<div class="list-group-item">
-							Brands
-						</div>
-						<div class="list-group-item">
-							<div >
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								
+						<div data-ng-repeat="subMenu in sideMenu.sub">
+							<div class="list-group-item">
+								{{subMenu.name}}
+							</div>
+							<div class="list-group-item">
+								<div data-ng-repeat="superSubMenu in subMenu.supersub">
+									<label >{{superSubMenu.name}}</label>
+								</div>
 							</div>
 						</div>
-						<div class="list-group-item">
-							Manufacturer
-						</div>
-						<div class="list-group-item">
-							<div >
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								<label>Brand Name 1</label>
-								
-							</div>
-						</div>
-						
 					</div>
-				<!-- Shopping Options Ends -->
-				<!-- Bestsellers Links Starts -->
-					<h3 class="side-heading">Bestsellers</h3>
-					<div class="list-group-item">
-							<div class="filter-group">
-								<label class="checkbox">
-									<input name="filter-manuf" type="checkbox" value="mr1" checked="checked" />
-									Manufacturer Name 1
-								</label>
-								<label class="checkbox">
-									<input name="filter-manuf" type="checkbox" value="mr1" checked="checked" />
-									Manufacturer Name 1
-								</label><label class="checkbox">
-									<input name="filter-manuf" type="checkbox" value="mr1" checked="checked" />
-									Manufacturer Name 1
-								</label><label class="checkbox">
-									<input name="filter-manuf" type="checkbox" value="mr1" checked="checked" />
-									Manufacturer Name 1
-								</label>
-							</div>							
-						</div>
-				<!-- Bestsellers Links Ends -->
+			
 				</div>
 				<div class="col-lg-9">
 						
-		<!-- Breadcrumb Starts -->
+	
 			<ol class="breadcrumb">
 				<li><a href="index.html">Home</a></li>
 				<li><a href="category-grid.html">Category</a></li>
 				<li class="active">Product</li>
 			</ol>
-		<!-- Breadcrumb Ends -->
-		<!-- Product Info Starts -->
+		
+		
+	
 			<div class="row product-info full">
 			<!-- Left Starts -->
-				<div class="col-sm-4 images-block">
-					<a href="images/product-images/big-pimg1.jpg">
-						<img src="images/product-images/pimg3.jpg" alt="Image" class="img-responsive thumbnail" />
+				<div class="col-sm-5 images-block">
+					<a>
+						<img  src="temp_upload/{{itemObject.imageId}}" alt="Image" class="img-responsive thumbnail" />
 					</a>
-					<ul class="list-unstyled list-inline">
-						<li>
-							<a href="images/product-images/big-pimg2.jpg">
-								<img src="images/product-images/thumb1.jpg" alt="Image" class="img-responsive thumbnail" />
-							</a>
-						</li>
-						<li>
-							<a href="images/product-images/big-pimg3.jpg">
-								<img src="images/product-images/thumb2.jpg" alt="Image" class="img-responsive thumbnail" />
-							</a>
-						</li>
-						<li>
-							<a href="images/product-images/big-pimg4.jpg">
-								<img src="images/product-images/thumb3.jpg" alt="Image" class="img-responsive thumbnail" />
-							</a>
-						</li>
-						<li>
-							<a href="images/product-images/big-pimg4.jpg">
-								<img src="images/product-images/thumb4.jpg" alt="Image" class="img-responsive thumbnail" />
-							</a>
-						</li>
-					</ul>
 				</div>
-			<!-- Left Ends -->
-			<!-- Right Starts -->
-				<div class="col-sm-8 product-details">
+			
+				<div class="col-sm-7 product-details">
 					<div class="panel-smart">
-					<!-- Product Name Starts -->
-						<h2>Simply Organic seeds</h2>
-					<!-- Product Name Ends -->
+					
+						<h2>{{itemObject.name}}</h2>
+					
 						<hr />
-					<!-- Manufacturer Starts -->
+				
 						<ul class="list-unstyled manufacturer">
-							<li>
-								<span>Brand:</span> Indian spices
-							</li>
-							<li><span>Model:</span> SKU012452</li>
-							<li><span>Reward Points:</span> 300</li>
-							<li>
-								<span>Availability:</span> <strong class="label label-danger">Out Of Stock</strong>
-							</li>
+							<li><span>Brand:</span>{{itemObject.brand}}</li>
+							<li><span>Availability:</span><strong class="label label-success">Available</strong></li>
+							<li><span>Is offer Available?</span></li>
+							
 						</ul>
-					<!-- Manufacturer Ends -->
+				
 						<hr />
-					<!-- Price Starts -->
-						<div class="price">
-							<span class="price-head">Price :</span>
-							<span class="price-new">$199.50</span> 
-							<span class="price-old">$249.50</span>
-							<p class="price-tax">Ex Tax: $279.99</p>
+						<div class="row">
+							<div class="col-sm-6">
+								<h4>Price:</h4>
+								<h2>{{amount.selected.Price}} Rs</h2>
+							</div>
+							
+							<div class="col-sm-6">
+								<h4>Available Options</h4>
+								<div class="form-group">
+									<select class="form-control" ng-init="amount.selected=itemObject.amountprice[0]"
+	                                     ng-model="amount.selected"
+	                                     ng-options="amtPrice.Amount for amtPrice in itemObject.amountprice">
+		                            </select>
+								</div>
+							</div>
 						</div>
-					<!-- Price Ends -->
+						
+						
 						<hr />
-					<!-- Available Options Starts -->
-						<div class="options">
-							<h3>Available Options</h3>
-							<div class="form-group">
-								<label for="select" class="control-label text-uppercase">Select:</label>
-								<select name="select" id="select" class="form-control">
-									<option value="1" selected>Select</option>
-									<option value="2">Option 1</option>
-									<option value="3">Option 1</option>
-								</select>
-							</div>	
-							<div class="form-group">
-								<label class="control-label text-uppercase">Radio:</label>
-								<div class="radio">
-									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-										Option one is this and that&mdash;be sure to include why it's great
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-										Option two can be something else and selecting it will deselect option one
-									</label>
+						
+						<div class="row">
+							<div class="col-lg-2">
+									
+									<div class="cart-button button-group">
+									
+									<button type="button" class="btn btn-cart">
+										Back
+										<i class="fa fa-backward"></i>
+									</button>									
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="control-label text-uppercase">Checkbox:</label>
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" value="">
-										Option one is this and that&mdash;be sure to include why it's great
-									</label>
-								</div>
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" value="" checked>
-										Option two is checked
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label text-uppercase" for="input-quantity">Qty:</label>
-								<input type="text" name="quantity" value="1" size="2" id="input-quantity" class="form-control" />
-							</div>
-							<div class="cart-button button-group">
-								<button type="button" title="Wishlist" class="btn btn-wishlist">
-									<i class="fa fa-heart"></i>
-								</button>
-								<button type="button" title="Compare" class="btn btn-compare">
-									<i class="fa fa-bar-chart-o"></i>
-								</button>
+							<div class="col-lg-4">
+								
+								<div class="cart-button button-group">
+								
 								<button type="button" class="btn btn-cart">
 									Add to cart
 									<i class="fa fa-shopping-cart"></i> 
 								</button>									
 							</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group">
+									<div class="col-sm-3">
+									<label class="control-label text-uppercase" for="input-quantity">Qty:</label>
+									</div>
+									<div class="col-sm-9">
+										<select class="form-control input-sm"
+	                                          ng-init="quantity.selected=quantityList[0]"
+	                                          ng-model="quantity.selected"
+	                                          ng-options="qnt.quantity for qnt in quantityList">
+	                                    </select>
+									</div>
+								
+								
+								</div>
+							</div>
+						</div>
+						
+					
+						<div class="options">
+							
+								
+							
+							
 						</div>
 					<!-- Available Options Ends -->
 					</div>
@@ -198,13 +131,9 @@
 			<!-- Nav Tabs Starts -->
 				<ul class="nav nav-tabs">
 					<li class="active">
-						<a href="#tab-description">Description</a>
+						<a href="#tab-description">Product Description</a>
 					</li>
-					<li>
-						<a href="#tab-specification">Specification</a>
-					</li>
-					<li><a href="#tab-ainfo">Additional Information</a></li>
-					<li><a href="#tab-review">Review</a></li>
+					
 				</ul>
 			<!-- Nav Tabs Ends -->
 			<!-- Tab Content Starts -->
