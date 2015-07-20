@@ -84,33 +84,55 @@
 									</button>									
 								</div>
 							</div>
-							<div class="col-lg-4">
-								
-								<div class="cart-button button-group">
-								
-								<button type="button" class="btn btn-cart">
-									Add to cart
-									<i class="fa fa-shopping-cart"></i> 
-								</button>									
-							</div>
-							</div>
-							
-							<div class="col-lg-6">
-								<div class="form-group">
-									<div class="col-sm-3">
-									<label class="control-label text-uppercase" for="input-quantity">Qty:</label>
+							<div ng-hide="isSelected(amount.selected)">
+								<div class="col-lg-4">
+									<div class="cart-button button-group" ng-hide="isSelected(amount.selected)">
+										<button type="button" class="btn btn-cart" data-ng-click="addToCart(amount.selected,quantity.selected,itemObject)">
+											Add to cart
+											<i class="fa fa-shopping-cart"></i> 
+										</button>									
 									</div>
-									<div class="col-sm-9">
-										<select class="form-control input-sm"
-	                                          ng-init="quantity.selected=quantityList[0]"
-	                                          ng-model="quantity.selected"
-	                                          ng-options="qnt.quantity for qnt in quantityList">
-	                                    </select>
+									
+								</div>
+								
+								<div class="col-lg-6">
+									<div class="form-group">
+										<div class="col-sm-3">
+										<label class="control-label text-uppercase" for="input-quantity">Qty:</label>
+										</div>
+										<div class="col-sm-9">
+											<select class="form-control"
+		                                          ng-init="quantity.selected=quantityList[0]"
+		                                          ng-model="quantity.selected"
+		                                          ng-options="qnt.quantity for qnt in quantityList">
+		                                    </select>
+										</div>
+									
+									
 									</div>
-								
-								
 								</div>
 							</div>
+							<div ng-show="isSelected(amount.selected)">
+								<div class="col-lg-6">
+									<div class="input-group"  ng-show="isSelected(amount.selected)">
+	                                    <span class="input-group-btn">
+	                                        <button type="button" class="btn btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
+	                                          <span class="glyphicon glyphicon-minus"></span>
+	                                        </button>
+	                                    </span>
+	                                   <input type="text" name="quant[2]" class="form-control input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
+	                                  
+	                                    <span class="input-group-btn">
+	                                        <button type="button" class="btn btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
+	                                            <span class="glyphicon glyphicon-plus"></span>
+	                                        </button>
+	                                    </span>
+		                            </div>
+	                            </div>
+	                            <div class="col-lg-4">
+	                            </div>
+							</div>
+							
 						</div>
 						
 					
