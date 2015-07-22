@@ -921,7 +921,7 @@ hr{
 	.list-group-item{
 		color:#252a2f;
 		font-size:14px;
-		text-transform:uppercase;
+		
 	}
 	.list-group-item .fa{
 		font-size:12px;
@@ -1063,6 +1063,54 @@ hr{
 .item:not(.prev) {visibility: visible;}
 .item.right:not(.prev) {visibility: hidden;}
 .rightest{ visibility: visible;}
+
+.col-xs-1-5 {
+	width: 20%;
+	float: left;
+}
+@media (min-width: 768px) {
+	.col-sm-1-5 {
+		width: 20%;
+		float: left;
+	}				
+}
+@media (min-width: 992px) {
+	.col-md-1-5 {
+		width: 20%;
+		float: left;
+	}
+}
+@media (min-width: 1200px) {
+	.col-lg-1-5 {
+		width: 20%;
+		float: left;
+	}
+}
+
+
+
+.col-xs-4-5 {
+	width: 80%;
+	float: left;
+}
+@media (min-width: 768px) {
+	.col-sm-4-5 {
+		width: 80%;
+		float: left;
+	}				
+}
+@media (min-width: 992px) {
+	.col-md-4-5 {
+		width: 80%;
+		float: left;
+	}
+}
+@media (min-width: 1200px) {
+	.col-lg-4-5 {
+		width: 80%;
+		float: left;
+	}
+}
 
 
 .form-group.required .control-label:before{
