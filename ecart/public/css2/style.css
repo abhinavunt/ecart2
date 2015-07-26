@@ -927,6 +927,15 @@ hr{
 		font-size:12px;
 		padding-right:6px;
 	}
+	
+	.showPointer{
+		cursor:pointer;
+	}
+	
+	.showPointer:hover {
+    	text-decoration: underline;
+	}
+	
 	.filter-group{
 		margin-left:20px;
 	}

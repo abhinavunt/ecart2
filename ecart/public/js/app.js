@@ -142,6 +142,14 @@ app.service('expandItemService', function($cookieStore) {
 		$cookieStore.put('itemObj',itemObj);
 	}
 	
+	var getCategoryString = function(){
+		return $cookieStore.get('categoryStr');
+	}
+	
+	var setCategoryString = function(category){
+		$cookieStore.put('categoryStr',category);
+	}
+	
 	return {
 		getItem:getItem,
 		setItem:setItem,
@@ -149,6 +157,8 @@ app.service('expandItemService', function($cookieStore) {
 		setMenuObject:setMenuObject,
 		getItemObject:getItemObject,
 		setItemObject:setItemObject,
+		getCategoryString:getCategoryString,
+		setCategoryString:setCategoryString,
 		getExpandItemFlag:getExpandItemFlag,
 		setExpandItemFlag:setExpandItemFlag
 	};

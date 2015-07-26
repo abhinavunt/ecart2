@@ -1,6 +1,6 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$stateParams,expandItemService,shoppingCartService) {
-	
+angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$window,$stateParams,expandItemService,shoppingCartService) {
+	 $window.scrollTo(0, 50);
 	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'||typeof($stateParams.brandList)=='string'){
      	$scope.sideMenu = expandItemService.getMenuObject();
      	$scope.itemObject = expandItemService.getItemObject();
@@ -13,7 +13,24 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
      	
 	 }
 	 
+	 $scope.categoryStr = expandItemService.getCategoryString();
 	 $scope.products = shoppingCartService.getProducts();
+	 
+	 
+	 $scope.getBreadcrumbs = function(){
+     	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+     		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
+     			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.categoryStr){
+     				$scope.catName = $scope.sideMenu.name;
+     				$scope.subCatName = $scope.sideMenu.sub[i].name;
+     				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
+     				break;
+     			}
+     		}
+     	}
+     }
+	 
+	 $scope.getBreadcrumbs();
      
      $scope.$watch('products', function() {
      if($scope.products.length>0){

@@ -1,8 +1,11 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$stateParams,expandItemService) {
+angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService) {
+			
+	 		$window.scrollTo(0, 50);
 			$scope.brandsArray=[];
 			
 			$scope.itemToExpand = expandItemService.getItem();
+			expandItemService.setCategoryString($stateParams.category);
 			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
@@ -69,7 +72,21 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	expandItemService.setMenuObject($stateParams.menuObj);
 			}
             
-              
+            
+           $scope.getBreadcrumbs = function(){
+            	outer_loop: 
+	        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+	        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
+	        			if($scope.sideMenu.sub[i].supersub[j]._id==$stateParams.category){
+	        				$scope.catName = $scope.sideMenu.name;
+	        				$scope.subCatName = $scope.sideMenu.sub[i].name;
+	        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
+	        				break outer_loop;
+	        			}
+	        		}
+	        	}
+            }
+            
             //Search Brands
   		   	$scope.searchBrands = function(category){
   		   		$scope.brandsArray=[];
@@ -96,16 +113,13 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	  $scope.expandItemFlag=false;
               }
               
-              $scope.searchItems($stateParams.category);
-              $scope.searchBrands($stateParams.category);
-              
-              $scope.sideMenuSearchItems = function(category){
+             $scope.sideMenuSearchItems = function(category){
             	  expandItemService.setExpandItemFlag(false);
             	  $scope.searchItems(category);
             	  $scope.searchBrands(category);
-              }
+             }
               
-              $scope.selectedBrand = function(brandName){
+             $scope.selectedBrand = function(brandName){
             	  
             	  if($scope.brandsArray.indexOf(brandName)!= -1){
             		  $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
@@ -131,5 +145,9 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                           console.log('Error: ' + data);
                    });
             	  
-              };
+             };
+             
+             $scope.getBreadcrumbs();
+             $scope.searchItems($stateParams.category);
+             $scope.searchBrands($stateParams.category);
 });

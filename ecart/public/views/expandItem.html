@@ -1,36 +1,26 @@
 <div class="container">
-			<div class="row">
-			
-			
-				<div class="col-lg-2">
-				
-					<h3 class="side-heading">{{sideMenu.name}}</h3>
-					<div class="list-group">
-						<div data-ng-repeat="subMenu in sideMenu.sub">
-							<div class="list-group-item">
-								<label>{{subMenu.name}}</label>
-							</div>
-							<div class="list-group-item">
-								<div data-ng-repeat="superSubMenu in subMenu.supersub">
-									{{superSubMenu.name}}
-								</div>
-							</div>
+	<div class="row">
+		<div class="col-lg-2">
+			<h3 class="side-heading">{{sideMenu.name}}</h3>
+			<div class="list-group">
+				<div data-ng-repeat="subMenu in sideMenu.sub">
+					<div class="list-group-item">
+						<label>{{subMenu.name}}</label>
+					</div>
+					<div class="list-group-item">
+						<div class="showPointer" data-ng-repeat="superSubMenu in subMenu.supersub" ui-sref="searchItems({category:superSubMenu._id, menuObj:sideMenu})">
+							{{superSubMenu.name}}
 						</div>
 					</div>
-					
-			
 				</div>
-				<div class="col-lg-10">
-						
-	
+			</div>
+		</div>
+		<div class="col-lg-10">
 			<ol class="breadcrumb">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="category-grid.html">Category</a></li>
-				<li class="active">Product</li>
+				<li><a href="index.html">{{catName}}</a></li>
+				<li><a href="index.html">{{subCatName}}</a></li>
+				<li class="active">{{supSubCatName}}</li>
 			</ol>
-		
-		
-	
 			<div class="row product-info full">
 			<!-- Left Starts -->
 				<div class="col-sm-5 images-block">
@@ -79,7 +69,7 @@
 									
 									<div class="cart-button button-group">
 									
-									<button type="button" class="btn btn-cart">
+									<button type="button" class="btn btn-cart" ui-sref="searchItems({category:categoryStr, menuObj:sideMenu})">
 										Back
 										<i class="fa fa-backward"></i>
 									</button>									
@@ -163,12 +153,7 @@
 				<div class="tab-content clearfix">
 				<!-- Description Starts -->
 					<div class="tab-pane active" id="tab-description">
-						<p>
-							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						</p>
-						<p>
-							It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						</p>
+						{{itemObject.description}}
 					</div>
 				<!-- Description Ends -->
 				<!-- Specification Starts -->
