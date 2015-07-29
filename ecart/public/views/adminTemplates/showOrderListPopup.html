@@ -1,5 +1,20 @@
 <div class="row">
-<h4>Review Order</h4>
+	<div class="col-lg-4">
+		<h4>Review Order</h4>
+	</div>
+	<div class="col-lg-4">
+		<select class="form-control input-md" 
+				ng-init="orderStatus=selectedStatus"
+                ng-model="orderStatus"
+                ng-options="orderStatusListObj.status for orderStatusListObj in orderStatusList"
+                ng-change="changeStatus(orderStatus)">
+        </select>
+	</div>
+	<div class="col-lg-4">
+		<a class="btn btn-primary" ng-disabled="orderStatusCheck" ng-click="saveStatus()">Save</a>								
+	</div>
+</div>
+<div class="row">
 	<div class="col-lg-12">
 			
 	<div class="panel panel-default">
@@ -72,5 +87,5 @@
 				
 	
 	</div>
-	
+</div>
 </div>

@@ -3,6 +3,8 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	$scope.orderPerPageList = [{'order':10},{'order':20},{'order':30}];
 	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders','value':3},{'criteria':'Last 7 days orders','value':7},{'criteria':'Last 30 days orders','value':30},{'criteria':'Choose Month..','value':4}];
+	$scope.orderStatusList =[{'status':'Received','value':1},{'status':'In Process','value':2},{'status':'Delivered','value':3}];
+	$scope.orderStatusCheck =true;
 	
 	$scope.yearList = [{"year":"Select Year"}];
 	for(var i=1;i>=0;i--){
@@ -149,15 +151,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 		 });
 	}
 	
-	$scope.myFunction = function(order){
-		$scope.showOrderList = order;
-		
-		var dialog = ngDialog.open({
-            template: 'views/adminTemplates/showOrderListPopup.html',
-            scope: $scope,
-            className: 'ngdialog-theme-default'
-          });
-	}
+	
 	
 	$scope.selectedOrderPerPage = function(orderPerPageObj){
 		$scope.firstOrderDate ="notAssigned";
@@ -169,12 +163,12 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	}
 	
 	$scope.getCssClass  = function(status){
-		if(status=="Recieved"){
+		if(status==1){
 			return 'danger';
-		}else if(status=="InProcess"){
+		}else if(status==2){
 			return 'warning';
 			
-		}else if(status=="Delivered"){
+		}else if(status==3){
 			return 'success';
 		}
 	}
@@ -233,6 +227,46 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 			
 			$scope.getOrderList($scope.orderPerPg, $scope.firstOrderDate, $scope.lastOrderDate, $scope.searchCriteriaVal, $scope.criteriaYear, $scope.criteriaMonth, $scope.keyword);
 		}
+	}
+	
+	$scope.openOrderDetails = function(order){
+		$scope.showOrderList = order;
+		if(order.status==1){
+			$scope.selectedStatus = $scope.orderStatusList[0];
+		}else if(order.status==2){
+			$scope.selectedStatus = $scope.orderStatusList[1];
+		}else if(order.status==3){
+			$scope.selectedStatus = $scope.orderStatusList[2];
+		}
+		
+		var dialog = ngDialog.open({
+            template: 'views/adminTemplates/showOrderListPopup.html',
+            scope: $scope,
+            className: 'ngdialog-theme-default'
+          });
+	}
+	
+	
+	$scope.changeStatus = function(statusObj){
+		if(statusObj.value!=$scope.selectedStatus.value) $scope.orderStatusCheck=false;
+		else $scope.orderStatusCheck=true;
+		$scope.tempSelectedStatus = statusObj;
+	}
+	
+	$scope.saveStatus = function(){
+		
+		$http({
+            url: '/order/saveOrderStatus',
+            method: "POST",
+            data: {orderId:$scope.showOrderList._id,status:$scope.tempSelectedStatus.value},
+            headers: {'Content-Type': 'application/json'}
+        }).success(function (data, status, headers, config) {
+        	
+        	$scope.orderStatusCheck =true;
+        }).error(function (data, status, headers, config) {
+        
+        });
+		
 	}
 	
 	

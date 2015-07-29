@@ -729,7 +729,7 @@
             		address : req.body.address,
 					date : new Date(),
 					grandTotal:req.body.grandTotal,
-					status:"Recieved",
+					status:1,
 					order: req.body.order
 					
 			};
@@ -740,6 +740,21 @@
 				res.json(records[0]._id);
 				
 			});
+			
+		});
+		
+		//change order status
+		app.post('/order/saveOrderStatus', function(req, res) {
+			var db = req.db;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			db.collection('order').update({_id:ObjectID(req.body.orderId)},{$set: {status:req.body.status}},function(err, records) {
+				if (err) throw err;
+				else{
+					res.json({changedStatus:req.body.status});
+				}
+			});	
 			
 		});
 		
