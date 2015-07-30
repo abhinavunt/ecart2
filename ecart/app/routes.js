@@ -730,6 +730,7 @@
 					date : new Date(),
 					grandTotal:req.body.grandTotal,
 					status:1,
+					statusClass:"danger",
 					order: req.body.order
 					
 			};
@@ -748,11 +749,16 @@
 			var db = req.db;
 			var mongo = req.mongo;
 			var ObjectID = mongo.ObjectID;
+			var statusClassVal;
 			
-			db.collection('order').update({_id:ObjectID(req.body.orderId)},{$set: {status:req.body.status}},function(err, records) {
+			if(req.body.status==1) statusClassVal ="danger";
+			else if(req.body.status==2) statusClassVal ="warning";
+			else if(req.body.status==3) statusClassVal ="success";
+			
+			db.collection('order').update({_id:ObjectID(req.body.orderId)},{$set: {status:req.body.status, statusClass:statusClassVal}},function(err, records) {
 				if (err) throw err;
 				else{
-					res.json({changedStatus:req.body.status});
+					res.json({changedStatus:req.body.status,changedStatusClass:statusClassVal});
 				}
 			});	
 			

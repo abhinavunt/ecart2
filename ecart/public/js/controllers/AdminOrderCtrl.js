@@ -261,7 +261,13 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
             data: {orderId:$scope.showOrderList._id,status:$scope.tempSelectedStatus.value},
             headers: {'Content-Type': 'application/json'}
         }).success(function (data, status, headers, config) {
-        	
+        	for(var i=0;i<$scope.orderlist.length;i++){
+        		if($scope.orderlist[i]._id==$scope.showOrderList._id){
+        			$scope.orderlist[i].status = data.changedStatus;
+        			$scope.orderlist[i].statusClass = data.changedStatusClass;
+        			break;
+        		}
+        	}
         	$scope.orderStatusCheck =true;
         }).error(function (data, status, headers, config) {
         

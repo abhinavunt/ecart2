@@ -64,7 +64,7 @@
   </thead>
   <tbody>
   
-  	<tr class="active" ng-class="getCssClass(order.status)" data-ng-repeat="order in orderlist" ng-click="openOrderDetails(order);">
+  	<tr class="active" ng-class="order.statusClass" data-ng-repeat="order in orderlist" ng-click="openOrderDetails(order);">
   		
   		<td class="col-md-3">{{order._id}}</td>
 		<td class="col-md-3">{{order.fullName}}</td>
