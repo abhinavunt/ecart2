@@ -293,6 +293,8 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 		 }).success(function (data, status, headers, config) {
 		        shoppingCartService.setOrderId(data);
 		        shoppingCartService.emptyCart();
+		        $scope.grandTotal = 0;
+		    	$scope.itemCount = 0;
 		        $location.path("/completeOrder");
 		 }).error(function (data, status, headers, config) {
 		
