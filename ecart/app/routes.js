@@ -559,21 +559,23 @@
 		});
 		
 		// Search Latest Items
-		app.get('/item/getLatestAndOfferItems', function(req, res) {
+		app.get('/item/getLatestItems', function(req, res) {
 			
 			var db = req.db;
-			
-			db.collection('item').find({isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).toArray(function (err, latestItems) {
+			db.collection('item').find({isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(8).toArray(function (err, latestItems) {
 			   if(err) throw err;
-			   else{
-				   db.collection('item').find({isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).toArray(function (err, offerItems) {
-					  if(err) throw err;
-					  else res.json({"latestItems":latestItems,"offerItems":offerItems});
-				   });
-				   
-				   
-			   }
+			   else res.json({"latestItems":latestItems});
 		    });
+		});
+		
+		// Search Offer Items
+		app.get('/item/getOfferItems', function(req, res) {
+			
+			var db = req.db;
+			db.collection('item').find({isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).limit(8).toArray(function (err, offerItems) {
+				  if(err) throw err;
+				  else res.json({"offerItems":offerItems});
+			});
 		});
 		
 		

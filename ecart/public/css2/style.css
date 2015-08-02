@@ -1146,6 +1146,24 @@ hr{
     background-color: #ffffff;
     border-right: 1px solid #eee;
  }
+ 
+
+
+[ui-view].ng-enter {
+  animation: fadeIn 0.5s;
+}
+
+
+
+.ng-enter{
+	transition:0.75s;
+	opacity:0;	
+}
+
+.ng-enter-active{
+	opacity:1;
+}
+
 
 /* Copyright Styles Starts */
 

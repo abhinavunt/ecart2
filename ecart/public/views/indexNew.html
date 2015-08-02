@@ -51,12 +51,14 @@
 	<link rel="stylesheet" href="libs/angular-dialog/css/ng-dialog.css" />
     <link rel="stylesheet" href="libs/angular-dialog/css/ng-dialog-theme-plain.css" />
     <link rel="stylesheet" href="libs/angular-dialog/css/ng-dialog-theme-default.css" />
+    <link rel="stylesheet" href="libs/angular-animate/animate.css" />
     
     <link href="css2/font1.css" rel="stylesheet" type="text/css">
 	
     <link href="css2/bootstrap.min.css" rel="stylesheet">
     <link href="css2/font-awesome.min.css" rel="stylesheet">
     <link href="css2/responsive.css" rel="stylesheet">
+   
     <link href="css2/style.css" rel="stylesheet">
     
     <link href="css/jasny-bootstrap.css" rel="stylesheet">
@@ -76,7 +78,7 @@
 							<div class="header-links">
 								<ul class="nav navbar-nav pull-left">
 									<li>
-										<a ui-sref="home">
+										<a ui-sref="home" ui-sref-opts="{reload: true}">
 											<i class="fa fa-home" title="Home"></i>
 											<span class="hidden-sm hidden-xs">
 												Home
@@ -271,7 +273,7 @@
 	<!-- Header Section Ends -->
 	<div class="container">{{welcomeMessage}}</div>
 	<div>
-		<div ui-view class="slide"></div>
+		<div ui-view></div>
 	</div> 
 	
 	<!-- Footer Section Starts -->
