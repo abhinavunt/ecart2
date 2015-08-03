@@ -3,12 +3,17 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	$scope.latestItemShow = [];
 	$scope.offerItemShow = [];
 	$scope.startIndex = 0;
-	$scope.endIndex = 4;
+	$scope.endIndex = 3;
+	$scope.addItemsIndex = 4;
+	$scope.lastLatestItemDate ="notAssigned";
 	
 	$scope.getLatestItems = function(){
 		
-		$http.get('/item/getLatestItems')
-		.success(function(data) {
+		$http({
+            url: '/item/getLatestItems',
+            method: "GET",
+            data: $scope.lastLatestItemDate
+         }).success(function(data) {
 				
 			$scope.latestItemList = data.latestItems;
 			if($scope.latestItemList.length<$scope.endIndex){
@@ -16,13 +21,49 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 					$scope.latestItemShow.push($scope.latestItemList[i]);
 				}
 			}else{
-				for(var i=$scope.startIndex;i<$scope.endIndex;i++){
+				for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
 					$scope.latestItemShow.push($scope.latestItemList[i]);
 				}
 			}
+			
+			$scope.previousLatestItemsBtn =true;
+			if($scope.latestItemList.length<=$scope.endIndex+1) $scope.nextLatestItemsBtn =true;
+			
 		}).error(function(data) {
 				console.log('Error: ' + data);
 		});
+	}
+	
+	$scope.nextLatestItems = function(){
+		$scope.startIndex = $scope.startIndex+$scope.addItemsIndex;
+		$scope.endIndex = $scope.endIndex +($scope.latestItemList.length - $scope.startIndex);
+		$scope.previousLatestItemsBtn =false;
+		
+		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
+		for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
+			$scope.latestItemShow.push($scope.latestItemList[i]);
+		}
+		
+		if(($scope.latestItemList.length - $scope.startIndex)<$scope.addItemsIndex){
+			 $scope.nextLatestItemsBtn =true;
+		}else{
+			
+		}
+		
+		
+		
+		
+	}
+	
+	$scope.previousLatestItems = function(){
+		$scope.startIndex = $scope.startIndex-1;
+		$scope.endIndex = $scope.endIndex-1;
+		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
+		
+		for(var i=$scope.startIndex;i<$scope.endIndex;i++){
+			$scope.latestItemShow.push($scope.latestItemList[i]);
+		}	
+		
 	}
 	
 	
@@ -46,34 +87,12 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 		}).error(function(data) {
 				console.log('Error: ' + data);
 		});
-		
-		
 	}
 	
 	
 	
 	
-	$scope.next = function(){
-		$scope.startIndex = $scope.startIndex+4;
-		$scope.endIndex = $scope.endIndex+4;
-		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
-		
-		for(var i=$scope.startIndex;i<$scope.endIndex;i++){
-			$scope.latestItemShow.push($scope.latestItemList[i]);
-		}
-		
-	}
 	
-	$scope.previous = function(){
-		$scope.startIndex = $scope.startIndex-1;
-		$scope.endIndex = $scope.endIndex-1;
-		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
-		
-		for(var i=$scope.startIndex;i<$scope.endIndex;i++){
-			$scope.latestItemShow.push($scope.latestItemList[i]);
-		}	
-		
-	}
 	
 	$scope.getLatestItems();
 	$scope.getOfferItems();
