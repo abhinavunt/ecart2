@@ -562,10 +562,20 @@
 		app.get('/item/getLatestItems', function(req, res) {
 			
 			var db = req.db;
-			db.collection('item').find({isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(8).toArray(function (err, latestItems) {
-			   if(err) throw err;
-			   else res.json({"latestItems":latestItems});
-		    });
+			if(req.param("lastLatestItemDate")=="notAssigned"){
+				
+				db.collection('item').find({isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, latestItems) {
+					   if(err) throw err;
+					   else res.json({"latestItems":latestItems});
+				});	
+			}else{
+				
+				db.collection('item').find({createdAt:{"$lt":new Date(req.param("lastLatestItemDate"))},isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, latestItems) {
+					if(err) throw err;
+					else res.json({"latestItems":latestItems});
+		    	});
+			}
+			
 		});
 		
 		// Search Offer Items
