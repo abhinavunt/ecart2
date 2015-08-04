@@ -67,15 +67,15 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	        	}else{
 	        		for(var i=0;i<data.latestItems.length;i++){
 		        		$scope.latestItemList.push(data.latestItems[i]);
-		        	}	
+		        	}
+	        		$scope.lastLatestItemDate=$scope.latestItemList[$scope.latestItemList.length-1].createdAt;
 	        	}
-	        	
-	        	console.log($scope.latestItemList.length);
-	         
 	         }).error(function(data) {
 					console.log('Error: ' + data);
 	         });
 		}
+		
+		console.log($scope.latestItemList.length);
 	}
 	
 	$scope.previousLatestItems = function(){
@@ -91,19 +91,16 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 			$scope.latestItemShow.push($scope.latestItemList[i]);
 		}
 		
-		if($scope.latestItemList.length>(2*$scope.addItemsIndex)){
-			for(var j=$scope.latestItemList.length-1;j>=recentStrIndex;j--){
+		if($scope.latestItemList.length>$scope.endIndex+$scope.addItemsIndex){
+			for(var j=$scope.latestItemList.length-1;j>=(recentStrIndex+$scope.addItemsIndex);j--){
 				$scope.latestItemList.pop();
 			}
+			$scope.lastLatestItemDate=$scope.latestItemList[recentStrIndex+$scope.addItemsIndex-1].createdAt;
 		}
 		
 		if($scope.startIndex!=0) $scope.previousLatestItemsBtn =false;
 		else $scope.previousLatestItemsBtn =true;
 		$scope.nextLatestItemsBtn =false;
-		
-		console.log($scope.latestItemList.length);
-		
-		
 	}
 	
 	
