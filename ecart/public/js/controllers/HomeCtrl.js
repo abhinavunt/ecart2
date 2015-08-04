@@ -34,6 +34,8 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 			$scope.previousLatestItemsBtn =true;
 			if($scope.latestItemList.length<=$scope.endIndex+1) $scope.nextLatestItemsBtn =true;
 			
+			console.log($scope.latestItemList.length);
+			
 		}).error(function(data) {
 				console.log('Error: ' + data);
 		});
@@ -42,6 +44,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	$scope.nextLatestItems = function(){
 		$scope.startIndex = $scope.startIndex+$scope.addItemsIndex;
 		$scope.endIndex = $scope.endIndex +($scope.latestItemList.length - $scope.startIndex);
+		
 		$scope.previousLatestItemsBtn =false;
 		$scope.latestItemsMaxLimit = $scope.latestItemsMaxLimit+1;
 		
@@ -57,7 +60,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 			$http({
 	            url: '/item/getLatestItems',
 	            method: "GET",
-	            params: {lastLatestItemDate:$scope.lastLatestItemDate}
+	            params: {lastLatestItemDate:$scope.lastLatestItemDate,limitPerSlide:$scope.addItemsIndex}
 	         }).success(function(data) {
 	        	if(data.latestItems.length==0){
 	        		$scope.nextLatestItemsBtn =true;
@@ -66,7 +69,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 		        		$scope.latestItemList.push(data.latestItems[i]);
 		        	}	
 	        	}
-	        	 
+	        	
+	        	console.log($scope.latestItemList.length);
+	         
 	         }).error(function(data) {
 					console.log('Error: ' + data);
 	         });
@@ -75,13 +80,29 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	
 	$scope.previousLatestItems = function(){
 		
+		var recentStrIndex = $scope.startIndex;
+		
 		$scope.endIndex =  $scope.startIndex-1;
 		$scope.startIndex = $scope.startIndex-$scope.addItemsIndex;
-		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
+		$scope.latestItemsMaxLimit = $scope.latestItemsMaxLimit-1;
 		
+		$scope.latestItemShow.splice(0,$scope.latestItemShow.length);
 		for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
 			$scope.latestItemShow.push($scope.latestItemList[i]);
-		}	
+		}
+		
+		if($scope.latestItemList.length>(2*$scope.addItemsIndex)){
+			for(var j=$scope.latestItemList.length-1;j>=recentStrIndex;j--){
+				$scope.latestItemList.pop();
+			}
+		}
+		
+		if($scope.startIndex!=0) $scope.previousLatestItemsBtn =false;
+		else $scope.previousLatestItemsBtn =true;
+		$scope.nextLatestItemsBtn =false;
+		
+		console.log($scope.latestItemList.length);
+		
 		
 	}
 	
@@ -108,14 +129,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 		});
 	}
 	
-	
-	
-	
-	
-	
+
 	$scope.getLatestItems();
 	$scope.getOfferItems();
-	
-	
-      
 });
