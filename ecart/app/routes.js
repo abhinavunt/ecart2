@@ -582,10 +582,20 @@
 		app.get('/item/getOfferItems', function(req, res) {
 			
 			var db = req.db;
-			db.collection('item').find({isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).limit(8).toArray(function (err, offerItems) {
-				  if(err) throw err;
-				  else res.json({"offerItems":offerItems});
-			});
+			if(req.param("lastOfferItemDate")=="notAssigned"){
+				
+				db.collection('item').find({isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, offerItems) {
+					   if(err) throw err;
+					   else res.json({"offerItems":offerItems});
+				});	
+			}else{
+				
+				db.collection('item').find({createdAt:{"$lt":new Date(req.param("lastOfferItemDate"))},isOfferCheck:"yes"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, offerItems) {
+					if(err) throw err;
+					else res.json({"offerItems":offerItems});
+		    	});
+			}
+			
 		});
 		
 		

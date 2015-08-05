@@ -1087,12 +1087,20 @@ hr{
 	.col-md-1-5 {
 		width: 20%;
 		float: left;
+		position: relative;
+  		min-height: 1px;
+ 	    padding-left: 15px;
+  		padding-right: 15px;
 	}
 }
 @media (min-width: 1200px) {
 	.col-lg-1-5 {
 		width: 20%;
 		float: left;
+		position: relative;
+  		min-height: 1px;
+ 	    padding-left: 8px;
+  		padding-right: 8px;
 	}
 }
 

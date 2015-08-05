@@ -1,13 +1,23 @@
 // public/js/controllers/NerdCtrl.js
 angular.module('HomeCtrl', []).controller('HomeController', function($scope,$http) {
+	
+	$scope.addItemsIndex = 5;
+	
+	//latestItems
 	$scope.latestItemShow = [];
-	$scope.offerItemShow = [];
 	$scope.startIndex = 0;
-	$scope.endIndex = 3;
-	$scope.addItemsIndex = 4;
+	$scope.endIndex = 4;
 	$scope.lastLatestItemDate ="notAssigned";
 	$scope.maxLimit = 6;
 	$scope.latestItemsMaxLimit=0;
+	
+	//offerItems
+	$scope.offerItemShow = [];
+	$scope.startIndexOff = 0;
+	$scope.endIndexOff = 4;
+	$scope.lastOfferItemDate ="notAssigned";
+	$scope.maxLimitOff = 6;
+	$scope.offerItemsMaxLimit=0;
 	
 	$scope.getLatestItems = function(){
 		
@@ -106,24 +116,94 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	
 	$scope.getOfferItems = function(){
 		
-		$http.get('/item/getOfferItems')
-		.success(function(data) {
+		$http({
+            url: '/item/getOfferItems',
+            method: "GET",
+            params: {lastOfferItemDate:$scope.lastOfferItemDate,limitPerSlide:(2*$scope.addItemsIndex)}
+         }).success(function(data) {
 				
 			$scope.offerItemList = data.offerItems;
-			if($scope.offerItemList.length<$scope.endIndex){
-				for(var i=$scope.startIndex;i<$scope.offerItemList.length;i++){
+			$scope.lastOfferItemDate=$scope.offerItemList[$scope.offerItemList.length-1].createdAt;
+			
+			if($scope.offerItemList.length<$scope.endIndexOff){
+				for(var i=$scope.startIndexOff;i<$scope.offerItemList.length;i++){
 					$scope.offerItemShow.push($scope.offerItemList[i]);
 				}
 			}else{
-				for(var i=$scope.startIndex;i<$scope.endIndex;i++){
+				for(var i=$scope.startIndexOff;i<=$scope.endIndexOff;i++){
 					$scope.offerItemShow.push($scope.offerItemList[i]);
 				}
 			}
 			
-		
+			$scope.previousOfferItemsBtn =true;
+			if($scope.offerItemList.length<=$scope.endIndexOff+1) $scope.nextOfferItemsBtn =true;
+			
+			console.log($scope.offerItemList.length);
+			
 		}).error(function(data) {
 				console.log('Error: ' + data);
 		});
+	}
+	
+	$scope.nextOfferItems = function(){
+		
+		$scope.startIndexOff = $scope.startIndexOff+$scope.addItemsIndex;
+		$scope.endIndexOff = $scope.endIndexOff +($scope.offerItemList.length - $scope.startIndexOff);
+		$scope.previousOfferItemsBtn =false;
+		$scope.offerItemsMaxLimit = $scope.offerItemsMaxLimit+1;
+		$scope.offerItemShow.splice(0,$scope.offerItemShow.length);
+		
+		for(var i=$scope.startIndexOff;i<=$scope.endIndexOff;i++){
+			$scope.offerItemShow.push($scope.offerItemList[i]);
+		}
+		
+		if((($scope.offerItemList.length - $scope.startIndexOff)<$scope.addItemsIndex)|| $scope.offerItemsMaxLimit==$scope.maxLimitOff){
+			 $scope.nextOfferItemsBtn =true;
+		}else{
+			
+			$http({
+	            url: '/item/getOfferItems',
+	            method: "GET",
+	            params: {lastOfferItemDate:$scope.lastOfferItemDate,limitPerSlide:$scope.addItemsIndex}
+	         }).success(function(data) {
+	        	if(data.offerItems.length==0){
+	        		$scope.nextOfferItemsBtn =true;
+	        	}else{
+	        		for(var i=0;i<data.offerItems.length;i++){
+		        		$scope.offerItemList.push(data.offerItems[i]);
+		        	}
+	        		$scope.lastOfferItemDate=$scope.offerItemList[$scope.offerItemList.length-1].createdAt;
+	        	}
+	         }).error(function(data) {
+					console.log('Error: ' + data);
+	         });
+		}
+		
+		console.log($scope.offerItemList.length);
+	}
+	
+	$scope.previousOfferItems = function(){
+		
+		var recentStrIndex = $scope.startIndexOff;
+		$scope.endIndexOff =  $scope.startIndexOff-1;
+		$scope.startIndexOff = $scope.startIndexOff-$scope.addItemsIndex;
+		$scope.offerItemsMaxLimit = $scope.offerItemsMaxLimit-1;
+		$scope.offerItemShow.splice(0,$scope.offerItemShow.length);
+		
+		for(var i=$scope.startIndexOff;i<=$scope.endIndexOff;i++){
+			$scope.offerItemShow.push($scope.offerItemList[i]);
+		}
+		
+		if($scope.offerItemList.length>$scope.endIndexOff+$scope.addItemsIndex){
+			for(var j=$scope.offerItemList.length-1;j>=(recentStrIndex+$scope.addItemsIndex);j--){
+				$scope.offerItemList.pop();
+			}
+			$scope.lastOfferItemDate=$scope.offerItemList[recentStrIndex+$scope.addItemsIndex-1].createdAt;
+		}
+		
+		if($scope.startIndexOff!=0) $scope.previousOfferItemsBtn =false;
+		else $scope.previousOfferItemsBtn =true;
+		$scope.nextOfferItemsBtn =false;
 	}
 	
 
