@@ -739,7 +739,6 @@ hr{
 			padding:13px 20px;
 			font-size:18px;
 			color:#2f353b;
-			text-transform:uppercase;
 			background:#fff;
 			border-top:1px solid #e8e8e8;
 			border-right:1px solid #e8e8e8;
@@ -760,7 +759,6 @@ hr{
 		padding:0;
 	}
 		.tabs-panel .nav-tabs{
-			text-transform:uppercase;
 			font-size:16px;
 			border-bottom:4px solid #ffb400;
 		}

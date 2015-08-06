@@ -16,7 +16,6 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 $scope.categoryStr = expandItemService.getCategoryString();
 	 $scope.products = shoppingCartService.getProducts();
 	 
-	 
 	 $scope.getBreadcrumbs = function(){
      	for(var i=0;i<$scope.sideMenu.sub.length;i++){
      		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
@@ -123,6 +122,23 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	    }
 	         return false;
 	  }
+	 
+	 $scope.getProductFromSameCat= function(){
+		
+		$http({
+             url: '/item/itemFromSameCategory',
+             method: "GET",
+             params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id}
+          }).success(function(data) {
+        	  
+          
+          }).error(function(data) {
+              console.log('Error: ' + data);
+          });
+		 
+	 }
+	 
+	 //$scope.getProductFromSameCat();
 	 
 	 
 });

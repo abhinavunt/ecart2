@@ -732,6 +732,14 @@
 		   });
 		});
 		
+		//Item from same Category
+		app.get('/item/itemFromSameCategory',function(req,res){
+			
+			var db = req.db;
+			
+			
+		})
+		
 		app.post('/item/addImage', function(req, res) {
 		   
 		   var a = req.files.file.name;
