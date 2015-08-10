@@ -1,6 +1,15 @@
 // public/js/controllers/NerdCtrl.js
 angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$window,$stateParams,expandItemService,shoppingCartService) {
 	 $window.scrollTo(0, 50);
+	 $scope.addItemsIndex = 4;
+		//latestItems
+		$scope.itemSameCatShow = [];
+		$scope.startIndex = 0;
+		$scope.endIndex = 3;
+		$scope.lastSameCatItemDate ="notAssigned";
+		$scope.maxLimit = 6;
+		$scope.latestItemsMaxLimit=0;
+		
 	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'||typeof($stateParams.brandList)=='string'){
      	$scope.sideMenu = expandItemService.getMenuObject();
      	$scope.itemObject = expandItemService.getItemObject();
@@ -124,16 +133,9 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	  }
 	 
 	 
- 	$scope.addItemsIndex = 4;
-	//latestItems
-	$scope.itemSameCatShow = [];
-	$scope.startIndex = 0;
-	$scope.endIndex = 3;
-	$scope.lastSameCatItemDate ="notAssigned";
-	$scope.maxLimit = 6;
-	$scope.latestItemsMaxLimit=0;
+ 	
 	 
-	$scope.getProductFromSameCat= function(){
+	/*$scope.getProductFromSameCat= function(){
 		
 		$http({
              url: '/item/itemFromSameCategory',
@@ -169,7 +171,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 		 
 	 }
 	 
-	 $scope.getProductFromSameCat();
+	 $scope.getProductFromSameCat();*/
 	 
 	 
 });
