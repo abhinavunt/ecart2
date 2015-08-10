@@ -734,8 +734,25 @@
 		
 		//Item from same Category
 		app.get('/item/itemFromSameCategory',function(req,res){
-			
 			var db = req.db;
+		    var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			var searchMenuId = req.param("category");
+			var excludeItemId = req.param("excludeItemId");
+			
+			if(req.param("lastSameCatItemDate")=="notAssigned"){
+				
+				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId) }},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+					   if(err) throw err;
+					   else res.json({"itemSameCat":itemSameCat});
+				});	
+			}else{
+				
+				db.collection('item').find({createdAt:{"$lt":new Date(req.param("lastLatestItemDate"))},isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, latestItems) {
+					if(err) throw err;
+					else res.json({"latestItems":latestItems});
+		    	});
+			}
 			
 			
 		})

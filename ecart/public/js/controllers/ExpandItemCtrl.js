@@ -123,14 +123,45 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	         return false;
 	  }
 	 
-	 $scope.getProductFromSameCat= function(){
+	 
+ 	$scope.addItemsIndex = 4;
+	//latestItems
+	$scope.itemSameCatShow = [];
+	$scope.startIndex = 0;
+	$scope.endIndex = 3;
+	$scope.lastSameCatItemDate ="notAssigned";
+	$scope.maxLimit = 6;
+	$scope.latestItemsMaxLimit=0;
+	 
+	$scope.getProductFromSameCat= function(){
 		
 		$http({
              url: '/item/itemFromSameCategory',
              method: "GET",
-             params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id}
+             params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
           }).success(function(data) {
-        	  
+        	
+
+				
+	  			$scope.itemSameCatList = data.itemSameCat;
+	  			$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
+	  			
+	  			if($scope.itemSameCatList.length<$scope.endIndex){
+	  				for(var i=$scope.startIndex;i<$scope.itemSameCatList.length;i++){
+	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+	  				}
+	  			}else{
+	  				for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
+	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+	  				}
+	  			}
+	  			
+	  			$scope.previousSameCatItemsBtn =true;
+	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatsItemsBtn =true;
+	  			
+	  			console.log($scope.itemSameCatList.length);
+  			
+  		
           
           }).error(function(data) {
               console.log('Error: ' + data);
@@ -138,7 +169,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 		 
 	 }
 	 
-	 //$scope.getProductFromSameCat();
+	 $scope.getProductFromSameCat();
 	 
 	 
 });
