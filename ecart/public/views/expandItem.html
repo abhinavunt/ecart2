@@ -47,14 +47,14 @@
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>Price:</h4>
-								<h2>{{amount.selected.Price}} Rs</h2>
+								<h2>{{selectedItemObj.Price}} Rs</h2>
 							</div>
 							
 							<div class="col-sm-6">
 								<h4>Available Options</h4>
 								<div class="form-group">
-									<select class="form-control" ng-init="amount.selected=itemObject.amountprice[0]"
-	                                     ng-model="amount.selected"
+									<select class="form-control" ng-init="selectedItemObj=itemObject.amountprice[0]"
+	                                     ng-model="selectedItemObj"
 	                                     ng-options="amtPrice.Amount for amtPrice in itemObject.amountprice">
 		                            </select>
 								</div>
@@ -75,10 +75,10 @@
 									</button>									
 								</div>
 							</div>
-							<div ng-hide="isSelected(amount.selected)">
+							<div ng-hide="isSelected(selectedItemObj)">
 								<div class="col-lg-4">
-									<div class="cart-button button-group" ng-hide="isSelected(amount.selected)">
-										<button type="button" class="btn btn-cart" data-ng-click="addToCart(amount.selected,quantity.selected,itemObject)">
+									<div class="cart-button button-group" ng-hide="isSelected(selectedItemObj)">
+										<button type="button" class="btn btn-cart" data-ng-click="addToCart(selectedItemObj,selectedItemQntObj,itemObject)">
 											Add to cart
 											<i class="fa fa-shopping-cart"></i> 
 										</button>									
@@ -93,8 +93,8 @@
 										</div>
 										<div class="col-sm-9">
 											<select class="form-control"
-		                                          ng-init="quantity.selected=quantityList[0]"
-		                                          ng-model="quantity.selected"
+		                                          ng-init="selectedItemQntObj=quantityList[0]"
+		                                          ng-model="selectedItemQntObj"
 		                                          ng-options="qnt.quantity for qnt in quantityList">
 		                                    </select>
 										</div>
@@ -103,15 +103,15 @@
 									</div>
 								</div>
 							</div>
-							<div ng-show="isSelected(amount.selected)">
+							<div ng-show="isSelected(selectedItemObj)">
 								<div class="col-lg-6">
-									<div class="input-group"  ng-show="isSelected(amount.selected)">
+									<div class="input-group"  ng-show="isSelected(selectedItemObj)">
 	                                    <span class="input-group-btn">
 	                                        <button type="button" class="btn btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
 	                                          <span class="glyphicon glyphicon-minus"></span>
 	                                        </button>
 	                                    </span>
-	                                   <input type="text" name="quant[2]" class="form-control input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
+	                                   <input type="text" name="quant[2]" class="form-control input-number" ng-model="selectedQnt" ng-init="initQnt()" min="1" max="100">
 	                                  
 	                                    <span class="input-group-btn">
 	                                        <button type="button" class="btn btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
@@ -155,88 +155,6 @@
 					<div class="tab-pane active" id="tab-description">
 						{{itemObject.description}}
 					</div>
-				<!-- Description Ends -->
-				<!-- Specification Starts -->
-					<div class="tab-pane" id="tab-specification">
-						<table class="table table-bordered">
-							<thead>
-							  <tr>
-								<td colspan="2"><strong>Name</strong></td>
-							  </tr>
-							</thead>
-							<tbody>
-							  <tr>
-								<td>Name</td>
-								<td>Attribute Specification</td>
-							  </tr>
-							</tbody>
-						</table>
-						<table class="table table-bordered">
-							<thead>
-							  <tr>
-								<td colspan="2"><strong>Name</strong></td>
-							  </tr>
-							</thead>
-							<tbody>
-							  <tr>
-								<td>Name</td>
-								<td>Attribute Specification</td>
-							  </tr>
-							</tbody>
-						</table>
-					</div>
-				<!-- Specification Ends -->
-				<!-- Additional Information Starts -->
-					<div class="tab-pane" id="tab-ainfo">
-						<p>
-							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						</p>
-					</div>
-				<!-- Additional Information Ends -->
-				<!-- Review Starts -->
-					<div class="tab-pane" id="tab-review">
-						<form class="form-horizontal">
-							<div class="form-group required">
-								<label class="col-sm-2 control-label" for="input-name">Name</label>
-								<div class="col-sm-10">
-								<input type="text" name="name" value="" id="input-name" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group required">
-								<label class="col-sm-2 control-label" for="input-review">Review</label>
-								<div class="col-sm-10">
-									<textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
-									<div class="help-block">
-										Some note goes here..
-									</div>
-								</div>
-							</div>
-							<div class="form-group required">
-								<label class="col-sm-2 control-label ratings">Ratings</label>
-								<div class="col-sm-10">
-									Bad&nbsp;
-									<input type="radio" name="rating" value="1" />
-									&nbsp;
-									<input type="radio" name="rating" value="2" />
-									&nbsp;
-									<input type="radio" name="rating" value="3" />
-									&nbsp;
-									<input type="radio" name="rating" value="4" />
-									&nbsp;
-									<input type="radio" name="rating" value="5" />
-									&nbsp;Good
-								</div>
-							</div>
-							<div class="buttons">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="button" id="button-review" class="btn btn-warning">
-										Submit
-									</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				<!-- Review Ends -->
 				</div>
 			<!-- Tab Content Ends -->
 			</div>
@@ -244,142 +162,79 @@
 		<!-- Related Products Starts -->
 			<div class="product-info-box">
 				<h4 class="heading">Products from Same Category</h4>
+				<div class="row list-group">
 					<div class="col-lg-12">
-						<div class="form-group">
-							<div>
-								<button class="btn btn-default pull-right fa fa-chevron-right"></button>
-							<button class="btn btn-default pull-right fa fa-chevron-left"></button>
-							</div>
+					<div class="form-group">
+						<div>
+							<button class="btn btn-default pull-right fa fa-chevron-right" ng-disabled="nextSameCatItemsBtn" data-ng-click="nextItemsSameCat()"></button>
+							<button class="btn btn-default pull-right fa fa-chevron-left" ng-disabled="previousSameCatItemsBtn" data-ng-click="previousItemsSameCat()"></button>
 						</div>
 					</div>
-			<!-- Products Row Starts -->
+					</div>
+			   		<div class="item  col-md-3 col-lg-3" data-ng-repeat="item in itemSameCatShow" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" ng-controller="ShowItemController">
+			            <div class="thumbnail">
+			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item)"/>
+			                <div class="caption">
+			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item)">{{item.name}}</h4>
+			               
+			                 <div class="row">
+			                      <div class="col-xs-12 col-md-7">
+			                         <h4 >{{amount.selected.Price}}  Rs.</h4>  
+			                      </div>
+			                     
+			                      <div class="col-xs-12 col-md-5">
+			                           <!-- <select  class="form-control input-sm" ng-change="onChangeAmount()">
+			                                                <option data-ng-repeat="amtPrice in item.amountprice">{{amtPrice.Amount}}</option>
+			                                     </select> -->
+			                                     <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
+			                                          ng-model="amount.selected"
+			                                          ng-options="amtPrice.Amount for amtPrice in item.amountprice">
+			                                      </select>
+			                                     </div>
+			                  </div>
+			                  <div class="row">
+			                      <div class="col-lg-6 col-md-2 col-sm-1">
+			                            <button class="btn btn-xs btn-warning">Description</button>
+			                      </div>
+			                      <div ng-hide="isSelected(amount.selected)">
+			                             <div class="col-lg-2 col-md-2 col-sm-1"">
+			                               <p>Qty</p> 
+			                             </div>
+			                             <div class="col-lg-4 col-md-2 col-sm-1">
+			                                   <select class="form-control input-sm"
+			                                          ng-init="quantity.selected=quantityList[0]"
+			                                          ng-model="quantity.selected"
+			                                          ng-options="qnt.quantity for qnt in quantityList">
+			                                               </select>
+			                             </div>
+			                      </div>
+			                  </div>
+			                  <div class="row">
+			                     <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
+			                                           <button class="btn btn-xs btn-success add-to-cart" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add to Cart</button>
+			                                           
+			                      </div>
+			                      <div class="input-group"  ng-show="isSelected(amount.selected)">
+			                                     <span class="input-group-btn">
+			                                         <button type="button" class="btn btn-sm btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
+			                                           <span class="glyphicon glyphicon-minus"></span>
+			                                         </button>
+			                                     </span>
+			                                    <input type="text" name="quant[2]" class="form-control input-sm input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
+			                                   
+			                                     <span class="input-group-btn">
+			                                         <button type="button" class="btn btn-sm btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
+			                                             <span class="glyphicon glyphicon-plus"></span>
+			                                         </button>
+			                                     </span>
+			                                 </div>
+			                  </div>
+			                </div>
+			             </div>
+			        </div>
+			      </div>	
 				
-				<div class="row">
-				<!-- Product #1 Starts -->
-					<div class="col-md-3 col-sm-6">
-						<div class="product-col">
-							<div class="image">
-								<img src="images/product-images/10.jpg" alt="product" class="img-responsive" />
-							</div>
-							<div class="caption">
-								<h4><a href="product.html">Simply Organic Seeds</a></h4>
-								<div class="description">
-									We are so lucky living in such a wonderful time. Our almost unlimited ...
-								</div>
-								<div class="price">
-									<span class="price-new">$199.50</span> 
-									<span class="price-old">$249.50</span>
-								</div>
-								<div class="cart-button button-group">
-									<button type="button" title="Wishlist" class="btn btn-wishlist">
-										<i class="fa fa-heart"></i>
-									</button>
-									<button type="button" title="Compare" class="btn btn-compare">
-										<i class="fa fa-bar-chart-o"></i>
-									</button>
-									<button type="button" class="btn btn-cart">
-										Add to cart
-										<i class="fa fa-shopping-cart"></i> 
-									</button>									
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- Product #1 Ends -->
-				<!-- Product #2 Starts -->
-					<div class="col-md-3 col-sm-6">
-						<div class="product-col">
-							<div class="image">
-								<img src="images/product-images/11.jpg" alt="product" class="img-responsive" />
-							</div>
-							<div class="caption">
-								<h4><a href="product.html">Simply Organic Seeds</a></h4>
-								<div class="description">
-									We are so lucky living in such a wonderful time. Our almost unlimited ...
-								</div>
-								<div class="price">
-									<span class="price-new">$199.50</span> 
-									<span class="price-old">$249.50</span>
-								</div>
-								<div class="cart-button button-group">
-									<button type="button" title="Wishlist" class="btn btn-wishlist">
-										<i class="fa fa-heart"></i>
-									</button>
-									<button type="button" title="Compare" class="btn btn-compare">
-										<i class="fa fa-bar-chart-o"></i>
-									</button>
-									<button type="button" class="btn btn-cart">
-										Add to cart
-										<i class="fa fa-shopping-cart"></i> 
-									</button>									
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- Product #2 Ends -->
-				<!-- Product #3 Starts -->
-					<div class="col-md-3 col-sm-6">
-						<div class="product-col">
-							<div class="image">
-								<img src="images/product-images/12.jpg" alt="product" class="img-responsive" />
-							</div>
-							<div class="caption">
-								<h4><a href="product.html">Simply Organic Seeds</a></h4>
-								<div class="description">
-									We are so lucky living in such a wonderful time. Our almost unlimited ...
-								</div>
-								<div class="price">
-									<span class="price-new">$199.50</span> 
-									<span class="price-old">$249.50</span>
-								</div>
-								<div class="cart-button button-group">
-									<button type="button" title="Wishlist" class="btn btn-wishlist">
-										<i class="fa fa-heart"></i>
-									</button>
-									<button type="button" title="Compare" class="btn btn-compare">
-										<i class="fa fa-bar-chart-o"></i>
-									</button>
-									<button type="button" class="btn btn-cart">
-										Add to cart
-										<i class="fa fa-shopping-cart"></i> 
-									</button>									
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- Product #3 Ends -->
-				<!-- Product #4 Starts -->
-					<div class="col-md-3 col-sm-6">
-						<div class="product-col">
-							<div class="image">
-								<img src="images/product-images/13.jpg" alt="product" class="img-responsive" />
-							</div>
-							<div class="caption">
-								<h4><a href="product.html">Simply Organic Seeds</a></h4>
-								<div class="description">
-									We are so lucky living in such a wonderful time. Our almost unlimited ...
-								</div>
-								<div class="price">
-									<span class="price-new">$199.50</span> 
-									<span class="price-old">$249.50</span>
-								</div>
-								<div class="cart-button button-group">
-									<button type="button" title="Wishlist" class="btn btn-wishlist">
-										<i class="fa fa-heart"></i>
-									</button>
-									<button type="button" title="Compare" class="btn btn-compare">
-										<i class="fa fa-bar-chart-o"></i>
-									</button>
-									<button type="button" class="btn btn-cart">
-										Add to cart
-										<i class="fa fa-shopping-cart"></i> 
-									</button>									
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- Product #4 Ends -->
-				</div>
+				
 			<!-- Products Row Ends -->
 			</div>
 		<!-- Related Products Ends -->

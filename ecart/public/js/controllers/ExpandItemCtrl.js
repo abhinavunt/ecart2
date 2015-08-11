@@ -8,7 +8,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 		$scope.endIndex = 3;
 		$scope.lastSameCatItemDate ="notAssigned";
 		$scope.maxLimit = 6;
-		$scope.latestItemsMaxLimit=0;
+		$scope.itemSameCatMaxLimit=0;
 		
 	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'||typeof($stateParams.brandList)=='string'){
      	$scope.sideMenu = expandItemService.getMenuObject();
@@ -40,16 +40,16 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 
 	 $scope.getBreadcrumbs();
      
-     $scope.$watch('products', function() {
+    $scope.$watch('products', function() {
      if($scope.products.length>0){
-   	  var productId = $scope.amount.selected.productId;
-         $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+   	  var productId = $scope.selectedItemObj.productId;
+         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
      }},true);
      
-     $scope.$watch('amount.selected', function() {
+     $scope.$watch('selectedItemObj', function() {
      if($scope.products.length>0){
-     var productId = $scope.amount.selected.productId;
-         $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+     var productId = $scope.selectedItemObj.productId;
+         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
      }},true);
 	 
 	 $scope.quantityList = [{quantity:1 },
@@ -79,15 +79,15 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
         
          shoppingCartService.addProduct(cartEntry);
         
-         var productId = $scope.amount.selected.productId;
-         $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+         var productId = $scope.selectedItemObj.productId;
+         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
         
 	 };
   
 	 $scope.initQnt = function(){
 	 if($scope.products.length>0){
-		 var productId = $scope.amount.selected.productId;
-		      $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+		 var productId = $scope.selectedItemObj.productId;
+		      $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
 		 }
 	 };
 	 
@@ -95,20 +95,20 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 
 	 $scope.counterPlus = function(){
 		if($scope.products.length>0){
-	    var itemObj = $scope.amount.selected;
+	    var itemObj = $scope.selectedItemObj;
 	         shoppingCartService.setQuantity(itemObj,"plus");
-	         var productId = $scope.amount.selected.productId;
-	         $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+	         var productId = $scope.selectedItemObj.productId;
+	         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
 		}     
 	  };
 	 
 	 
 	 $scope.counterMinus = function(){
 	 
-		     var itemObj = $scope.amount.selected;
+		     var itemObj = $scope.selectedItemObj;
 	         shoppingCartService.setQuantity(itemObj,"minus");
-	         var productId = $scope.amount.selected.productId;
-	         $scope.qnt = shoppingCartService.getQuantity(productId)+" item in Cart";
+	         var productId = $scope.selectedItemObj.productId;
+	         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
 	  };
 	 
 	 
@@ -135,7 +135,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 
  	
 	 
-	/*$scope.getProductFromSameCat= function(){
+	$scope.getProductFromSameCat= function(){
 		
 		$http({
              url: '/item/itemFromSameCategory',
@@ -159,7 +159,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	  			}
 	  			
 	  			$scope.previousSameCatItemsBtn =true;
-	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatsItemsBtn =true;
+	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatItemsBtn =true;
 	  			
 	  			console.log($scope.itemSameCatList.length);
   			
@@ -170,8 +170,71 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
           });
 		 
 	 }
+	
+	$scope.nextItemsSameCat = function(){
+		
+		$scope.startIndex = $scope.startIndex+$scope.addItemsIndex;
+		$scope.endIndex = $scope.endIndex +($scope.itemSameCatList.length - $scope.startIndex);
+		
+		$scope.previousSameCatItemsBtn =false;
+		$scope.itemSameCatMaxLimit = $scope.itemSameCatMaxLimit+1;
+		
+		$scope.itemSameCatShow.splice(0,$scope.itemSameCatShow.length);
+		for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
+			$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+		}
+		
+		if((($scope.itemSameCatList.length - $scope.startIndex)<$scope.addItemsIndex)|| $scope.itemSameCatMaxLimit==$scope.maxLimit){
+			 $scope.nextSameCatItemsBtn =true;
+		}else{
+			
+			$http({
+	            url: '/item/itemFromSameCategory',
+	            method: "GET",
+	            params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
+	         }).success(function(data) {
+	        	if(data.itemSameCat.length==0){
+	        		$scope.nextSameCatItemsBtn =true;
+	        	}else{
+	        		for(var i=0;i<data.itemSameCat.length;i++){
+		        		$scope.itemSameCatList.push(data.itemSameCat[i]);
+		        	}
+	        		$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
+	        	}
+	         }).error(function(data) {
+					console.log('Error: ' + data);
+	         });
+		}
+		
+		
+	}
+	
+	$scope.previousItemsSameCat = function(){
+		
+		var recentStrIndex = $scope.startIndex;
+		
+		$scope.endIndex =  $scope.startIndex-1;
+		$scope.startIndex = $scope.startIndex-$scope.addItemsIndex;
+		$scope.itemSameCatMaxLimit = $scope.itemSameCatMaxLimit-1;
+		
+		$scope.itemSameCatShow.splice(0,$scope.itemSameCatShow.length);
+		for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
+			$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+		}
+		
+		if($scope.itemSameCatList.length>$scope.endIndex+$scope.addItemsIndex){
+			for(var j=$scope.itemSameCatList.length-1;j>=(recentStrIndex+$scope.addItemsIndex);j--){
+				$scope.itemSameCatList.pop();
+			}
+			$scope.lastSameCatItemDate=$scope.itemSameCatList[recentStrIndex+$scope.addItemsIndex-1].createdAt;
+		}
+		
+		if($scope.startIndex!=0) $scope.previousSameCatItemsBtn =false;
+		else $scope.previousSameCatItemsBtn =true;
+		$scope.nextSameCatItemsBtn =false;
+	}
 	 
-	 $scope.getProductFromSameCat();*/
+	 $scope.getProductFromSameCat();
 	 
 	 
 });

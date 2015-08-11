@@ -748,14 +748,12 @@
 				});	
 			}else{
 				
-				db.collection('item').find({createdAt:{"$lt":new Date(req.param("lastLatestItemDate"))},isOfferCheck:"no"},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, latestItems) {
-					if(err) throw err;
-					else res.json({"latestItems":latestItems});
-		    	});
+				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastLatestItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+					   if(err) throw err;
+					   else res.json({"itemSameCat":itemSameCat});
+				});	
 			}
-			
-			
-		})
+		});
 		
 		app.post('/item/addImage', function(req, res) {
 		   
