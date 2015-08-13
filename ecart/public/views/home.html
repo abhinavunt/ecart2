@@ -64,9 +64,9 @@
 					</div>
 			   		<div class="item  col-md-1-5 col-lg-1-5" data-ng-repeat="item in latestItemShow" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" ng-controller="ShowItemController">
 			            <div class="thumbnail">
-			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item)"/>
+			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item,'B2H')"/>
 			                <div class="caption">
-			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item)">{{item.name}}</h4>
+			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item,'B2H')">{{item.name}}</h4>
 			               
 			                 <div class="row">
 			                      <div class="col-xs-12 col-md-7">
@@ -161,9 +161,9 @@
 					</div>
 			   		<div class="item  col-md-1-5 col-lg-1-5" data-ng-repeat="item in offerItemShow" ng-controller="ShowItemController">
 			            <div class="thumbnail">
-			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item)"/>
+			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item,'B2H')"/>
 			                <div class="caption">
-			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item)">{{item.name}}</h4>
+			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item,'B2H')">{{item.name}}</h4>
 			               
 			                 <div class="row">
 			                      <div class="col-xs-12 col-md-7">

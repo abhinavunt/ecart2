@@ -145,7 +145,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 		})
 		
 		.state('expandItem', {
-			url:'/expandItem/:itemObj?menuObj',
+			url:'/expandItem/:itemObj?menuObj?retStat',
 			templateUrl: 'views/expandItem.html',
 			controller: 'ExpandItemController'
 		});

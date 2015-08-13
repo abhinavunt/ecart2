@@ -150,6 +150,16 @@ app.service('expandItemService', function($cookieStore) {
 		$cookieStore.put('categoryStr',category);
 	}
 	
+	var getReturnState = function(){
+		return $cookieStore.get('retState');
+	}
+	
+	var setReturnState = function(retState){
+		$cookieStore.put('retState',retState);
+	}
+	
+	
+	
 	return {
 		getItem:getItem,
 		setItem:setItem,
@@ -160,7 +170,10 @@ app.service('expandItemService', function($cookieStore) {
 		getCategoryString:getCategoryString,
 		setCategoryString:setCategoryString,
 		getExpandItemFlag:getExpandItemFlag,
-		setExpandItemFlag:setExpandItemFlag
+		setExpandItemFlag:setExpandItemFlag,
+		getReturnState:getReturnState,
+		setReturnState:setReturnState
+		
 	};
 	
 });

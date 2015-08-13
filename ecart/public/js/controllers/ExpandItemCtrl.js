@@ -1,16 +1,23 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$window,$stateParams,expandItemService,shoppingCartService) {
-	 $window.scrollTo(0, 50);
-	 $scope.addItemsIndex = 4;
-		//latestItems
-		$scope.itemSameCatShow = [];
-		$scope.startIndex = 0;
-		$scope.endIndex = 3;
-		$scope.lastSameCatItemDate ="notAssigned";
-		$scope.maxLimit = 6;
-		$scope.itemSameCatMaxLimit=0;
+angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$window,$state,$stateParams,expandItemService,shoppingCartService) {
+	$window.scrollTo(0, 50);
+	$scope.addItemsIndex = 4;
 		
-	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'||typeof($stateParams.brandList)=='string'){
+	$scope.itemSameCatShow = [];
+	$scope.startIndex = 0;
+	$scope.endIndex = 3;
+	$scope.lastSameCatItemDate ="notAssigned";
+	$scope.maxLimit = 6;
+	$scope.itemSameCatMaxLimit=0;
+	
+	$scope.itemSameBrdShow = [];
+	$scope.startIndexBrd = 0;
+	$scope.endIndexBrd = 3;
+	$scope.lastSameBrdItemDate ="notAssigned";
+	$scope.maxLimitBrd = 6;
+	$scope.itemSameBrdMaxLimit=0;
+		
+	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'){
      	$scope.sideMenu = expandItemService.getMenuObject();
      	$scope.itemObject = expandItemService.getItemObject();
      	
@@ -19,11 +26,11 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
      	$scope.itemObject = $stateParams.itemObj;
      	expandItemService.setMenuObject($stateParams.menuObj);
      	expandItemService.setItemObject($stateParams.itemObj);
-     	
-	 }
+     }
 	 
 	 $scope.categoryStr = expandItemService.getCategoryString();
 	 $scope.products = shoppingCartService.getProducts();
+	 $scope.returnState =expandItemService.getReturnState();
 	 
 	 $scope.getBreadcrumbs = function(){
      	for(var i=0;i<$scope.sideMenu.sub.length;i++){
@@ -110,6 +117,13 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	         var productId = $scope.selectedItemObj.productId;
 	         $scope.selectedQnt = shoppingCartService.getQuantity(productId)+" item in Cart";
 	  };
+	  
+	  
+	 $scope.returnToPreviousPage = function(){
+		 
+		 if($scope.returnState=='B2S') $state.go('searchItems',{category:$scope.categoryStr, menuObj:$scope.sideMenu})
+		 else $state.go('home');
+	}
 	 
 	 
 	 $scope.isSelected = function(itemObj){
@@ -233,8 +247,105 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 		else $scope.previousSameCatItemsBtn =true;
 		$scope.nextSameCatItemsBtn =false;
 	}
+	
+	
+	
+	
+	$scope.getProductFromSameBrd= function(){
+		
+		$http({
+             url: '/item/itemFromSameBrand',
+             method: "GET",
+             params: {brand: $scope.itemObject.brand, excludeItemId:$scope.itemObject._id, lastSameBrdItemDate:$scope.lastSameBrdItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
+          }).success(function(data) {
+        	
+
+				
+	  			$scope.itemSameBrdList = data.itemSameBrd;
+	  			$scope.lastSameBrdItemDate=$scope.itemSameBrdList[$scope.itemSameBrdList.length-1].createdAt;
+	  			
+	  			if($scope.itemSameBrdList.length<$scope.endIndexBrd){
+	  				for(var i=$scope.startIndexBrd; i<$scope.itemSameBrdList.length;i++){
+	  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+	  				}
+	  			}else{
+	  				for(var i=$scope.startIndexBrd;i<=$scope.endIndexBrd;i++){
+	  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+	  				}
+	  			}
+	  			
+	  			$scope.previousSameBrdItemsBtn =true;
+	  			if($scope.itemSameBrdList.length<=$scope.endIndexBrd+1) $scope.nextSameBrdItemsBtn =true;
+	  	  
+          }).error(function(data) {
+              console.log('Error: ' + data);
+          });
+		 
+	 }
+	
+	$scope.nextItemsSameBrd = function(){
+		
+		$scope.startIndexBrd = $scope.startIndexBrd + $scope.addItemsIndex;
+		$scope.endIndexBrd = $scope.endIndexBrd +($scope.itemSameBrdList.length - $scope.startIndexBrd);
+		
+		$scope.previousSameBrdItemsBtn =false;
+		$scope.itemSameBrdMaxLimit = $scope.itemSameBrdMaxLimit+1;
+		
+		$scope.itemSameBrdShow.splice(0,$scope.itemSameBrdShow.length);
+		for(var i=$scope.startIndexBrd; i<=$scope.endIndexBrd; i++){
+			$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+		}
+		
+		if((($scope.itemSameBrdList.length - $scope.startIndexBrd)<$scope.addItemsIndex)|| $scope.itemSameBrdMaxLimit==$scope.maxLimitBrd){
+			 $scope.nextSameBrdItemsBtn =true;
+		}else{
+			
+			$http({
+	            url: '/item/itemFromSameBrand',
+	            method: "GET",
+	            params: {brand: $scope.itemObject.brand, excludeItemId:$scope.itemObject._id, lastSameBrdItemDate:$scope.lastSameBrdItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
+	         }).success(function(data) {
+	        	if(data.itemSameBrd.length==0){
+	        		$scope.nextSameBrdItemsBtn =true;
+	        	}else{
+	        		for(var i=0;i<data.itemSameBrd.length;i++){
+		        		$scope.itemSameBrdList.push(data.itemSameBrd[i]);
+		        	}
+	        		$scope.lastSameBrdItemDate=$scope.itemSameBrdList[$scope.itemSameBrdList.length-1].createdAt;
+	        	}
+	         }).error(function(data) {
+					console.log('Error: ' + data);
+	         });
+		}
+		
+		
+	}
+	
+	$scope.previousItemsSameBrd = function(){
+		
+		var recentStrIndex = $scope.startIndexBrd;
+		
+		$scope.endIndexBrd =  $scope.startIndexBrd-1;
+		$scope.startIndexBrd = $scope.startIndexBrd-$scope.addItemsIndex;
+		$scope.itemSameBrdMaxLimit = $scope.itemSameBrdMaxLimit-1;
+		
+		$scope.itemSameBrdShow.splice(0,$scope.itemSameBrdShow.length);
+		for(var i=$scope.startIndexBrd;i<=$scope.endIndexBrd;i++){
+			$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+		}
+		
+		if($scope.itemSameBrdList.length>$scope.endIndexBrd+$scope.addItemsIndex){
+			for(var j=$scope.itemSameBrdList.length-1;j>=(recentStrIndex+$scope.addItemsIndex);j--){
+				$scope.itemSameBrdList.pop();
+			}
+			$scope.lastSameBrdItemDate=$scope.itemSameBrdList[recentStrIndex+$scope.addItemsIndex-1].createdAt;
+		}
+		
+		if($scope.startIndexBrd!=0) $scope.previousSameBrdItemsBtn =false;
+		else $scope.previousSameBrdItemsBtn =true;
+		$scope.nextSameBrdItemsBtn =false;
+	}
 	 
 	 $scope.getProductFromSameCat();
-	 
-	 
+	 $scope.getProductFromSameBrd();
 });

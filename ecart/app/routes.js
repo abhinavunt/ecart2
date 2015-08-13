@@ -755,6 +755,29 @@
 			}
 		});
 		
+		//Item from same Brand
+		app.get('/item/itemFromSameBrand',function(req,res){
+			var db = req.db;
+		    var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			var excludeItemId = req.param("excludeItemId");
+			
+			if(req.param("lastSameBrdItemDate")=="notAssigned"){
+				
+				db.collection('item').find({brand: req.param("brand"),_id: {'$ne':ObjectID(excludeItemId) }},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameBrd) {
+					   if(err) throw err;
+					   else res.json({"itemSameBrd":itemSameBrd});
+				});	
+			}else{
+				
+				db.collection('item').find({brand: req.param("brand"),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastSameBrdItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameBrd) {
+					   if(err) throw err;
+					   else res.json({"itemSameBrd":itemSameBrd});
+				});	
+			}
+		});
+		
 		app.post('/item/addImage', function(req, res) {
 		   
 		   var a = req.files.file.name;

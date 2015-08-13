@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,shoppingCartService,expandItemService) {
+angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,$state,shoppingCartService,expandItemService,menuItemService) {
 			
               
               $scope.products = shoppingCartService.getProducts();
@@ -89,9 +89,29 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
                }
               };
             
-              $scope.expandItem = function(item){
-            	  expandItemService.setExpandItemFlag(true);
+              
+              $scope.expandItem = function(item,retState){
+               var sideMenu;
+           	   expandItemService.setItem(item);
+           	   if(retState!='getPreSet')expandItemService.setReturnState(retState);
+           	   
+           	   for(var i=0;i<menuItemService.getMenu().length;i++){
+           		   if(menuItemService.getMenu()[i]._id==item.categoryZeroId){
+           			   sideMenu = menuItemService.getMenu()[i];
+           		   }
+           	    }
+           	   
+           	   $scope.showLiveSearchTable=false;
+           	   $scope.keyWord ="";
+           	   $state.go('expandItem',{itemObj:item,menuObj:sideMenu});
+            	  
+              }
+              
+              $scope.expandItemFromSearch = function(item,sideMenu,retState){
+            	  
             	  expandItemService.setItem(item);
+              	  expandItemService.setReturnState(retState);
+            	  $state.go('expandItem',{itemObj:item,menuObj:sideMenu});  
               }
               
               
