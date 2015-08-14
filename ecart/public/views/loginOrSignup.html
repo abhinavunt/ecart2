@@ -1,4 +1,4 @@
-<div class="bs-docs-section">
+<div class="bs-docs-section" ng-controller="AddController">
         <div class="row">
           <div class="col-lg-12">
             <div class="page-header">
@@ -7,85 +7,237 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="well bs-component">
-              <form class="form-horizontal">
-                <fieldset>
-                  <legend>Registered User</legend>
-                  <div class="form-group">
-                    <label for="emailSignIn" class="col-lg-3 control-label">Email</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" id="emailSignIn" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="passwordSignIn" class="col-lg-3 control-label">Password</label>
-                    <div class="col-lg-9">
-                      <input type="password" class="form-control input-sm" id="passwordSignIn" placeholder="Password">
-                     </div>
-                  </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                      <button class="btn btn-default">Cancel</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-            </div>
-          </div>
-          <div class="col-lg-6">
-          <div class="well bs-component">
-              <form class="form-horizontal">
-                <fieldset>
-                  <legend>New User</legend>
-                  <div class="form-group">
-                    <label for="emailSignUp" class="col-lg-3 control-label">Email</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" id="emailSignUp" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="passwordSignUp" class="col-lg-3 control-label">Password</label>
-                    <div class="col-lg-9">
-                      <input type="password" class="form-control input-sm" id="passwordSignUp" placeholder="Password">
-                     </div>
-                  </div>
-                   <div class="form-group">
-                    <label for="fullName" class="col-lg-3 control-label">Full Name</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" id="fullName" placeholder="Full Name">
-                    </div>
-                  </div>
-                   <div class="form-group">
-                    <label for="contactNo" class="col-lg-3 control-label">Contact No.</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" id="contactNo" placeholder="Contact No">
-                    </div>
-                  </div>
-                   <div class="form-group">
-                    <label for="alternateNo" class="col-lg-3 control-label">Alternate No.</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" id="alternateNo" placeholder="Alternate No">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="textArea" class="col-lg-3 control-label">Address</label>
-                    <div class="col-lg-9">
-                      <textarea class="form-control" rows="3" id="textArea"></textarea>
-                      <span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
-                    </div>
-                  </div>
-                 <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                      <button class="btn btn-default">Cancel</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-            </div>
-          </div>
+        <div class="row" ng-hide="showLoginPage">
+          <div class="col-sm-6">
+					<!-- Registration Block Starts -->
+						<div class="panel panel-smart">
+							<div class="panel-heading">
+								<h3 class="panel-title">Personal Information</h3>
+							</div>
+							<div class="panel-body">
+							<!-- Registration Form Starts -->
+								<form name="userForm" class="form-horizontal" role="form">
+								<!-- Personal Information Starts -->
+									<div class="form-group required">
+										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="userForm.fullName"  placeholder="Full Name">
+										</div>
+									</div>
+									
+									<div class="form-group required">
+										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="userForm.emailId"  placeholder="Email">
+										</div>
+									</div>
+									
+									
+									<div class="form-group required">
+										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="userForm.mobileNo"  placeholder="Phone">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputFax" class="col-sm-3 control-label">Alternate No :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="userForm.alternateNo" placeholder="Alternate No">
+										</div>
+									</div>
+								<!-- Personal Information Ends -->
+									<h3 class="panel-heading inner">
+										Delivery Information
+									</h3>
+								<!-- Delivery Information Starts -->
+									
+									<div class="form-group required">
+										<label class="col-lg-3 control-label">Address</label>
+										<div class="col-lg-9">
+											<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
+											<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
+										</div>
+									</div>
+									
+								<!-- Delivery Information Ends -->
+									<h3 class="panel-heading inner">
+										Password
+									</h3>
+								<!-- Password Area Starts -->
+									<div class="form-group required">
+										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" ng-model="userForm.password"  placeholder="Password">
+										</div>
+									</div>
+									<div class="form-group required">
+										<label for="inputRePassword" class="col-sm-3 control-label">Re-Password :</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" ng-model="userForm.rePassword"  placeholder="Re-Password">
+										</div>
+									</div>
+									<div class="form-group">
+										<span class="col-sm-3 control-label">Newsletter :</span>
+										<div class="col-sm-9">
+											<div class="radio">
+												<label>
+													<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+													Subscribe
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
+													Unsubscribe
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-9">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" ng-model="agreeCheck"> I have read and agreed on Conditions
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-9">
+											<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="submit()">
+												Register
+											</button>
+										</div>
+									</div>
+								<!-- Password Area Ends -->
+								</form>
+							<!-- Registration Form Starts -->
+							</div>
+							<div style="color:red">{{signUpFailMessage}}</div>							
+						</div>
+					<!-- Registration Block Ends -->
+					</div>
+          			<div class="col-sm-6">
+					<!-- Guest Checkout Panel Starts -->
+						<div class="panel panel-smart">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									Are you a Registered Member ?
+								</h3>
+							</div>
+							<div class="panel-body">
+								<p>
+									
+								</p>
+								<button class="btn btn-warning" ng-click="loginSignUpSwitch('login')">Member Login</button>
+							</div>
+						</div>
+					<!-- Guest Checkout Panel Ends -->
+					<!-- Conditions Panel Starts -->
+						<div class="panel panel-smart">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									Conditions
+								</h3>
+							</div>
+							<div class="panel-body">
+								<p>
+									Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including  versions of Lorem Ipsum.
+								</p>
+								<ol>
+								  <li>Lorem ipsum dolor sit amet</li>
+								  <li>Consectetur adipiscing elit</li>
+								  <li>Integer molestie lorem at massa</li>
+								  <li>Facilisis in pretium nisl aliquet</li>
+								  <li>Nulla volutpat aliquam velit</li>
+								  <li>Faucibus porta lacus fringilla vel</li>
+								  <li>Aenean sit amet erat nunc</li>
+								  <li>Eget porttitor lorem</li>
+								</ol>
+								<p>
+									HTML Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. 
+								</p>
+								<p>
+									Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. 
+								</p>
+								<p>
+									Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. 
+								</p>
+								<p>
+									Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. 
+								</p>
+							</div>
+						</div>
+					<!-- Conditions Panel Ends -->
+					</div>
         </div>
+        
+        
+        <div class="row" ng-show="showLoginPage">
+					<div class="col-sm-6">
+					<!-- Registration Block Starts -->
+						<div class="panel panel-smart">
+							<div class="panel-heading">
+								<h3 class="panel-title">Login Information</h3>
+							</div>
+							
+			                <div class="msg-block" ng-show="myForm.$error">
+							  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+							    Passwords don't match.
+							  </span>
+							</div>
+							<div class="panel-body">
+							<!-- Registration Form Starts -->
+								<form class="form-horizontal" role="form">
+								<!-- Personal Information Starts -->
+									<div class="form-group required">
+										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="loginEmainId" placeholder="Email">
+										</div>
+									</div>
+									<div class="form-group required">
+										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" ng-model="loginPassword" placeholder="Password">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-3">
+											<button class="btn btn-success btn-sm" data-ng-click="login()">
+												Login
+											</button>
+											
+										</div>
+										<div class="col-sm-6">
+											
+											<a href="#">Forgot password?</a>
+											
+										</div>
+										
+									</div>
+								<!-- Password Area Ends -->
+								</form>
+							<!-- Registration Form Starts -->
+							</div>
+							<div style="color:red">{{loginFailMessage}}</div>						
+						</div>
+					<!-- Registration Block Ends -->
+					</div>
+					<div class="col-sm-6">
+						<div class="panel panel-smart">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									Create New Account
+								</h3>
+							</div>
+							<div class="panel-body">
+								<p>
+								Registration allows you to avoid filling in billing and shipping forms every time you checkout on this website	
+								</p>
+								<button class="btn btn-warning" ng-click="loginSignUpSwitch('signup')">Register</button>
+							</div>
+						</div>
+					</div>
+				</div>
       </div>

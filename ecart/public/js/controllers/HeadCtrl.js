@@ -166,7 +166,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     		 var dialog = ngDialog.open({
     	            template: 'views/loginOrSignup.html',
     	            scope: $scope,
-    	            className: 'ngdialog-theme-default'
+    	            className: 'ngdialog-theme-default',
     	          });
     		}else{
     			
