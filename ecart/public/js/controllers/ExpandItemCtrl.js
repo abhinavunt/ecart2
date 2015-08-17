@@ -205,8 +205,9 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 			$http({
 	            url: '/item/itemFromSameCategory',
 	            method: "GET",
-	            params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
+	            params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:$scope.addItemsIndex}
 	         }).success(function(data) {
+	 
 	        	if(data.itemSameCat.length==0){
 	        		$scope.nextSameCatItemsBtn =true;
 	        	}else{

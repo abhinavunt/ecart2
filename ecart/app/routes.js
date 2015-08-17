@@ -748,7 +748,7 @@
 				});	
 			}else{
 				
-				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastLatestItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastSameCatItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
 					   if(err) throw err;
 					   else res.json({"itemSameCat":itemSameCat});
 				});	
