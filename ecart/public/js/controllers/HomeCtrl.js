@@ -43,10 +43,8 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 			
 			$scope.previousLatestItemsBtn =true;
 			if($scope.latestItemList.length<=$scope.endIndex+1) $scope.nextLatestItemsBtn =true;
-			
-			console.log($scope.latestItemList.length);
-			
-		}).error(function(data) {
+		
+        }).error(function(data) {
 				console.log('Error: ' + data);
 		});
 	}
@@ -85,7 +83,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	         });
 		}
 		
-		console.log($scope.latestItemList.length);
+		
 	}
 	
 	$scope.previousLatestItems = function(){
@@ -138,8 +136,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 			$scope.previousOfferItemsBtn =true;
 			if($scope.offerItemList.length<=$scope.endIndexOff+1) $scope.nextOfferItemsBtn =true;
 			
-			console.log($scope.offerItemList.length);
-			
 		}).error(function(data) {
 				console.log('Error: ' + data);
 		});
@@ -178,8 +174,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 					console.log('Error: ' + data);
 	         });
 		}
-		
-		console.log($scope.offerItemList.length);
 	}
 	
 	$scope.previousOfferItems = function(){

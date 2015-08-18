@@ -174,11 +174,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	  			
 	  			$scope.previousSameCatItemsBtn =true;
 	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatItemsBtn =true;
-	  			
-	  			console.log($scope.itemSameCatList.length);
-  			
-  		
-          
+	  	  
           }).error(function(data) {
               console.log('Error: ' + data);
           });
