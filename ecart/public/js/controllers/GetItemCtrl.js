@@ -3,9 +3,16 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			
 	 		$window.scrollTo(0, 50);
 			$scope.brandsArray=[];
+			$scope.getMoreItemBtn=true;
+			$scope.lastItemDate="notAssigned";
+			$scope.lastItemDateByBrand="notAssigned";
+			$scope.itemLimit=8;
+			$scope.showItemList=[];
+			$scope.itemCount=0;
+			$scope.category = $stateParams.category;
 			
 			$scope.itemToExpand = expandItemService.getItem();
-			expandItemService.setCategoryString($stateParams.category);
+			expandItemService.setCategoryString($scope.category);
 			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
@@ -17,48 +24,26 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			
 			
 	       //Search Items
-		   	$scope.searchItems = function(category){
-            	//Search Items
+		   	$scope.searchItems = function(){
 		   		
-		   		   $scope.categoryTwoId = category;
-		   		   $http({
+		   		$scope.categoryTwoId = $scope.category;
+		   		$http({
                       url: '/item/searchItemsDisplay',
                       method: "GET",
-                      params: {category: category}
+                      params: {category: $scope.category, lastItemDate:$scope.lastItemDate, limit:$scope.itemLimit}
                    }).success(function(data) {
-                          if(data.length==0){
-                        	  if(expandItemService.getExpandItemFlag()==true){
-                         		 $scope.expandItemFlag=true;
-                         		 $scope.showBackButton=false;
-                         		 $scope.showBrandPanel=false;
-                         		 
-                         	 }else{
-                         		 $scope.showItemList = [];
-                                  expandItemService.setExpandItemFlag();
-                            	  	 $scope.expandItemFlag=false;
-                            	  	 $scope.showBackButton=true;
-                            	  	 $scope.showBrandPanel=true;
-                         	 }
-                          }else{
-                        	  
-                        	 if(expandItemService.getExpandItemFlag()==true){
-                        		 $scope.expandItemFlag=true;
-                        		 $scope.showBackButton=false;
-                        		 $scope.showBrandPanel=false;
-                        		 
-                        	 }else{
-                        		 $scope.showItemList = data;
-                                 expandItemService.setExpandItemFlag();
-                           	  	 $scope.expandItemFlag=false;
-                           	  	 $scope.showBackButton=true;
-                           	  	 $scope.showBrandPanel=true;
-                        	 }
-                             
-                          }
-                          
-                         
-                         // console.log(JSON.stringify($scope.sideMenu));
-                          
+                	   
+                	   if($scope.lastItemDate=="notAssigned"){
+                		   $scope.itemCount=data.itemCount;
+                		   $scope.showItemList=[];
+                	   }
+                	   
+                	   $scope.showItemList = $scope.showItemList.concat(data.items);
+                	   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                	   
+                	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
+                	   else $scope.getMoreItemBtn=true;
+                	  
                   }).error(function(data) {
                           console.log('Error: ' + data);
                   });  
@@ -77,7 +62,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	outer_loop: 
 	        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
 	        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
-	        			if($scope.sideMenu.sub[i].supersub[j]._id==$stateParams.category){
+	        			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.category){
 	        				$scope.catName = $scope.sideMenu.name;
 	        				$scope.subCatName = $scope.sideMenu.sub[i].name;
 	        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
@@ -88,12 +73,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             }
             
             //Search Brands
-  		   	$scope.searchBrands = function(category){
+  		   	$scope.searchBrands = function(){
   		   		$scope.brandsArray=[];
               	   $http({
                         url: '/item/searchBrands',
                         method: "GET",
-                        params: {category: category}
+                        params: {category: $scope.category}
                      }).success(function(data) {
                     	 if(data.length==0){
                              $scope.showBrandList =[];
@@ -114,40 +99,63 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               }
               
              $scope.sideMenuSearchItems = function(category){
+            	  $scope.category = category;
             	  expandItemService.setExpandItemFlag(false);
-            	  $scope.searchItems(category);
-            	  $scope.searchBrands(category);
+            	  $scope.searchItems();
+            	  $scope.searchBrands();
+             }
+             
+             $scope.searchItemsByBrand = function(){
+            	 var categoryData = {
+           			  category:$scope.brandsArray,
+           			  categoryTwoId:$scope.categoryTwoId,
+           			  lastItemDateByBrand:$scope.lastItemDateByBrand, 
+           			  limit:$scope.itemLimit
+           	  	 };
+           	  
+           	  	$http({
+                     url: '/item/searchItemsByBrand',
+                     method: "POST",
+			         data: JSON.stringify(categoryData)
+			      }).success(function(data) {
+               	   	 
+			    	  if($scope.lastItemDateByBrand=="notAssigned"){
+	           		   $scope.itemCount=data.itemCount;
+	           		   $scope.showItemList=[];
+	           	   	  }
+               	   
+               	      $scope.showItemList = $scope.showItemList.concat(data.items);
+               	      $scope.lastItemDateByBrand = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+               	   
+               	      if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
+               	      else $scope.getMoreItemBtn=true;
+			    	  
+               	  }).error(function(data) {
+                         console.log('Error: ' + data);
+                  }); 
              }
               
              $scope.selectedBrand = function(brandName){
             	  
-            	  if($scope.brandsArray.indexOf(brandName)!= -1){
-            		  $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
+            	  if($scope.brandsArray.indexOf(brandName)!= -1) $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
+            	  else $scope.brandsArray.push(brandName);
+            	  if($scope.brandsArray.length>0){
+            		  $scope.lastItemDateByBrand="notAssigned";
+                	  $scope.searchItemsByBrand();   
             	  }else{
-            		  $scope.brandsArray.push(brandName);   
+            		  $scope.lastItemDate="notAssigned";
+            		  $scope.searchItems(); 
             	  }
             	  
-            	  var categoryData = {
-            			  category:$scope.brandsArray,
-            			  categoryTwoId:$scope.categoryTwoId
-            	  };
-            	  
-            	  $http({
-                      url: '/item/searchItemsByBrand',
-                      method: "POST",
-			          data: JSON.stringify(categoryData),
-			          headers: {'Content-Type': 'application/json'}
-                   }).success(function(data) {
-                	   $scope.showItemList = data;
-                	   expandItemService.setExpandItemFlag();
-                 	   $scope.expandItemFlag=false;
-                   }).error(function(data) {
-                          console.log('Error: ' + data);
-                   });
-            	  
+            	 
              };
              
+             $scope.loadMoreItems = function(){
+            	if($scope.brandsArray.length>0) $scope.searchItemsByBrand();
+            	else $scope.searchItems();
+             }
+             
              $scope.getBreadcrumbs();
-             $scope.searchItems($stateParams.category);
-             $scope.searchBrands($stateParams.category);
+             $scope.searchItems();
+             $scope.searchBrands();
 });

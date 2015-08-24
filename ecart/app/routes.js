@@ -553,9 +553,25 @@
 			
 			var searchMenuId = req.param("category");
 			
-			db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)}).toArray(function (err, items) {
-				res.json(items);
-			});
+			if(req.param("lastItemDate")=="notAssigned"){
+				
+				db.collection('item').count({categoryTwoId: ObjectID(searchMenuId)},function (err, count){
+					if (err) throw err;
+					else{
+						
+						db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items,itemCount:count});
+						});
+					}
+				});
+			}else{
+				
+				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+					 if (err) throw err;
+					 else res.json({items:items});
+				});
+			}
 		});
 		
 		// Search Latest Items
@@ -622,16 +638,27 @@
 			var db = req.db;
 			var mongo = req.mongo;
 			var ObjectID = mongo.ObjectID;
-			
-			if(req.body.category.length>0){
-				db.collection('item').find({categoryTwoId :ObjectID(req.body.categoryTwoId), brand:{$in:req.body.category}}).toArray(function (err, items) {
-			        res.json(items);
-			    });
+			if(req.body.lastItemDateByBrand =="notAssigned"){
+				
+				db.collection('item').count({categoryTwoId: ObjectID(req.body.categoryTwoId),brand:{$in:req.body.category}},function (err, count){
+					if (err) throw err;
+					else{
+						
+						db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryTwoId),brand:{$in:req.body.category}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items,itemCount:count});
+						});
+					}
+				});
 			}else{
-				db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryTwoId)}).toArray(function (err, items) {
-				       res.json(items);
+				
+				db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryTwoId),brand:{$in:req.body.category}, createdAt:{"$lt":new Date(req.body.lastItemDateByBrand)}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
+					 if (err) throw err;
+					 else res.json({items:items});
 				});
 			}
+			
+			
 			
 		});
 		
