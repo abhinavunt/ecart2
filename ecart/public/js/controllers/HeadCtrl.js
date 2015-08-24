@@ -162,9 +162,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.checkForReviw = function(){
     	  
     	  if($cookieStore.get('loggedIn')==false){
-    		 
+    		 $scope.showLoginPage=true;
     		 var dialog = ngDialog.open({
-    	            template: 'views/loginOrSignup.html',
+    	            template: 'views/loginOrSignupCheckout.html',
     	            scope: $scope,
     	            className: 'ngdialog-theme-default',
     	          });
@@ -296,5 +296,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 		
 		 });
        };
+       
+       $scope.loadMore = function(){
+    	   alert("I am here at scroll");
+       }
       
 });

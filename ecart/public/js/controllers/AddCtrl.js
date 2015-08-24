@@ -4,7 +4,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
 
-    $scope.submit = function(){
+    $scope.submit = function(checkout){
     	
     	if( typeof($scope.userForm.fullName)=='undefined'||$scope.userForm.fullName==''||
 	        typeof($scope.userForm.emailId)=='undefined'||$scope.userForm.emailId==''||
@@ -63,6 +63,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
         	  if(data.status=="failed"){
         		  $scope.signUpFailMessage = data.message;  
         	  }else{
+        		
         		$cookieStore.put('loggedIn',true);
         		//$cookieStore.put('headerTab',data.headerTab);
         		//$cookieStore.put('headerTabUrl',data.routeUrl);
@@ -70,7 +71,12 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";
-		   		$location.path("/");
+		   		
+		   		if(checkout=='checkout') {
+		   			$scope.closeThisDialog();
+		   			$location.path("/reviewOrder");
+		   		}
+		   		else $location.path("/");
         	}
         	  
           }).error(function (data, status, headers, config) {
@@ -82,7 +88,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     };
     
     
-    $scope.login = function(){
+    $scope.login = function(checkout){
     	
     	if(typeof($scope.loginEmainId)=='undefined'||$scope.loginEmainId==''||
     	   typeof($scope.loginPassword)=='undefined'||$scope.loginPassword=='')
@@ -111,7 +117,13 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   			$cookieStore.remove('user');
 		   		$cookieStore.put('user',data.user);
 		   		$scope.loginFailMessage="";
-		   		$location.path("/");
+		   		if(checkout=='checkout') {
+		   			$scope.closeThisDialog();
+		   			$location.path("/reviewOrder");
+		   		}
+		   		else $location.path("/");
+		   		
+		   		
 		   	}else{
 	   			$scope.loginFailMessage = data.message;
 	   			
