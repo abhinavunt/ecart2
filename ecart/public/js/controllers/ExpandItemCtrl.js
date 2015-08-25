@@ -157,25 +157,27 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
              params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
           }).success(function(data) {
         	
-
-				
-	  			$scope.itemSameCatList = data.itemSameCat;
-	  			$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
-	  			
-	  			if($scope.itemSameCatList.length<$scope.endIndex){
-	  				for(var i=$scope.startIndex;i<$scope.itemSameCatList.length;i++){
-	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
-	  				}
-	  			}else{
-	  				for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
-	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
-	  				}
-	  			}
-	  			
-	  			$scope.previousSameCatItemsBtn =true;
-	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatItemsBtn =true;
-	  	  
-          }).error(function(data) {
+        	  	if(data.itemSameCat.length==0){
+        	  		$scope.showItemsSameCatPanel=false;
+        	  	}else{
+        	  		$scope.showItemsSameCatPanel=true;
+        	  		$scope.itemSameCatList = data.itemSameCat;
+    	  			$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
+    	  			
+    	  			if($scope.itemSameCatList.length<$scope.endIndex){
+    	  				for(var i=$scope.startIndex;i<$scope.itemSameCatList.length;i++){
+    	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+    	  				}
+    	  			}else{
+    	  				for(var i=$scope.startIndex;i<=$scope.endIndex;i++){
+    	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
+    	  				}
+    	  			}
+    	  			
+    	  			$scope.previousSameCatItemsBtn =true;
+    	  			if($scope.itemSameCatList.length<=$scope.endIndex+1) $scope.nextSameCatItemsBtn =true;
+        	  	}
+		  }).error(function(data) {
               console.log('Error: ' + data);
           });
 		 
@@ -256,25 +258,28 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
              params: {brand: $scope.itemObject.brand, excludeItemId:$scope.itemObject._id, lastSameBrdItemDate:$scope.lastSameBrdItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
           }).success(function(data) {
         	
-
-				
-	  			$scope.itemSameBrdList = data.itemSameBrd;
-	  			$scope.lastSameBrdItemDate=$scope.itemSameBrdList[$scope.itemSameBrdList.length-1].createdAt;
-	  			
-	  			if($scope.itemSameBrdList.length<$scope.endIndexBrd){
-	  				for(var i=$scope.startIndexBrd; i<$scope.itemSameBrdList.length;i++){
-	  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
-	  				}
-	  			}else{
-	  				for(var i=$scope.startIndexBrd;i<=$scope.endIndexBrd;i++){
-	  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
-	  				}
-	  			}
-	  			
-	  			$scope.previousSameBrdItemsBtn =true;
-	  			if($scope.itemSameBrdList.length<=$scope.endIndexBrd+1) $scope.nextSameBrdItemsBtn =true;
-	  	  
-          }).error(function(data) {
+        	  	if(data.itemSameBrd.length==0){
+        	  		$scope.showItemsSameBrdPanel=false;
+	      	  	}else{
+	      	  		$scope.showItemsSameBrdPanel=true;
+		      	  	$scope.itemSameBrdList = data.itemSameBrd;
+		  			$scope.lastSameBrdItemDate=$scope.itemSameBrdList[$scope.itemSameBrdList.length-1].createdAt;
+		  			
+		  			if($scope.itemSameBrdList.length<$scope.endIndexBrd){
+		  				for(var i=$scope.startIndexBrd; i<$scope.itemSameBrdList.length;i++){
+		  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+		  				}
+		  			}else{
+		  				for(var i=$scope.startIndexBrd;i<=$scope.endIndexBrd;i++){
+		  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
+		  				}
+		  			}
+		  			
+		  			$scope.previousSameBrdItemsBtn =true;
+		  			if($scope.itemSameBrdList.length<=$scope.endIndexBrd+1) $scope.nextSameBrdItemsBtn =true;
+	      	  	}
+        	  	
+		  }).error(function(data) {
               console.log('Error: ' + data);
           });
 		 

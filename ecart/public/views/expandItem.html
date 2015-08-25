@@ -162,6 +162,7 @@
 		<!-- Related Products Starts -->
 			<div class="product-info-box">
 				<h4 class="heading">Products from Same Category</h4>
+				<div ng-if="showItemsSameCatPanel">
 				<div class="row list-group">
 					<div class="col-lg-12">
 					<div class="form-group">
@@ -233,7 +234,14 @@
 			             </div>
 			        </div>
 			      </div>	
-				
+				  </div>
+				  
+				  <div ng-if="!showItemsSameCatPanel">
+				      <div class="jumbotron">
+				      	<i class="fa fa-frown-o fa-3x"></i>
+						<h4 class="hidden-sm hidden-xs">No Other Products Available !!!</h4>
+				     </div>
+				 </div>
 				
 			<!-- Products Row Ends -->
 			</div>
@@ -242,6 +250,7 @@
 		<!-- Same brand products Starts-->
 		 <div class="product-info-box">
 				<h4 class="heading">Other Products of Same Brand</h4>
+				<div ng-if="showItemsSameBrdPanel">
 				<div class="row list-group">
 					<div class="col-lg-12">
 					<div class="form-group">
@@ -313,6 +322,14 @@
 			             </div>
 			        </div>
 			      </div>
+			      </div>
+			      <div ng-if="!showItemsSameBrdPanel">
+				      <div class="jumbotron">
+				      	<i class="fa fa-frown-o fa-3x"></i>
+						<h4 class="hidden-sm hidden-xs">No Other Products Available !!!</h4>
+				     </div>
+				 </div>
+			      
 		 </div>
 			<!-- Same brand products Ends-->
 				</div>

@@ -32,17 +32,22 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                       method: "GET",
                       params: {category: $scope.category, lastItemDate:$scope.lastItemDate, limit:$scope.itemLimit}
                    }).success(function(data) {
-                	   
-                	   if($scope.lastItemDate=="notAssigned"){
-                		   $scope.itemCount=data.itemCount;
-                		   $scope.showItemList=[];
+                	   if(data.items.length==0){
+                		   $scope.showItemGrid=false;
+                	   }else{
+                		   $scope.showItemGrid=true;
+                		   if($scope.lastItemDate=="notAssigned"){
+                    		   $scope.itemCount=data.itemCount;
+                    		   $scope.showItemList=[];
+                    	   }
+                    	   
+                    	   $scope.showItemList = $scope.showItemList.concat(data.items);
+                    	   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                    	   
+                    	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
+                    	   else $scope.getMoreItemBtn=true;   
                 	   }
                 	   
-                	   $scope.showItemList = $scope.showItemList.concat(data.items);
-                	   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
-                	   
-                	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
-                	   else $scope.getMoreItemBtn=true;
                 	  
                   }).error(function(data) {
                           console.log('Error: ' + data);
