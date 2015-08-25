@@ -10,6 +10,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			$scope.showItemList=[];
 			$scope.itemCount=0;
 			$scope.category = $stateParams.category;
+			$scope.showItemGrid=true;
 			
 			$scope.itemToExpand = expandItemService.getItem();
 			expandItemService.setCategoryString($scope.category);

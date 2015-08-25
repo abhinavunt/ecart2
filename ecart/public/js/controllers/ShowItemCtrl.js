@@ -101,10 +101,8 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
            		   }
            	    }
            	   
-           	   $scope.showLiveSearchTable=false;
-           	   $scope.keyWord ="";
+           	   expandItemService.setCategoryString(item.categoryTwoId);
            	   $state.go('expandItem',{itemObj:item,menuObj:sideMenu});
-            	  
               }
               
               $scope.expandItemFromSearch = function(item,sideMenu,retState){
