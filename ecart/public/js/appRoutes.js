@@ -9,12 +9,21 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			templateUrl: 'views/home.html',
 			
 		})
-
 		
-		.state('nerds', {
-			url:'/nerd',
-			templateUrl: 'views/nerd.html',
-			controller: 'HeadController'
+		.state('howItWorks', {
+			url:'/howItWorks',
+			templateUrl: 'views/howItWorks.html'
+			
+		})
+		
+		.state('serviceArea', {
+			url:'/serviceArea',
+			templateUrl: 'views/serviceArea.html'
+		})
+		
+		.state('userFeedback', {
+			url:'/userFeedback',
+			templateUrl: 'views/userFeedback.html'
 		})
 		
 		

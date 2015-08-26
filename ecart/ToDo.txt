@@ -1,30 +1,17 @@
 Admin section:
 
-	Order Portal:
-		1. Implement different colors for order rows based on their status ("Order Placed","In Process", "Delivered")
-		2. Implement incremental Integer Order Id.
-		3. Print option functionality for order Pop-up.
-		
-	
-	Item:
-		1. Implement Item Search
-		2. Add/Edit Item validation.
-		3. Add warning message before removing Item
-		4.
-	
-	Menu:
-	
-	User:
-		1. Edit User functionality 
-		
-	
-	Feedback:
-		1. Implement Feedback table
-	
-	Customize Info:
-	
-	Business Chart:
 
-
-
+	
 User section:
+
+1. How it works, service area and feedback tab - implement respective html and DB tables
+2. hide and show live search div , on click outside/inside div.
+3. Show "Cart is empty" when there is no item has been selected.
+4. Enable clicking menuOne entries.
+5. Work on mega menu UI
+6. Disable amount if it is not available
+7. Implement image style for "out of stock" items.
+8. work on design of item block (re structure each component so that everything is visible )
+9. Implement sorting logic on show item page (sort by latest item , price low to high, price high to low)
+10. Forgot password Implementation
+11. Show order popup when user click on any order row (Order History)

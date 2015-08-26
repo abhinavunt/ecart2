@@ -300,5 +300,59 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.loadMore = function(){
     	   alert("I am here at scroll");
        }
+       
+       $scope.submitFeedback = function(){
+
+       	if( typeof($scope.feedbackFullName)=='undefined'||$scope.feedbackFullName==''||
+   	        typeof($scope.feedbackEmailId)=='undefined'||$scope.feedbackEmailId==''||
+   			typeof($scope.feedbackMessage)=='undefined'||$scope.feedbackMessage=='')
+       	{
+       		$scope.feedbackValidateMsg = "Required(*) field/(s) are missing !!!";
+       		return false;
+       	}
+       	
+       	else if($scope.feedbackFullName.length<3){
+       		$scope.feedbackValidateMsg = "Your Full Name should contain atleast 3 characters!!!";
+       		return false;
+       	}
+       	
+       	else if(validateEmail($scope.feedbackEmailId)==false){
+       		$scope.feedbackValidateMsg = "Please provide a valid email address!!!";
+       		return false;
+       	}
+       	
+       	else{
+       	
+       	var feedbackData ={
+       			fullName : $scope.feedbackFullName,
+   				emailId : $scope.feedbackEmailId,
+   				message : $scope.feedbackMessage
+   		};
+   		
+   		$http({
+               url: '/user/userFeedback',
+               method: "POST",
+               data: JSON.stringify(feedbackData),
+               headers: {'Content-Type': 'application/json'}
+             }).success(function (data, status, headers, config) {
+           	  if(data.status=="failed"){
+           		  $scope.feedbackValidateMsg = data.message;  
+           	  }else{
+           		
+           		
+           	  }
+           	  
+             }).error(function (data, status, headers, config) {
+                 
+             });
+       		
+       	}
+   	 }
+       
+       function validateEmail(email) {
+	       	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	       	if (!filter.test(email))  return false;
+	        else true;
+       }
       
 });
