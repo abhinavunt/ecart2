@@ -245,6 +245,25 @@
 		});
 		
 		
+		app.post('/user/userFeedback',function(req,res){
+			
+			var db = req.db;
+			var feedbackObject = {
+					
+					fullName : req.body.fullName,
+					emailId : req.body.emailId,
+					createdAt: new Date(),
+					message : req.body.message
+			};
+			
+			//insert feedback
+			db.collection('feedback').insert(feedbackObject, function(err, records) {
+				if(err) res.json({status:'fail', message:'Due to server error your feedback could not be submitted !!! please try after sometime..'});
+				else res.json({"status":"pass"});
+			});
+		});
+		
+		
 		//Add menu Item at Level-0
 		app.post('/menu/addMenuItemLevelZero', function(req, res) {
 			var db = req.db;

@@ -302,6 +302,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	   $scope.feedbackEmailId="";
     	   $scope.feedbackMessage="";
     	   $scope.feedbackValidateMsg="";
+    	   $scope.feedbackSuccess = false;
     	   $state.go('userFeedback');
        }
        
@@ -340,10 +341,10 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
                data: JSON.stringify(feedbackData),
                headers: {'Content-Type': 'application/json'}
              }).success(function (data, status, headers, config) {
-           	  if(data.status=="failed"){
+           	  if(data.status=="fail"){
            		  $scope.feedbackValidateMsg = data.message;  
-           	  }else{
-           		
+           	  }else if(data.status=="pass"){
+           		$scope.feedbackSuccess = true;
            		
            	  }
            	  
