@@ -297,12 +297,17 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 		 });
        };
        
-       $scope.loadMore = function(){
-    	   alert("I am here at scroll");
+       $scope.openUserFeedback = function(){
+    	   $scope.feedbackFullName="";
+    	   $scope.feedbackEmailId="";
+    	   $scope.feedbackMessage="";
+    	   $scope.feedbackValidateMsg="";
+    	   $state.go('userFeedback');
        }
        
+       
        $scope.submitFeedback = function(){
-
+    	  
        	if( typeof($scope.feedbackFullName)=='undefined'||$scope.feedbackFullName==''||
    	        typeof($scope.feedbackEmailId)=='undefined'||$scope.feedbackEmailId==''||
    			typeof($scope.feedbackMessage)=='undefined'||$scope.feedbackMessage=='')
