@@ -1,5 +1,44 @@
-<div class="row" ng-controller="">
+<div ng-controller="AdminFeedbackController">
+<div class="row">
 	<div class="col-lg-12">
 			<h4>Feedback</h4>
 	</div>
+	
+</div>
+<div ng-hide="noDataFound">
+	<div class="media panel-smart" ng-repeat="feedback in feedbacklist">
+		<div class="media-body">
+			<blockquote>
+				<div class="row">
+					<div class="col-lg-12">
+						<p>
+						{{feedback.message}}
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<footer>
+						{{feedback.fullName}}
+					</footer>
+				</div>
+				<div class="row">
+					<div class="col-lg-10">
+						<div>{{feedback.emailId}}</div>
+					</div>
+					<div class="col-lg-2">
+						<span>26 sep 2015</span>
+					</div>
+				</div>
+			</blockquote>
+		</div>
+	</div>
+</div>
+<div ng-show="noDataFound">
+	<div class="row">
+	<div class="jumbotron">
+	   	<i class="fa fa-ban fa-3x"></i>
+		<h4 class="hidden-sm hidden-xs">No Feedback Found !!!</h4>
+	</div>
+	</div>
+</div>
 </div>

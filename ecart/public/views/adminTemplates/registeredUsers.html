@@ -1,4 +1,5 @@
 <div ng-controller="RegisteredUsersController">
+<div ng-hide="noDataFound">
 <div class="row">
 	<div class="col-lg-2">
 		<h4>Registered Users</h4>	
@@ -57,6 +58,15 @@
 	<div class="col-lg-2">
 	<a href="" ng-click="previousPage()" ng-disabled="disablePrevButton" class="btn btn-default btn-sm">Previous</a>
 	<a href="" ng-click="nextPage()" ng-disabled="disableNextButton" class="btn btn-default btn-sm">Next</a>
+	</div>
+</div>
+</div>
+<div ng-show="noDataFound">
+	<div class="row">
+	<div class="jumbotron">
+	   	<i class="fa fa-ban fa-3x"></i>
+		<h4 class="hidden-sm hidden-xs">No User Found !!!</h4>
+	</div>
 	</div>
 </div>
 </div>

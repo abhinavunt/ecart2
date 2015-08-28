@@ -1,41 +1,41 @@
-angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController', function($scope,$http) {
-	$scope.showItemList=[{"itemPerPage":"10 Users/Page","value":10},{"itemPerPage":"20 Users/Page","value":20},{"itemPerPage":"30 Users/Page","value":30}]
-	$scope.limitPerPage = $scope.showItemList[0].value;
-	$scope.firstUserDate = "notAssigned";
-	$scope.lastUserDate = "notAssigned";
-	$scope.keyword = "";
+angular.module('AdminFeedbackCtrl',[]).controller('AdminFeedbackController', function($scope,$http) {
 	
-	$scope.searchUsers = function(){
-		
+	$scope.showFeedbackList=[{"feedbackPerPage":"10 Feedbacks/Page","value":10},{"feedbackPerPage":"20 Feedbacks/Page","value":20},{"feedbackPerPage":"30 Feedbacks/Page","value":30}]
+	$scope.limitPerPage = $scope.showFeedbackList[0].value;
+	$scope.firstFeedbackDate = "notAssigned";
+	$scope.lastFeedbackDate = "notAssigned";
+	
+	
+	$scope.searchFeedbacks = function(){
+		 
 		$http({
-            url: '/user/getUsers',
+            url: '/admin/getFeedbacks',
             method: "GET",
-            params:{keyword: $scope.keyword, firstDate: $scope.firstUserDate, lastDate: $scope.lastUserDate, limit:$scope.limitPerPage}
+            params:{firstDate: $scope.firstFeedbackDate, lastDate: $scope.lastFeedbackDate, limit:$scope.limitPerPage}
     	
          }).success(function(data) {
-        	
-        	 if(data.users.length==0){
-        		 $scope.userlist = [];
+        	 
+        	 if(data.feedbacks.length==0){
+        		 $scope.feedbacklist = [];
         		 $scope.noDataFound=true;
-        	}else{
-    			 $scope.userlist = data.users;
+        		
+        	 }else{
+    			 $scope.feedbacklist = data.feedbacks;
         		 $scope.totalRecords = data.totalRecords; 
-            	 if(data.users.length>0 && data.users.length<=$scope.limitPerPage){
-            		 $scope.fromOrderNo = 1;
-            		 $scope.toOrderNo = data.users.length;
-            		
-            	 }else if(data.users.length>0 && data.users.length>$scope.limitPerPage){
-            		 $scope.fromOrderNo = 1;
-            		 $scope.toOrderNo = $scope.limitPerPage;
-            		
+            	 if(data.feedbacks.length>0 && data.feedbacks.length<=$scope.limitPerPage){
+            		 $scope.fromFeedbackNo = 1;
+            		 $scope.toFeedbackNo = data.feedbacks.length;
+            	 }else if(data.feedbacks.length>0 && data.feedbacks.length>$scope.limitPerPage){
+            		 $scope.fromFeedbackNo = 1;
+            		 $scope.toFeedbackNo = $scope.limitPerPage;
             	 }
             	 
-            	 if($scope.totalRecords>$scope.fromOrderNo+($scope.limitPerPage-1)) $scope.disableNextButton =false;
+            	 if($scope.totalRecords>$scope.fromFeedbackNo+($scope.limitPerPage-1)) $scope.disableNextButton =false;
             	 else $scope.disableNextButton =true; 
             	 
             	 $scope.disablePrevButton =true;
-            	 $scope.firstUserDate = data.users[0].createdAt;
-            	 $scope.lastUserDate = data.users[data.users.length-1].createdAt;
+            	 $scope.firstFeedbackDate = data.feedbacks[0].createdAt;
+            	 $scope.lastFeedbackDate = data.feedbacks[data.feedbacks.length-1].createdAt;
             	 $scope.noDataFound=false;
         	 }
          }).error(function(data) {
@@ -44,13 +44,13 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
     }
 	
 	$scope.nextPage = function(){
-		//alert($scope.keyword +" "+$scope.firstUserDate +" "+$scope.lastUserDate +" "+$scope.limitPerPage )
+		//alert($scope.keyword +" "+$scope.firstFeedbackDate +" "+$scope.lastFeedbackDate +" "+$scope.limitPerPage )
 		$http({
 			url: '/user/getUsers',
             method: "GET",
-            params:{keyword: $scope.keyword, firstDate: "notAssigned", lastDate: $scope.lastUserDate, limit:$scope.limitPerPage}
+            params:{keyword: $scope.keyword, firstDate: "notAssigned", lastDate: $scope.lastFeedbackDate, limit:$scope.limitPerPage}
          }).success(function(data) {
-        	 $scope.userlist = data.users;
+        	 $scope.feedbacklist = data.users;
         	 
         	 if(data.users.length<=$scope.limitPerPage){
         		 $scope.fromOrderNo = $scope.fromOrderNo + $scope.limitPerPage;
@@ -65,8 +65,8 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
         	 else $scope.disableNextButton =true;
         	 
         	 $scope.disablePrevButton = false;
-        	 $scope.firstUserDate = data.users[0].createdAt;
-        	 $scope.lastUserDate = data.users[data.users.length-1].createdAt;
+        	 $scope.firstFeedbackDate = data.users[0].createdAt;
+        	 $scope.lastFeedbackDate = data.users[data.users.length-1].createdAt;
         	 
          }).error(function(data) {
 			console.log('Error: ' + data);
@@ -78,9 +78,9 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
 		 $http({
 			url: '/user/getUsers',
             method: "GET",
-            params:{keyword: $scope.keyword, firstDate:$scope.firstUserDate, lastDate:"notAssigned", limit:$scope.limitPerPage}
+            params:{keyword: $scope.keyword, firstDate:$scope.firstFeedbackDate, lastDate:"notAssigned", limit:$scope.limitPerPage}
          }).success(function(data) {
-        	 $scope.userlist = data.users;
+        	 $scope.feedbacklist = data.users;
         	 
         	 if($scope.toOrderNo - $scope.fromOrderNo+1 == $scope.limitPerPage){
         		 $scope.fromOrderNo = $scope.fromOrderNo - $scope.limitPerPage;
@@ -94,8 +94,8 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
         	 else $scope.disablePrevButton =false;
         	 
         	 $scope.disableNextButton =false;
-        	 $scope.firstUserDate = data.users[0].createdAt;
-        	 $scope.lastUserDate = data.users[data.users.length-1].createdAt;
+        	 $scope.firstFeedbackDate = data.users[0].createdAt;
+        	 $scope.lastFeedbackDate = data.users[data.users.length-1].createdAt;
          
          }).error(function(data) {
 			console.log('Error: ' + data);
@@ -105,18 +105,17 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
     
     $scope.searchUserByKeyword = function(keyword){
     	$scope.keyword = keyword;
-    	$scope.firstUserDate = "notAssigned";
-    	$scope.lastUserDate = "notAssigned";
+    	$scope.firstFeedbackDate = "notAssigned";
+    	$scope.lastFeedbackDate = "notAssigned";
     	$scope.searchUsers();
 	}
 	
 	$scope.showItemCriteria = function(showCriteria){
 		$scope.limitPerPage = showCriteria.value;
-		$scope.firstUserDate = "notAssigned";
-    	$scope.lastUserDate = "notAssigned";
+		$scope.firstFeedbackDate = "notAssigned";
+    	$scope.lastFeedbackDate = "notAssigned";
     	$scope.searchUsers();
 	}
 	
-	$scope.searchUsers();
-	
+	$scope.searchFeedbacks();
 });

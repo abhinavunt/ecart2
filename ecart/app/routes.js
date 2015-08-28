@@ -116,6 +116,46 @@
 			}
 		});
 		
+		// getting users list
+		app.get('/admin/getFeedbacks', function(req, res) {
+			var db = req.db;
+			var totalRecords;
+			var firstDateVal = req.param("firstDate");
+			var lastDateVal = req.param("lastDate");
+			var limitVal = parseInt(req.param("limit"));
+			
+			if(firstDateVal=='notAssigned'&& lastDateVal=='notAssigned'){
+				
+				db.collection('feedback').count(function (err, count){
+					if (err) throw err;
+					else{
+						 totalRecords = count;
+						 console.log(count);
+						 db.collection('feedback').find({},{"sort" : [['createdAt',-1]]}).limit(limitVal).toArray(function (err, feedbacks) {
+							 if (err) throw err;
+							 else res.json({feedbacks:feedbacks, totalRecords:totalRecords});
+						 });
+					 }
+				});
+			
+			}else if(firstDateVal=='notAssigned'&& lastDateVal!='notAssigned'){
+				// for next data
+				var query = {$or:[{ fullName: new RegExp(keyword,'i')},{emailId : new RegExp(keyword,'i')},{mobileNo : new RegExp(keyword,'i')}],createdAt:{"$lt":new Date(lastDateVal)}};
+			    db.collection('user').find({createdAt:{"$lt":new Date(lastDateVal)}},{"sort" : [['createdAt', -1]]}).limit(limitVal).toArray(function (err, users) {
+					res.json({users:users});
+				});
+			
+			}else if(firstDateVal!='notAssigned'&& lastDateVal=='notAssigned'){
+				// for previous data
+				var query = {$or:[{ fullName: new RegExp(keyword,'i')},{emailId : new RegExp(keyword,'i')},{mobileNo : new RegExp(keyword,'i')}],createdAt:{"$gt":new Date(firstDateVal)}};
+				db.collection('user').find({createdAt:{"$gt":new Date(firstDateVal)}},{"sort" : [['createdAt', 1]]}).limit(limitVal).toArray(function (err, users) {
+					users.reverse();
+					res.json({users:users});
+				});
+			}
+		});
+		
+		
 		//Add a new user
 		app.post('/user/addUser', function(req, res) {
 			var db = req.db;
