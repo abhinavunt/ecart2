@@ -10,10 +10,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			$scope.showItemList=[];
 			$scope.itemCount=0;
 			$scope.category = $stateParams.category;
+			$scope.catLevel = parseInt($stateParams.catLevel);
 			$scope.showItemGrid=true;
 			
 			$scope.itemToExpand = expandItemService.getItem();
 			expandItemService.setCategoryString($scope.category);
+			expandItemService.setCategoryLevel($scope.catLevel);
 			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
@@ -27,11 +29,10 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 	       //Search Items
 		   	$scope.searchItems = function(){
 		   		
-		   		$scope.categoryTwoId = $scope.category;
 		   		$http({
                       url: '/item/searchItemsDisplay',
                       method: "GET",
-                      params: {category: $scope.category, lastItemDate:$scope.lastItemDate, limit:$scope.itemLimit}
+                      params: {category: $scope.category, lastItemDate:$scope.lastItemDate, limit:$scope.itemLimit, catLevel:$scope.catLevel}
                    }).success(function(data) {
                 	   if(data.items.length==0){
                 		   $scope.showItemGrid=false;
@@ -63,20 +64,34 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	expandItemService.setMenuObject($stateParams.menuObj);
 			}
             
-            
-           $scope.getBreadcrumbs = function(){
-            	outer_loop: 
-	        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
-	        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
-	        			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.category){
-	        				$scope.catName = $scope.sideMenu.name;
-	        				$scope.subCatName = $scope.sideMenu.sub[i].name;
-	        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
-	        				break outer_loop;
-	        			}
+	        $scope.getBreadcrumbsLevelOne = function(){
+	           	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+	        		if($scope.sideMenu.sub[i]._id==$scope.category){
+        				$scope.catName = $scope.sideMenu.name;
+        				$scope.subCatName = $scope.sideMenu.sub[i].name;
+        				$scope.subCatId = $scope.sideMenu.sub[i]._id;
+        				break;
 	        		}
 	        	}
-            }
+	         }
+	       
+		     $scope.getBreadcrumbsLevelTwo = function(){
+	            	outer_loop: 
+		        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+		        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
+		        			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.category){
+		        				$scope.catName = $scope.sideMenu.name;
+		        				$scope.subCatName = $scope.sideMenu.sub[i].name;
+		        				$scope.subCatId = $scope.sideMenu.sub[i]._id;
+		        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
+		        				$scope.supSubCatId = $scope.sideMenu.sub[i].supersub[j]._id;
+		        				break outer_loop;
+		        			}
+		        		}
+		        	}
+		      }
+           
+           
             
             //Search Brands
   		   	$scope.searchBrands = function(){
@@ -84,7 +99,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
               	   $http({
                         url: '/item/searchBrands',
                         method: "GET",
-                        params: {category: $scope.category}
+                        params: {category: $scope.category, catLevel:$scope.catLevel}
                      }).success(function(data) {
                     	 if(data.length==0){
                              $scope.showBrandList =[];
@@ -98,25 +113,18 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                     });  
               	  
               };
+           
               
-              $scope.backToItems = function(){
-            	  expandItemService.setExpandItemFlag(false);
-            	  $scope.expandItemFlag=false;
-              }
-              
-             $scope.sideMenuSearchItems = function(category){
-            	  $scope.category = category;
-            	  expandItemService.setExpandItemFlag(false);
-            	  $scope.searchItems();
-            	  $scope.searchBrands();
-             }
+            
              
              $scope.searchItemsByBrand = function(){
+            	
             	 var categoryData = {
            			  category:$scope.brandsArray,
-           			  categoryTwoId:$scope.categoryTwoId,
+           			  categoryId:$scope.category,
            			  lastItemDateByBrand:$scope.lastItemDateByBrand, 
-           			  limit:$scope.itemLimit
+           			  limit:$scope.itemLimit,
+           			  catLevel:$scope.catLevel
            	  	 };
            	  
            	  	$http({
@@ -161,7 +169,9 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	else $scope.searchItems();
              }
              
-             $scope.getBreadcrumbs();
+             if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
+             else $scope.getBreadcrumbsLevelTwo();
+             
              $scope.searchItems();
              $scope.searchBrands();
 });

@@ -103,7 +103,7 @@
 										</a>
 									</li>
 									<li>
-										<a ng-click="openUserFeedback()">
+										<a class="showPointer" ng-click="openUserFeedback()">
 											<i class="fa fa-comments" title="Feedback"></i>
 											<span class="hidden-sm hidden-xs">
 												Feedback
@@ -249,11 +249,11 @@
 													data-ng-repeat="submenu in oneMenu.sub">
 													<li>
 														<p>
-															<strong>{{submenu.name}}</strong>
+															<strong class="showPointer" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</strong>
 														</p>
 													</li>
 		
-													<li data-ng-repeat="supersub in submenu.supersub"><a ui-sref="searchItems({category:supersub._id, menuObj:oneMenu})">{{supersub.name}}</a></li>
+													<li data-ng-repeat="supersub in submenu.supersub"><a ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
 												</ul>
 											</div>
 										</div>

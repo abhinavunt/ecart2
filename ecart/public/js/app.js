@@ -158,7 +158,14 @@ app.service('expandItemService', function($cookieStore) {
 		$cookieStore.put('retState',retState);
 	}
 	
+	var setCategoryLevel = function(catLevel){
+		
+		$cookieStore.put('catLevel',catLevel);
+	}
 	
+	var getCategoryLevel = function(){
+		return $cookieStore.get('catLevel');
+	}
 	
 	return {
 		getItem:getItem,
@@ -172,7 +179,9 @@ app.service('expandItemService', function($cookieStore) {
 		getExpandItemFlag:getExpandItemFlag,
 		setExpandItemFlag:setExpandItemFlag,
 		getReturnState:getReturnState,
-		setReturnState:setReturnState
+		setReturnState:setReturnState,
+		getCategoryLevel:getCategoryLevel,
+		setCategoryLevel:setCategoryLevel
 		
 	};
 	

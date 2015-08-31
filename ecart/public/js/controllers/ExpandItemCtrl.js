@@ -27,25 +27,40 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
      	expandItemService.setMenuObject($stateParams.menuObj);
      	expandItemService.setItemObject($stateParams.itemObj);
      }
-	 
+	
 	 $scope.categoryStr = expandItemService.getCategoryString();
+	 $scope.catLevel = expandItemService.getCategoryLevel();
 	 $scope.products = shoppingCartService.getProducts();
 	 $scope.returnState =expandItemService.getReturnState();
 	 
-	 $scope.getBreadcrumbs = function(){
+	 $scope.getBreadcrumbsLevelTwo = function(){
      	for(var i=0;i<$scope.sideMenu.sub.length;i++){
      		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
      			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.categoryStr){
      				$scope.catName = $scope.sideMenu.name;
      				$scope.subCatName = $scope.sideMenu.sub[i].name;
+     				$scope.subCatId = $scope.sideMenu.sub[i]._id;
      				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
+     				$scope.supSubCatId = $scope.sideMenu.sub[i].supersub[j]._id;
      				break;
      			}
      		}
      	}
      }
 	 
-	 $scope.getBreadcrumbs();
+	 $scope.getBreadcrumbsLevelOne = function(){
+	     	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+	     		if($scope.sideMenu.sub[i]._id==$scope.categoryStr){
+     				$scope.catName = $scope.sideMenu.name;
+     				$scope.subCatName = $scope.sideMenu.sub[i].name;
+     				$scope.subCatId = $scope.sideMenu.sub[i]._id;
+     				break;
+	     		}
+	     	}
+	  }
+	 
+	if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
+	else $scope.getBreadcrumbsLevelTwo();
      
     $scope.$watch('products', function() {
      if($scope.products.length>0){
@@ -120,8 +135,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	  
 	  
 	 $scope.returnToPreviousPage = function(){
-		 
-		 if($scope.returnState=='B2S') $state.go('searchItems',{category:$scope.categoryStr, menuObj:$scope.sideMenu})
+		 if($scope.returnState=='B2S') $state.go('searchItems',{category:$scope.categoryStr,catLevel:$scope.catLevel, menuObj:$scope.sideMenu})
 		 else $state.go('home');
 	}
 	 

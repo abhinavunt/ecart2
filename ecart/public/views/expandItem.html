@@ -5,10 +5,10 @@
 			<div class="list-group">
 				<div data-ng-repeat="subMenu in sideMenu.sub">
 					<div class="list-group-item">
-						<label>{{subMenu.name}}</label>
+						<label class="showPointer" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subMenu._id, catLevel:1, menuObj:sideMenu})">{{subMenu.name}}</label>
 					</div>
 					<div class="list-group-item">
-						<div class="showPointer" data-ng-repeat="superSubMenu in subMenu.supersub" ui-sref="searchItems({category:superSubMenu._id, menuObj:sideMenu})">
+						<div class="showPointer" data-ng-repeat="superSubMenu in subMenu.supersub" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:superSubMenu._id,catLevel:2, menuObj:sideMenu})">
 							{{superSubMenu.name}}
 						</div>
 					</div>
@@ -17,9 +17,9 @@
 		</div>
 		<div class="col-lg-10">
 			<ol class="breadcrumb">
-				<li><a href="index.html">{{catName}}</a></li>
-				<li><a href="index.html">{{subCatName}}</a></li>
-				<li class="active">{{supSubCatName}}</li>
+				<li class="active">{{catName}}</li>
+				<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subCatId,catLevel:1, menuObj:sideMenu})"><a class="showPointer">{{subCatName}}</a></li>
+				<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supSubCatId,catLevel:2, menuObj:sideMenu})" ng-show="catLevel!=1"><a class="showPointer">{{supSubCatName}}</a></li>
 			</ol>
 			<div class="row product-info full">
 			<!-- Left Starts -->
