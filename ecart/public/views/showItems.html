@@ -40,10 +40,14 @@
 			<!-- Product #1 Starts -->
 				<div class="item  col-xs-3 col-lg-3" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
             <div class="thumbnail">
-             
-                <img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItemFromSearch(item,sideMenu,'B2S')"/>
+             	
+                <img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItemFromSearch(item,sideMenu,'B2S')"/>
+                <div ng-hide="item.availability=='yes'" class="outOfStockCap">
+		            <h4>Out of Stock</h4>
+		        </div>
+		        <fieldset ng-disabled="item.availability=='no'">
                 <div class="caption">
-                <h4 class="group inner list-group-item-heading" ng-click="expandItemFromSearch(item,sideMenu,'B2S')">{{item.name}}</h4>
+                <h4 class="group inner list-group-item-heading" ng-click="item.availability=='no'|| expandItemFromSearch(item,sideMenu,'B2S')">{{item.name}}</h4>
                
                  <div class="row">
                       <div class="col-xs-12 col-md-7">
@@ -56,7 +60,7 @@
                                      </select> -->
                                      <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
                                           ng-model="amount.selected"
-                                          ng-options="amtPrice.Amount for amtPrice in item.amountprice">
+                                          ng-options="amtPrice.Amount disable when amtPrice.Availability!='Available' for amtPrice in item.amountprice">
                                       </select>
                                      </div>
                   </div>
@@ -98,6 +102,7 @@
                                  </div>
                   </div>
                 </div>
+                </fieldset>
             </div>
         </div>
 		
@@ -109,8 +114,8 @@
 		</div>
 	  </div>
 	  <div ng-if="!showItemGrid">
-	  	 <div><i class="fa fa-ban"></i><span>  No Items Found</span></div>
-	  </div>
+	 	 <div><i class="fa fa-ban"></i><span>  No Items Found</span></div>
+	  	</div>
 	</div>
 </div>
 </div>
