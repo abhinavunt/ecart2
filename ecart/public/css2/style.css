@@ -1014,20 +1014,30 @@ hr{
 				
 				
 .liveResultList{  
-  width:95%;
+  width:100%;
   overflow: inherit;
   padding: 0;
-  margin: 47px 0 0 1px;
+  max-height: 477px; 
+  overflow-y: scroll;
   position: absolute;
   z-index: 35;
   border: 1px solid #c0c0c0;
   border-right: 1;
  }
  
+ .liveResultList .brand{
+       font-size: 13px;
+       color: gray;
+ }
+ 
  /* style added for admin item page :: drop down for select menu :: start */
  
 .dropdown-submenu {
     position: relative;
+}
+
+.lowPadd{
+	padding:5px 2px;
 }
 
 .dropdown-submenu>.dropdown-menu {
@@ -1203,6 +1213,11 @@ hr{
 .fadeImage{
 	
 	opacity:0.5;
+}
+
+.no-margin-bottom{
+	
+	margin-bottom:0px;
 }
 
 /* Copyright Styles Starts */
