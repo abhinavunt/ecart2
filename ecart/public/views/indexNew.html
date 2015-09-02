@@ -203,8 +203,8 @@
 		                                      	  <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
 							                            <button class="btn btn-xs btn-success add-to-cart liveSearchShow" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add to Cart</button>
 							                      </div>
-							                      <div class="col-xs-12 col-md-6" ng-show="isSelected(amount.selected)">
-							                            <button class="btn btn-xs btn-warning add-to-cart liveSearchShow" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Already Added</button>
+							                      <div class="col-xs-12 col-md-6 liveSearchShow" ng-show="isSelected(amount.selected)">
+							                            <button class="btn btn-xs btn-warning add-to-cart liveSearchShow" disabled>Already Added</button>
 							                      </div>
 			                                       
 		                                        </td>
