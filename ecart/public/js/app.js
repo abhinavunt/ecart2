@@ -223,4 +223,20 @@ app.filter('unique', function() {
 });
 
 
+app.directive('myDocumentClick', ['$document',function($document) {
+	  return {
+	    restrict: 'A',
+	    link: function(scope, element, attrs) {
+	      $document.bind('click', function(event) {
+		    	if(angular.element(event.target).hasClass('liveSearchShow')||angular.element(event.target).attr('id')=='itemLiveSearch') angular.element('.liveResultList').show();
+		        else angular.element('.liveResultList').hide();
+	      	 })
+	        }
+	      };
+	  }
+ ]);
+
+	
+
+
 
