@@ -238,16 +238,23 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	                        
 	                         if(data.length==0){
 	                           $scope.liveResultList = [];
+	                           angular.element('.liveResultList').show();
+	                           $scope.showLiveSearchTable=true;
+	                           $scope.noDataFound=true;
+	                           
 	                   }else{
 	                           $scope.liveResultList = data;
+	                           angular.element('.liveResultList').show();
 	                           $scope.showLiveSearchTable=true;
+	                           $scope.noDataFound=false;
 	                   }
 	                    }).error(function (data, status, headers, config) {
 	                  
 	                    });  
 	             }else{
 	            	$scope.liveResultList = {};
-	                 $scope.showLiveSearchTable=false; 
+	                 $scope.showLiveSearchTable=false;
+	                 $scope.noDataFound=false;
 	             }
 	           
 	           
