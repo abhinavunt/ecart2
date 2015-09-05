@@ -203,7 +203,7 @@
 					<!-- Search Starts -->
 						<div class="col-md-8">
 							<div class="liveResultList liveSearchShow" ng-show="showLiveSearchTable">
-                                        <table class="table table-striped table-hover no-margin-bottom" ng-hide="noDataFound">
+                                        <table class="table table-striped table-hover no-margin-bottom">
 	                                       <thead>
 												<tr class="active">
 													<th class="col-lg-1"></th>
@@ -252,20 +252,20 @@
 		                                     
 		                                   </tbody>
 	                                 </table>
-	                                 
-	                                 <table class="table table-striped table-hover no-margin-bottom" ng-show="noDataFound">
-	                                       <tbody>
-												<tr class="active">
-												    <td class="col-lg-5 liveSearchShow"></td>
-													<td class="col-lg-4 liveSearchShow"><div class="liveSearchShow">No Item Found !!!</div></td>
-													<td class="col-lg-3 liveSearchShow"></td>
-									            </tr>
-										   </tbody>
-		                                   
-	                                 </table>
-	                                 
 	                              </div>
-								
+								  <div class="liveSearchShow" ng-show="noItemFound">
+								  	 <table class="table table-striped table-hover no-margin-bottom">
+								  	 	<tbody>
+								  	 			<tr></tr>
+												<tr class="active">
+													<td class="col-lg-5"><div></div></td>
+													<td class="col-lg-4"><div><i class="fa fa-ban"></i><span>  No Items Found !!!</span></div></td>
+													<td class="col-lg-3"><div></div></td>
+									            </tr>
+									            <tr></tr>
+										   </tbody>
+								  	 </table>
+								  </div>
 							
 						</div>
 					<!-- Search Ends -->
@@ -279,8 +279,8 @@
 			<!-- Main Header Ends -->
 			<!-- Main Menu Starts -->
 			<div id="wrapper" ng-controller="MenuController">
-			<div>
-				<div id="main-menu" class="navbar yamm navbar,navbar navbar-inverse">
+			<!-- <div>
+				<div id="main-menu" class="navbar navbar-inverse">
 					
 							<ul class="nav navbar-nav">
 		
@@ -309,7 +309,31 @@
 						
 		
 					</div>
+				</div> -->
+				
+				<div>
+				<div id="main-menu" class="navbar navbar-inverse">
+					<ul class="nav navbar-nav">
+						
+						<li class="dropdown" id="accountmenu" data-ng-repeat="oneMenu in menulist">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{oneMenu.name}}</a>
+							<ul class="dropdown-menu">
+								
+								<li class="dropdown-submenu" data-ng-repeat="submenu in oneMenu.sub">
+								  <a tabindex="-1" href="#" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</a>
+								  <ul class="dropdown-menu supersubMenu">
+									<li data-ng-repeat="supersub in submenu.supersub"><a tabindex="-1" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
+									
+								  </ul>
+								</li>
+								
+								
+							</ul>
+						</li>
+					</ul>
 				</div>
+			</div>
+				
 			</div>
 			<!-- Main Menu Ends -->
 			</div>
