@@ -203,7 +203,7 @@
 					<!-- Search Starts -->
 						<div class="col-md-8">
 							<div class="liveResultList liveSearchShow" ng-show="showLiveSearchTable">
-                                        <table class="table table-striped table-hover no-margin-bottom">
+                                        <table class="table table-striped table-hover no-margin-bottom" ng-hide="noDataFound">
 	                                       <thead>
 												<tr class="active">
 													<th class="col-lg-1"></th>
@@ -252,20 +252,21 @@
 		                                     
 		                                   </tbody>
 	                                 </table>
-	                              </div>
-								  <div class="liveSearchShow" ng-show="noItemFound">
-								  	 <table class="table table-striped table-hover no-margin-bottom">
+	                                 
+									 <table class="table table-striped table-hover no-margin-bottom" ng-show="noDataFound">
 								  	 	<tbody>
-								  	 			<tr></tr>
-												<tr class="active">
-													<td class="col-lg-5"><div></div></td>
-													<td class="col-lg-4"><div><i class="fa fa-ban"></i><span>  No Items Found !!!</span></div></td>
-													<td class="col-lg-3"><div></div></td>
-									            </tr>
-									            <tr></tr>
-										   </tbody>
-								  	 </table>
-								  </div>
+							  	 			<tr></tr>
+											<tr class="active">
+												<td class="col-lg-5"><div></div></td>
+												<td class="col-lg-4"><div><i class="fa fa-ban"></i><span>  No Items Found !!!</span></div></td>
+												<td class="col-lg-3"><div></div></td>
+								            </tr>
+								            <tr></tr>
+										</tbody>
+									 </table>
+								  	
+	                              </div>
+								 
 							
 						</div>
 					<!-- Search Ends -->
