@@ -4,9 +4,7 @@ Admin section:
 	
 User section:
 
-
-2. Work on mega menu UI
-3. work on design of item block (re structure each component so that everything is visible )
-4. Implement sorting logic on show item page (sort by latest item , price low to high, price high to low)
-5. Forgot password Implementation
-6. Show order popup when user click on any order row (Order History)
+1. work on design of item block (re structure each component so that everything is visible )
+2. Implement sorting logic on show item page (sort by latest item , price low to high, price high to low)
+3. Forgot password Implementation
+4. Show order popup when user click on any order row (Order History)
