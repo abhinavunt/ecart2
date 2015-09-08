@@ -1263,11 +1263,71 @@ hr{
 
 
 #itemId .input-sm, .form-group-sm .form-control {
-    height: 30px;
+    height: 24px;
     padding: 1px 2px;
     font-size: 11px;
     line-height: 1.5;
     border-radius: 0px;
+}
+
+#itemId .btn-xs, .btn-group-xs>.btn{
+	
+	border-radius: 0px;
+}
+
+#itemId .btn-sm, .btn-group-sm>.btn{
+    padding: 5px 10px;
+    font-size: 8px;
+    line-height: 1.5;
+    border-radius: 0px;	
+	
+}
+
+#itemId .thumbnail{
+	border-radius:0px;
+}
+
+.mrp {
+	min-height:20px;
+}
+
+.mrp p{
+	    font-size: 12px;
+	    margin-top:0px;
+	    margin-bottom:0px;
+	    color: gray;
+}
+
+.saveStmt{
+	min-height:22px;	
+}
+
+.saveStmt p{
+	font-size: 12px;
+	margin-top:5px;
+	margin-bottom:0px;
+	color: #D9534F;
+	
+}
+
+.oldPrice{
+	    font-size: 12px;
+	    margin-top:0px;
+	    margin-bottom:2px;
+	    color: gray;
+	    text-decoration: line-through;
+}
+
+.offerLabel{
+	
+	margin-bottom: 3px;
+    margin-top: -2px;
+    min-height:22px;
+}
+
+.offerLabel span{
+	font-size: 84%;
+	border-radius:0px
 }
 
 
