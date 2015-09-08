@@ -29,15 +29,18 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
              
       
               $scope.addToCart = function(amountObj,quantityObj,itemObj){
+            	  	 var priceVal;
+            	  	 if(amountObj.OfferCheck==true)  priceVal = amountObj.OfferPrice;
+                     else priceVal = amountObj.Price;
                     
                      var cartEntry = {
                                   
                                   itemName: itemObj.name,
                                   brand: itemObj.brand,
                                   amount: amountObj.Amount,
-                                  price: amountObj.Price,
+                                  price: priceVal,
                                   quantity: quantityObj.quantity,
-                                  totalPrice: quantityObj.quantity*amountObj.Price,
+                                  totalPrice: quantityObj.quantity*priceVal,
                                   productId: amountObj.productId,
                                   imageId:itemObj.imageId
                                  

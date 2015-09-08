@@ -1287,6 +1287,12 @@ hr{
 	border-radius:0px;
 }
 
+#itemId .itemBrand{
+	color:gray;
+	font-size: 13px;
+    margin-bottom: 5px;
+}
+
 .mrp {
 	min-height:20px;
 }
