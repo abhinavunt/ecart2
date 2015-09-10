@@ -57,11 +57,15 @@
 				                <div class="caption">
 					                <div class="row">
 					                	<div class="col-md-12">
-					                	<div ng-click="item.availability=='no'|| expandItemFromSearch(item,sideMenu,'B2S')">{{item.name}}</div>
-					                	<div class="itemBrand">{{item.brand}}</div>
+					                		<div class="itemBrand">{{item.brand}}</div>
 					                	</div>
 					                </div>
-				                
+					                <div class="row">
+					                	<div class="col-md-12" id="permalink_section">
+					                		<div id="itemName" ng-click="item.availability=='no'|| expandItemFromSearch(item,sideMenu,'B2S')">{{item.name}}</div>
+					            		</div>
+					                </div>
+				                	 
 				          			<div class="row">
 					                  	 
 					                  	 <div class="col-md-7">

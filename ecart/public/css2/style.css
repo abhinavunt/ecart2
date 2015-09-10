@@ -1289,7 +1289,7 @@ hr{
 
 #itemId .itemBrand{
 	color:gray;
-	font-size: 13px;
+	font-size: 15px;
     margin-bottom: 5px;
 }
 
@@ -1298,7 +1298,7 @@ hr{
 }
 
 .mrp p{
-	    font-size: 12px;
+	    font-size: 11px;
 	    margin-top:0px;
 	    margin-bottom:0px;
 	    color: gray;
@@ -1334,6 +1334,17 @@ hr{
 .offerLabel span{
 	font-size: 84%;
 	border-radius:0px
+}
+
+#permalink_section
+{
+   word-wrap: break-word; /* Internet Explorer 5.5+ */
+   line-height:1;
+   min-height:33px;
+}
+
+#itemName{
+	margin-bottom:4px;
 }
 
 
