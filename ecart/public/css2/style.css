@@ -1353,6 +1353,8 @@ hr{
 	margin-bottom:2px;
 }
 
+.ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
+
 .copyright{
 	background:#252a2f;
 	padding:18px 0 8px;

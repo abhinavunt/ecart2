@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('UserCtrl', []).controller('UserController', function($scope,$http,$state,$cookieStore) {
+angular.module('UserCtrl', []).controller('UserController', function($scope,$http,$state,ngDialog,$cookieStore) {
 	
 	$scope.user = {};
 	
@@ -199,6 +199,15 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
     	}
 		
     
+	}
+	
+	$scope.showOrder = function(orderObj){
+		$scope.orderObject = orderObj;
+		var dialog = ngDialog.open({
+		      template: 'views/userTemplates/showOrder.html',
+		      scope: $scope,
+		      className: 'ngdialog-theme-default'
+		});
 	}
 	
 	$scope.expenseChart = function(){

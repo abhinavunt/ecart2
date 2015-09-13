@@ -116,6 +116,42 @@
 			}
 		});
 		
+		// password recovery email validation
+		app.post('/user/validateRegisteredEmail', function(req, res) {
+			
+			var db = req.db;
+			var transporter = req.transporter;
+			
+			db.collection('user').findOne({emailId: req.body.emailId},function(err, user) {
+				if (err) { 
+					// user not found 
+					return res.json({"status":"fail","message":"Internal Error Occured!!!"});
+					
+				}else if(!user){
+					// incorrect username
+					return res.json({"status":"fail","message":"This Email Id is not Registered !!!"});
+					
+				}else{
+					var tempPassword = makeTempPassword();
+					
+					db.collection('user').update({emailId:req.body.emailId},{$set: {password:tempPassword}},function(err, records) {
+						if (err) throw err;
+						else{
+							transporter.sendMail({
+							    from: 'abhinav.shine85@gmail.com',
+							    to: 'abhinav.unt85@gmail.com',
+							    subject: 'Test Email',
+							    text: 'Temp Password is EFG5D32'
+							});
+							res.json({"status":"pass"});
+						}
+					});
+				}
+			});
+		});
+		
+		
+		
 		// getting users list
 		app.get('/admin/getFeedbacks', function(req, res) {
 			var db = req.db;
@@ -995,6 +1031,15 @@
 		        break;
 		   		}
 			};
+			
+		function makeTempPassword(){
+	        var password = "";
+	        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	        for( var i=0; i < 7; i++ )
+	        	password += possible.charAt(Math.floor(Math.random() * possible.length));
+	        
+	        return password;
+	    };
 			
 		// getting order list
 		app.get('/order/orderList', function(req, res) {

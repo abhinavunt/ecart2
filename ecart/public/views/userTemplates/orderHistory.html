@@ -15,10 +15,10 @@
   <tbody>
   	 <tr class="active" data-ng-repeat="order in orderlist">
   		
-  		<td class="col-md-3">{{order._id}}</td>
-  		<td class="col-md-2">{{order.date|date:"dd/MM/yyyy" }}</td>
-  		<td class="col-md-3">{{order.date|date:"h:mm a"}}</td>
-		<td class="col-md-3">{{order.grandTotal}}</td>
+  		<td class="col-md-3" ng-click="showOrder(order)">{{order._id}}</td>
+  		<td class="col-md-2" ng-click="showOrder(order)">{{order.date|date:"dd/MM/yyyy" }}</td>
+  		<td class="col-md-3" ng-click="showOrder(order)">{{order.date|date:"h:mm a"}}</td>
+		<td class="col-md-3" ng-click="showOrder(order)">{{order.grandTotal}}</td>
 	</tr> 
 </tbody>
 </table> 

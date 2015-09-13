@@ -4,7 +4,6 @@ Admin section:
 	
 User section:
 
-1. work on design of item block (re structure each component so that everything is visible )
 2. Implement sorting logic on show item page (sort by latest item , price low to high, price high to low)
 3. Forgot password Implementation
-4. Show order popup when user click on any order row (Order History)
+

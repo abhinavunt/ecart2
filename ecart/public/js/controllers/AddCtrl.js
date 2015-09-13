@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,$cookieStore) {
+angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,ngDialog,$cookieStore) {
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
@@ -87,6 +87,48 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 		
     };
     
+    $scope.forgotPasswordOpen = function(){
+    	$scope.regisEmailId="";
+    	$scope.pwddRecvrFailMessage="";
+    	
+    	var dialog = ngDialog.open({
+  	      template: 'views/forgotPassword.html',
+  	      scope: $scope,
+  	      className: 'ngdialog-theme-mini'
+  	    });
+    	
+    };
+    
+    $scope.sendRegisteredEmail = function(regisEmailId){
+    	$scope.regisEmailId = regisEmailId;
+    	if(typeof($scope.regisEmailId)=='undefined'||$scope.regisEmailId==''){
+    		$scope.pwddRecvrFailMessage = "Required(*) field/(s) are missing !!!";
+    		return false;
+    	}
+    	    	
+    	else if(validateEmail($scope.regisEmailId)==false){
+    		$scope.pwddRecvrFailMessage = "Please provide a valid email address!!!";
+    		return false;
+    	}else{
+    		
+    		var registeredEmailObj = {emailId:$scope.regisEmailId};
+    		
+    		$http({
+                url: '/user/validateRegisteredEmail',
+                method: "POST",
+                data: JSON.stringify(registeredEmailObj),
+                headers: {'Content-Type': 'application/json'}
+              }).success(function (data, status, headers, config) {
+            	  if(data.status=="fail") $scope.pwddRecvrFailMessage = data.message;
+            	  
+            	  
+              }).error(function (data, status, headers, config) {
+                  
+              });
+    		
+    		
+    	}
+    }
     
     $scope.login = function(checkout){
     	
@@ -132,14 +174,13 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   	 }).error(function(data) {
 	   		 console.log('Error: ' + data);
 		 });
-     }
+     };
     
     function validateEmail(email) {
-    	
     	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     	if (!filter.test(email))  return false;
         else true;
-    }
+    };
      
     
 });    
