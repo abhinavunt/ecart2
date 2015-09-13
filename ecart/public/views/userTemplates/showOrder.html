@@ -1,0 +1,32 @@
+<h4 class="main-heading">Order Detail </h4>
+<div class="table-responsive compare-table">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				
+                <th class="col-lg-5">Item</th>
+                <th class="col-lg-3">Amount</th>
+                <th class="col-lg-2">Quantity</th>
+                <th class="col-lg-2">Total Price</th>
+                
+			</tr>
+		</thead>
+		<tbody>
+			 <tr data-ng-repeat="order in orderObject.order">
+               	  
+                  <td>{{order.itemName}} ({{order.brand}})</td>
+                  <td>{{order.amount}} ({{order.price}} Rs.)</td>
+                  <td>{{order.quantity}}</td>
+                 <td>{{order.totalPrice}}</td>
+                
+              </tr>
+               <tr>
+	               <th></th>
+	               <th></th>
+	               <th>Grand Total</th>
+	               <th>{{orderObject.grandTotal}} Rs</th>
+	           </tr>
+		</tbody>
+	</table>
+</div>
+
