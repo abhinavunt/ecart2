@@ -120,7 +120,9 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
                 headers: {'Content-Type': 'application/json'}
               }).success(function (data, status, headers, config) {
             	  if(data.status=="fail") $scope.pwddRecvrFailMessage = data.message;
-            	  
+            	  else{
+            		  
+            	  }
             	  
               }).error(function (data, status, headers, config) {
                   

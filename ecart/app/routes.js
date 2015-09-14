@@ -121,6 +121,7 @@
 			
 			var db = req.db;
 			var transporter = req.transporter;
+			var ownerEmail = req.ownerEmail;
 			
 			db.collection('user').findOne({emailId: req.body.emailId},function(err, user) {
 				if (err) { 
@@ -133,17 +134,19 @@
 					
 				}else{
 					var tempPassword = makeTempPassword();
-					
-					db.collection('user').update({emailId:req.body.emailId},{$set: {password:tempPassword}},function(err, records) {
-						if (err) throw err;
+				    db.collection('user').update({emailId:req.body.emailId},{$set: {password:tempPassword}},function(err, records) {
+						if (err) return res.json({"status":"fail","message":"Internal Error Occured!!! Please try after sometime !!!"});
 						else{
 							transporter.sendMail({
-							    from: 'abhinav.shine85@gmail.com',
-							    to: 'abhinav.unt85@gmail.com',
-							    subject: 'Test Email',
-							    text: 'Temp Password is EFG5D32'
-							});
-							res.json({"status":"pass"});
+							    from: ownerEmail,
+							    to: req.body.emailId,
+							    subject: 'M.K. Ahmed - Password Recovery',
+							    text: 'Your temporary Password is : '+tempPassword
+							}, function(err, response){
+						          if(err)  return res.json({"status":"fail","message":"Internal Error Occured while sending email !!! Please try after sometime !!!"});
+						          else return res.json({"status":"pass"});
+						    });
+							
 						}
 					});
 				}
@@ -1178,9 +1181,6 @@
 				});
 			}
 			 
-			
-			
-			
 		});
 		
 		//default html 
