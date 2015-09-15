@@ -141,7 +141,7 @@
 							    from: ownerEmail,
 							    to: req.body.emailId,
 							    subject: 'M.K. Ahmed - Password Recovery',
-							    text: 'Your temporary Password is : '+tempPassword
+							    html:'Dear Customer,<div><br></div><div>Your Password has been Reset.&nbsp;</div><div><br></div><div>Temporary Password is : &nbsp;'+tempPassword+'</div><div><br></div><div>Thanks &amp; Regards,<br></div><div>MK Ahmed Retails</div>'
 							}, function(err, response){
 						          if(err)  return res.json({"status":"fail","message":"Internal Error Occured while sending email !!! Please try after sometime !!!"});
 						          else return res.json({"status":"pass"});
@@ -152,6 +152,29 @@
 				}
 			});
 		});
+		
+		
+		// change user password 
+		app.post('/user/changeUserPassword', function(req, res) {
+			
+			var db = req.db;
+			db.collection('user').findOne({emailId: req.body.emailId},function(err, user) {
+				
+				if(user.password==req.body.tempPswd){
+					
+					 db.collection('user').update({emailId:req.body.emailId},{$set: {password:req.body.newPswd}},function(err, records) {
+							if (err) return res.json({"status":"fail","message":"Internal Error Occured!!! Please try after sometime !!!"});
+							else{
+								return res.json({"status":"pass"});
+							}
+						});
+					
+				}else{
+					return res.json({"status":"fail","message":"Incorrect Temporary Password !!!"});
+				}
+			});
+		});
+		
 		
 		
 		

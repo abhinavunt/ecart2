@@ -3,6 +3,8 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
+	$scope.step1block = false;
+	$scope.step2block = true;
 
     $scope.submit = function(checkout){
     	
@@ -26,7 +28,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     		return false;
     	}
     		
-    	else if($scope.userForm.password != $scope.userForm.rePassword){
+    	else if(($scope.userForm.password).trim() != ($scope.userForm.rePassword).trim()){
     		$scope.signUpFailMessage = "Passwords are not Matching !!!";
     		return false;
     	}
@@ -48,7 +50,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 			
 				fullName : $scope.userForm.fullName,
 				emailId : $scope.userForm.emailId,
-				password : $scope.userForm.password,
+				password : $scope.userForm.password.trim(),
 				mobileNo : $scope.userForm.mobileNo,
 				alternateNo : $scope.userForm.alternateNo,
 				address : $scope.userForm.address
@@ -86,51 +88,6 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     	}
 		
     };
-    
-    $scope.forgotPasswordOpen = function(){
-    	$scope.regisEmailId="";
-    	$scope.pwddRecvrFailMessage="";
-    	
-    	var dialog = ngDialog.open({
-  	      template: 'views/forgotPassword.html',
-  	      scope: $scope,
-  	      className: 'ngdialog-theme-mini'
-  	    });
-    	
-    };
-    
-    $scope.sendRegisteredEmail = function(regisEmailId){
-    	$scope.regisEmailId = regisEmailId;
-    	if(typeof($scope.regisEmailId)=='undefined'||$scope.regisEmailId==''){
-    		$scope.pwddRecvrFailMessage = "Required(*) field/(s) are missing !!!";
-    		return false;
-    	}
-    	    	
-    	else if(validateEmail($scope.regisEmailId)==false){
-    		$scope.pwddRecvrFailMessage = "Please provide a valid email address!!!";
-    		return false;
-    	}else{
-    		
-    		var registeredEmailObj = {emailId:$scope.regisEmailId};
-    		
-    		$http({
-                url: '/user/validateRegisteredEmail',
-                method: "POST",
-                data: JSON.stringify(registeredEmailObj),
-                headers: {'Content-Type': 'application/json'}
-              }).success(function (data, status, headers, config) {
-            	  if(data.status=="fail") $scope.pwddRecvrFailMessage = data.message;
-            	  else{
-            		  
-            	  }
-            	  
-              }).error(function (data, status, headers, config) {
-                  
-              });
-    		
-    		
-    	}
-    }
     
     $scope.login = function(checkout){
     	
@@ -177,6 +134,99 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	   		 console.log('Error: ' + data);
 		 });
      };
+     
+     $scope.forgotPasswordOpen = function(){
+     	$scope.regisEmailId="";
+     	$scope.pwddRecvrFailMessage="";
+     	$scope.step1block = false;
+    	$scope.step2block = true;
+    	$scope.tempPswd = "";
+   	 	$scope.newPswd = "";
+   	 	$scope.confirmNewPswd = "";
+    	
+     	
+     	var dialog = ngDialog.open({
+   	      template: 'views/forgotPassword.html',
+   	      scope: $scope,
+   	      className: 'ngdialog-theme-mini'
+   	    });
+     	
+     };
+     
+     $scope.sendRegisteredEmail = function(regisEmailId){
+     	$scope.regisEmailId = regisEmailId;
+     	if(typeof($scope.regisEmailId)=='undefined'||$scope.regisEmailId==''){
+     		$scope.pwddRecvrFailMessage = "Required(*) field/(s) are missing !!!";
+     		return false;
+     	}
+     	    	
+     	else if(validateEmail($scope.regisEmailId)==false){
+     		$scope.pwddRecvrFailMessage = "Please provide a valid email address!!!";
+     		return false;
+     	}else{
+     		
+     		var registeredEmailObj = {emailId:$scope.regisEmailId};
+     		
+     		$http({
+                 url: '/user/validateRegisteredEmail',
+                 method: "POST",
+                 data: JSON.stringify(registeredEmailObj),
+                 headers: {'Content-Type': 'application/json'}
+               }).success(function (data, status, headers, config) {
+             	  if(data.status=="fail") $scope.pwddRecvrFailMessage = data.message;
+             	  else{
+             		  $scope.step1block = true;
+             		  $scope.step2block = false; 
+             	  }
+             	  
+               }).error(function (data, status, headers, config) {
+                   
+               });
+     	}
+     }
+     
+    $scope.settingNewPassword = function(tempPswd,newPswd,confirmNewPswd){
+    	
+    	 $scope.tempPswd = tempPswd.trim();
+    	 $scope.newPswd = newPswd.trim();
+    	 $scope.confirmNewPswd = confirmNewPswd.trim();
+    	 
+    	 if( typeof($scope.tempPswd)=='undefined'||$scope.tempPswd==''||
+	         typeof($scope.newPswd)=='undefined'||$scope.newPswd==''||
+			 typeof($scope.confirmNewPswd)=='undefined'||$scope.confirmNewPswd=='')
+    	 {
+    	    		$scope.pwddRecvrFailMessage = "Required(*) field/(s) are missing !!!";
+    	    		return false;
+    	 }
+    	 
+    	 else if($scope.newPswd != $scope.confirmNewPswd){
+	    		$scope.pwddRecvrFailMessage = "New Password and Confirm New Password are not Matching !!!";
+	    		return false;
+    	 }else{
+    		 
+    		var changePasswordObj = {
+    			 emailId : $scope.regisEmailId,
+    			 tempPswd : $scope.tempPswd,
+				 newPswd : $scope.newPswd
+			};
+    		 
+    		 $http({
+                 url: '/user/changeUserPassword',
+                 method: "POST",
+                 data: JSON.stringify(changePasswordObj),
+                 headers: {'Content-Type': 'application/json'}
+               }).success(function (data, status, headers, config) {
+            	 if(data.status=="fail"){
+            		 $scope.pwddRecvrFailMessage = data.message; 
+            	 }else if(data.status=="pass"){
+            		ngDialog.closeAll(); 
+            	 }  
+            	   
+               }).error(function (data, status, headers, config) {
+                   
+               });
+    	 }
+    }
     
     function validateEmail(email) {
     	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
