@@ -6,6 +6,7 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var nodemailer = require('nodemailer');
+var cloudinary = require('cloudinary');
 var path = require('path');
 var fs = require('fs');
 var multer  = require('multer');
@@ -40,6 +41,12 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+cloudinary.config({ 
+	  cloud_name: 'dylc7fren', 
+	  api_key: '587333156871669', 
+	  api_secret: 'xoErcX_c-s0aXZcHd4nYQQAXXVY' 
+});
+
 //Make our db accessible to our router
 app.use(function(req,res,next){
     req.db = db;
@@ -47,6 +54,7 @@ app.use(function(req,res,next){
     req.mongo = mongo;
     req.ownerEmail = ownerEmail;
     req.transporter = transporter;
+    req.cloudinary = cloudinary;
     req.adminKey = adminAuthenticationKey;
     next();
 });

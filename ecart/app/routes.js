@@ -988,12 +988,18 @@
 		});
 		
 		app.post('/item/addImage', function(req, res) {
+		   var cloudinary = req.cloudinary;
+		   var fs = req.fs;
+		   var filePath = 'public/temp_upload/'+req.files.file.name;
 		   
-		   var a = req.files.file.name;
-		   var finalJson = {ImgId:a};
-		   res.json(finalJson);
-		    
-		});
+		   cloudinary.uploader.upload(filePath, function(result) { 
+			   
+			   fs.unlinkSync(filePath);
+			   console.log(result);
+			   var finalJson = {ImgId:result.public_id+'.jpg'};
+			   res.json(finalJson);
+		   });
+		 });
 		
 		//submit order
 		app.post('/order/submitOrder', function(req, res) {
