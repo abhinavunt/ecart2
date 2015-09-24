@@ -1,17 +1,22 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,$state,ngDialog,menuItemService,expandItemService) {
+angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,$state, $rootScope, ngDialog,menuItemService,expandItemService,usSpinnerService) {
 
 	$scope.formData = {};
 	$scope.menulist=[];
 	$scope.menuLevel='';
 	
+	usSpinnerService.spin('spinner-1');
+	
 	$http.get('/menu/menulist')
 	.success(function(data) {
 			$scope.menulist = data;
 			menuItemService.setMenu(data);
+			usSpinnerService.stop('spinner-1');
+			
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
+			usSpinnerService.stop('spinner-1');
 		});
 	
 

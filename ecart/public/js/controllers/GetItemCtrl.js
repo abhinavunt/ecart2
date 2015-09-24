@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService) {
+angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService) {
 			
 	 		$window.scrollTo(0, 50);
 			$scope.brandsArray=[];
@@ -28,7 +28,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			
 	       //Search Items
 		   	$scope.searchItems = function(){
-		   		
+		   		usSpinnerService.spin('spinner-1');
 		   		$http({
                       url: '/item/searchItemsDisplay',
                       method: "GET",
@@ -49,10 +49,11 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                     	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
                     	   else $scope.getMoreItemBtn=true;   
                 	   }
-                	   
+                	   usSpinnerService.stop('spinner-1'); 
                 	  
                   }).error(function(data) {
                           console.log('Error: ' + data);
+                          usSpinnerService.stop('spinner-1'); 
                   });  
             	  
               };
