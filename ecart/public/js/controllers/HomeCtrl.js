@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HomeCtrl', []).controller('HomeController', function($scope,$http) {
+angular.module('HomeCtrl', []).controller('HomeController', function($scope,$http,usSpinnerService) {
 	
 	$scope.addItemsIndex = 5;
 	
@@ -18,18 +18,23 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	$scope.lastOfferItemDate ="notAssigned";
 	$scope.maxLimitOff = 6;
 	$scope.offerItemsMaxLimit=0;
+	$scope.showLatestItemsLoading = true;
+	$scope.showOfferItemsLoading = true;
 	
 	$scope.getLatestItems = function(){
-		
-		
+		usSpinnerService.spin('spinner-2');
 		$http({
             url: '/item/getLatestItems',
             method: "GET",
             params: {lastLatestItemDate:$scope.lastLatestItemDate,limitPerSlide:(2*$scope.addItemsIndex)}
          }).success(function(data) {
+        	 usSpinnerService.stop('spinner-2');
+        	 $scope.showLatestItemsLoading = false;
         	 if(data.latestItems.length==0){
  				$scope.showLatestItemsPanel=false;
-        	 }else{
+ 				$scope.noLatestItemAvaiable=true;
+ 			}else{
+        		 $scope.noLatestItemAvaiable=false;
         		 $scope.showLatestItemsPanel=true;
         		 $scope.latestItemList = data.latestItems;
      			 $scope.lastLatestItemDate=$scope.latestItemList[$scope.latestItemList.length-1].createdAt;
@@ -118,15 +123,19 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 	
 	
 	$scope.getOfferItems = function(){
-		
+		usSpinnerService.spin('spinner-3');
 		$http({
             url: '/item/getOfferItems',
             method: "GET",
             params: {lastOfferItemDate:$scope.lastOfferItemDate,limitPerSlide:(2*$scope.addItemsIndex)}
          }).success(function(data) {
+        	 usSpinnerService.stop('spinner-3');
+        	 $scope.showOfferItemsLoading = false;
 			if(data.offerItems.length==0){
 				$scope.showOfferListPanel=false;
+ 				$scope.noOfferItemAvaiable=true;
 			}else{
+				$scope.noOfferItemAvaiable=false;
 				$scope.showOfferListPanel=true;
 				$scope.offerItemList = data.offerItems;
 				$scope.lastOfferItemDate=$scope.offerItemList[$scope.offerItemList.length-1].createdAt;

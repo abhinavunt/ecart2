@@ -52,6 +52,11 @@
 				<h2 class="product-head">Latest Products</h2>
 			<!-- Heading Ends -->
 			<!-- Products Row Starts -->
+				<div class="row" id="latestProd" ng-if="showLatestItemsLoading">
+					<div class="col-lg-12">
+						<span us-spinner="{radius:27,lines:13, width:7, length: 18,scale:0.75}"  spinner-key="spinner-2" spinner-start-active="true"></span>	
+					</div>
+				</div>
 				<div ng-if="showLatestItemsPanel">
 				<div class="row list-group">
 					<div class="col-lg-12">
@@ -62,70 +67,7 @@
 						</div>
 					</div>
 					</div>
-			   		<!-- <div class="item  col-md-1-5 col-lg-1-5" data-ng-repeat="item in latestItemShow" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" ng-controller="ShowItemController">
-			            <div class="thumbnail">
-			          		<img style="width:250px; height:200px" src="temp_upload/{{item.imageId}}" alt="" ng-click="expandItem(item,'B2H')"/>
-			                <div class="caption">
-			                <h4 class="group inner list-group-item-heading" ng-click="expandItem(item,'B2H')">{{item.name}}</h4>
-			               
-			                 <div class="row">
-			                      <div class="col-xs-12 col-md-7">
-			                         <h4 >{{amount.selected.Price}}  Rs.</h4>  
-			                      </div>
-			                     
-			                      <div class="col-xs-12 col-md-5">
-			                           <select  class="form-control input-sm" ng-change="onChangeAmount()">
-			                                                <option data-ng-repeat="amtPrice in item.amountprice">{{amtPrice.Amount}}</option>
-			                                     </select>
-			                                     <select class="form-control input-sm" ng-init="amount.selected=item.amountprice[0]"
-			                                          ng-model="amount.selected"
-			                                          ng-options="amtPrice.Amount for amtPrice in item.amountprice">
-			                                      </select>
-			                                     </div>
-			                  </div>
-			                  <div class="row">
-			                      <div class="col-lg-6 col-md-2 col-sm-1">
-			                            <button class="btn btn-xs btn-warning">Description</button>
-			                      </div>
-			                      <div ng-hide="isSelected(amount.selected)">
-			                             <div class="col-lg-2 col-md-2 col-sm-1"">
-			                               <p>Qty</p> 
-			                             </div>
-			                             <div class="col-lg-4 col-md-2 col-sm-1">
-			                                   <select class="form-control input-sm"
-			                                          ng-init="quantity.selected=quantityList[0]"
-			                                          ng-model="quantity.selected"
-			                                          ng-options="qnt.quantity for qnt in quantityList">
-			                                               </select>
-			                             </div>
-			                      </div>
-			                  </div>
-			                  <div class="row">
-			                     <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
-			                                           <button class="btn btn-xs btn-success add-to-cart" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add to Cart</button>
-			                                           
-			                      </div>
-			                      <div class="input-group"  ng-show="isSelected(amount.selected)">
-			                                     <span class="input-group-btn">
-			                                         <button type="button" class="btn btn-sm btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
-			                                           <span class="glyphicon glyphicon-minus"></span>
-			                                         </button>
-			                                     </span>
-			                                    <input type="text" name="quant[2]" class="form-control input-sm input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
-			                                   
-			                                     <span class="input-group-btn">
-			                                         <button type="button" class="btn btn-sm btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
-			                                             <span class="glyphicon glyphicon-plus"></span>
-			                                         </button>
-			                                     </span>
-			                                 </div>
-			                  </div>
-			                </div>
-			             </div>
-			        </div> -->
-			        
-			        
-			        <div id="itemId">
+			   		<div id="itemId">
 					<!-- Product #1 Starts -->
 				    <div class="item  col-md-1-5 col-lg-1-5" data-ng-repeat="item in latestItemShow" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" ng-controller="ShowItemController">
 		            	
@@ -236,16 +178,17 @@
 				  </div>
   				  </div>
   				  
-  				  <div ng-if="!showLatestItemsPanel">
+  				  
+  				  <div ng-if="noLatestItemAvaiable">
 				      <div class="jumbotron">
 				      	<i class="fa fa-frown-o fa-3x"></i>
 						<h4 class="hidden-sm hidden-xs">No Latest Item Avaiable !!!</h4>
 				     </div>
-				 </div>
+				  </div>
   				  
-			<!-- Products Row Ends -->
-			</div>
-		</section>
+				  </div>
+  				 
+  		</section>
 	<!-- Latest Products Ends -->
 	<!-- 2 Column Banners Starts -->
 		<div class="col2-banners">
@@ -268,6 +211,11 @@
 				<h2 class="product-head">Special Offers</h2>
 			<!-- Heading Ends -->
 			<!-- Products Row Starts -->
+				<div class="row" id="offerProd" ng-if="showOfferItemsLoading">
+					<div class="col-lg-12">
+						<span us-spinner="{radius:27,lines:13, width:7, length: 18,scale:0.75}"  spinner-key="spinner-3" spinner-start-active="true"></span>	
+					</div>
+				</div>
 				<div ng-if="showOfferListPanel">
 				<div class="row list-group col-lg-12">
 					<div class="col-lg-12">
@@ -389,7 +337,7 @@
 					 </div>
 			      </div>
 			      
-			      <div ng-if="!showOfferListPanel">
+			      <div ng-if="noOfferItemAvaiable">
 				      <div class="jumbotron">
 				      	<i class="fa fa-frown-o fa-3x"></i>
 						<h4 class="hidden-sm hidden-xs">No Offer Avaiable !!!</h4>

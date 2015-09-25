@@ -11,8 +11,14 @@ var path = require('path');
 var fs = require('fs');
 var multer  = require('multer');
 var mongo = require('mongoskin');
+var serverOptions = {
+	     'auto_reconnect': true,
+	     'poolSize': 5,
+	     'native_parser':true
+};
+
 //var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
-var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart", {native_parser:true});
+var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
 var port = process.env.PORT || 3000; // set our port
 var adminAuthenticationKey = '876##2!bf$$23jht@@@RD';
 var ownerEmail = 'abhinav.shine85@gmail.com'

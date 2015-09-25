@@ -1353,6 +1353,14 @@ hr{
 	margin-bottom:2px;
 }
 
+#latestProd .col-lg-12{
+	min-height:180px;
+}
+
+#offerProd .col-lg-12{
+	min-height:180px;
+}
+
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 
 .copyright{
