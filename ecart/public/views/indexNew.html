@@ -181,9 +181,9 @@
 					<!-- Search Starts -->
 						<div class="col-md-6">
 							<div id="search">
-								
-								  <input type="search" id="itemLiveSearch"ng-model="keyWord" class="form-control col-lg-8 input-lg" placeholder="Item Search" ng-change="liveSearch();" ng-model-options="{ debounce: 500 }" >
-							</div>	
+								<input type="search" id="itemLiveSearch"ng-model="keyWord" class="form-control col-lg-8 input-lg" placeholder="Item Search" ng-change="liveSearch();" ng-model-options="{ debounce: 500 }" >
+							</div>
+							<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '90%'}" spinner-key="spinner-4"></span>	
 						</div>
 					<!-- Search Ends -->
 					<!-- Shopping Cart Starts -->
@@ -208,70 +208,81 @@
 					<!-- Logo Starts -->
 					<!-- Search Starts -->
 						<div class="col-md-8">
+							<!-- <div ng-if="liveSearchItemLoading">
+								<div class="liveResultList liveSearchShow">
+									<table class="table table-striped table-hover no-margin-bottom">
+	                                    <tbody>
+	                                    	<tr id="itemLoading">
+	                                    		<td class="col-lg-12">Loading</td>
+	                                    	</tr>
+	                                    </tbody>
+							   		</table>
+								</div>
+							</div> -->
 							<div class="liveResultList liveSearchShow" ng-show="showLiveSearchTable">
-                                        <table class="table table-striped table-hover no-margin-bottom" ng-hide="noDataFound">
-	                                       <thead>
-												<tr class="active">
-													<th class="col-lg-1"></th>
-									                <th class="col-lg-5">Item</th>
-									                <th class="col-lg-1">Price</th>
-									                <th class="col-lg-2">Amount</th>
-									                <th class="col-lg-1">Qnt</th>
-									                <th class="col-lg-2"></th>
-									                
-												</tr>
-										   </thead>
-		                                   <tbody>
-		                                    
-		                                     <tr class="active" data-ng-repeat="item in liveResultList">
-		                                       <td class="col-md-1" ng-click="expandItemFromLiveSrch(item,'B2H')"><img src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" height="40" width="40" /></td>
-		                                       <td class="col-md-5" ng-click="expandItemFromLiveSrch(item,'B2H')">
-		                                       
-		                                       
-		                                        <div>{{item.name}}</div>
-		                                        <div class="brand">{{item.brand}}</div>
-		                                       </td>
-		                                       <td class="col-md-1">{{amount.selected.Price}} <i class="fa fa-inr"></i></td>
-		                                       <td class="col-md-2"> 
-			                                       <select class="form-control input-sm lowPadd liveSearchShow" ng-init="amount.selected=item.amountprice[0]"
-	                                         			   ng-model="amount.selected"
-	                                                       ng-options="amtPrice.Amount for amtPrice in item.amountprice">
-	                                      			</select>
-	                                     	   </td>
-	                                     	   <td class="col-md-1"> 
-			                                       <select class="form-control input-sm lowPadd liveSearchShow"
-			                                          ng-init="quantity.selected=quantityList[0]"
-			                                          ng-model="quantity.selected"
-			                                          ng-options="qnt.quantity for qnt in quantityList">
-	                                              </select>
-	                                     	  </td>
-		                                       <td class="col-md-2">
-		                                      	  <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
-							                            <button class="btn btn-sm btn-success add-to-cart liveSearchShow" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add <i class="fa fa-shopping-cart liveSearchShow"></i> </button>
-							                      </div>
-							                      <div class="col-xs-12 col-md-6 liveSearchShow" ng-show="isSelected(amount.selected)">
-							                            <button class="btn btn-sm btn-warning add-to-cart liveSearchShow" disabled>Added</button>
-							                      </div>
-			                                       
-		                                        </td>
-		                                     </tr>
-		                                     
-		                                   </tbody>
-	                                 </table>
-	                                 
-									 <table class="table table-striped table-hover no-margin-bottom" ng-show="noDataFound">
-								  	 	<tbody>
-							  	 			<tr></tr>
-											<tr class="active">
-												<td class="col-lg-5"><div></div></td>
-												<td class="col-lg-4"><div><i class="fa fa-ban"></i><span>  No Items Found !!!</span></div></td>
-												<td class="col-lg-3"><div></div></td>
-								            </tr>
-								            <tr></tr>
-										</tbody>
-									 </table>
-								  	
-	                              </div>
+                                     <table class="table table-striped table-hover no-margin-bottom" ng-hide="noDataFound">
+                                     <thead>
+										<tr class="active">
+											<th class="col-lg-1"></th>
+							                <th class="col-lg-5">Item</th>
+							                <th class="col-lg-1">Price</th>
+							                <th class="col-lg-2">Amount</th>
+							                <th class="col-lg-1">Qnt</th>
+							                <th class="col-lg-2"></th>
+							                
+										</tr>
+							   		</thead>
+                                  	<tbody>
+                                   
+	                                    <tr class="active" data-ng-repeat="item in liveResultList">
+	                                      <td class="col-md-1" ng-click="expandItemFromLiveSrch(item,'B2H')"><img src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" height="40" width="40" /></td>
+	                                      <td class="col-md-5" ng-click="expandItemFromLiveSrch(item,'B2H')">
+	                                      
+	                                      
+	                                       <div>{{item.name}}</div>
+	                                       <div class="brand">{{item.brand}}</div>
+	                                      </td>
+	                                      <td class="col-md-1">{{amount.selected.Price}} <i class="fa fa-inr"></i></td>
+	                                      <td class="col-md-2"> 
+	                                       <select class="form-control input-sm lowPadd liveSearchShow" ng-init="amount.selected=item.amountprice[0]"
+	                                       			   ng-model="amount.selected"
+	                                                     ng-options="amtPrice.Amount for amtPrice in item.amountprice">
+	                                    			</select>
+	                                   	   </td>
+	                                   	   <td class="col-md-1"> 
+	                                       <select class="form-control input-sm lowPadd liveSearchShow"
+	                                          ng-init="quantity.selected=quantityList[0]"
+	                                          ng-model="quantity.selected"
+	                                          ng-options="qnt.quantity for qnt in quantityList">
+	                                            </select>
+	                                   	  </td>
+	                                      <td class="col-md-2">
+	                                     	  <div class="col-xs-12 col-md-6" ng-hide="isSelected(amount.selected)">
+					                            <button class="btn btn-sm btn-success add-to-cart liveSearchShow" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add <i class="fa fa-shopping-cart liveSearchShow"></i> </button>
+					                      </div>
+					                      <div class="col-xs-12 col-md-6 liveSearchShow" ng-show="isSelected(amount.selected)">
+					                            <button class="btn btn-sm btn-warning add-to-cart liveSearchShow" disabled>Added</button>
+					                      </div>
+	                                       
+	                                       </td>
+	                                    </tr>
+                                    
+                                  </tbody>
+                               </table>
+                               
+							   <table class="table table-striped table-hover no-margin-bottom" ng-show="noDataFound">
+						  	 	<tbody>
+					  	 			<tr></tr>
+									<tr class="active">
+										<td class="col-lg-5"><div></div></td>
+										<td class="col-lg-4"><div><i class="fa fa-ban"></i><span>  No Items Found !!!</span></div></td>
+										<td class="col-lg-3"><div></div></td>
+						            </tr>
+						            <tr></tr>
+								</tbody>
+							   </table>
+					  	
+                            </div>
 								 
 							
 						</div>
@@ -286,7 +297,7 @@
 			<!-- Main Header Ends -->
 			<!-- Main Menu Starts -->
 			<div id="wrapper" ng-controller="MenuController">
-			<span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+			<span us-spinner="{radius:30, width:8, length: 16,scale:0.75}" spinner-key="spinner-1" spinner-start-active="true"></span>
 			
 			<!-- <div>
 				<div id="main-menu" class="navbar navbar-inverse">

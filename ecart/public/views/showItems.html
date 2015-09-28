@@ -146,9 +146,13 @@
 		        </div>
 			
 			</div>
-			<div class="row" >
+			
+			<div class="row">
+			
 				<div class="col-lg-12">
-					<a ng-hide="getMoreItemBtn" ng-click="loadMoreItems()" class="btn btn-default btn-lg btn-block">Load More Items..</a>
+					<a  ng-hide="getMoreItemBtn" ng-click="loadMoreItems()" class="btn btn-default btn-lg btn-block">Load More Items..
+					<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '60%'}" spinner-key="spinner-1" spinner-start-active="false"></span>
+					</a>
 				</div>
 			</div>
 	  </div>

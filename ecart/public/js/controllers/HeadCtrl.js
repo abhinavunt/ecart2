@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HeadCtrl', []).controller('HeadController', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService) {
+angular.module('HeadCtrl', []).controller('HeadController', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService) {
  
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
@@ -229,13 +229,15 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
       
        $scope.liveSearch = function(){
 	           if($scope.keyWord!=''){
+	        	  $scope.showLiveSearchTable=false;
+	        	  usSpinnerService.spin("spinner-4");
 	                  $http({
 	                      url: '/item/liveSearch',
 	                      method: "POST",
 	                      data: {keyWord:$scope.keyWord},
 	                      headers: {'Content-Type': 'application/json'}
 	                    }).success(function (data, status, headers, config) {
-	                        
+	                    	usSpinnerService.stop("spinner-4");
 	                         if(data.length==0){
 	                           $scope.liveResultList = [];
 	                           angular.element('.liveResultList').show();

@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,ngDialog,$cookieStore) {
+angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,ngDialog,$cookieStore,usSpinnerService) {
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
@@ -7,6 +7,8 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
 	$scope.step2block = true;
 
     $scope.submit = function(checkout){
+    	
+    	$scope.signUpFailMessage="";
     	
     	if( typeof($scope.userForm.fullName)=='undefined'||$scope.userForm.fullName==''||
 	        typeof($scope.userForm.emailId)=='undefined'||$scope.userForm.emailId==''||
@@ -45,7 +47,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     	}
     	
     	else{
-    	
+    	usSpinnerService.spin('spinner-signup');
     	var userData ={
 			
 				fullName : $scope.userForm.fullName,
@@ -62,6 +64,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
             data: JSON.stringify(userData),
             headers: {'Content-Type': 'application/json'}
           }).success(function (data, status, headers, config) {
+        	  usSpinnerService.stop('spinner-signup');
         	  if(data.status=="failed"){
         		  $scope.signUpFailMessage = data.message;  
         	  }else{
@@ -90,7 +93,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     };
     
     $scope.login = function(checkout){
-    	
+    	$scope.loginFailMessage="";
     	if(typeof($scope.loginEmainId)=='undefined'||$scope.loginEmainId==''||
     	   typeof($scope.loginPassword)=='undefined'||$scope.loginPassword=='')
     	{
@@ -103,36 +106,40 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     		return false;
     	}
     	
-    	$http({
-	   	    url: '/user/login', 
-	   	    method: "POST",
-	   	    params: {emailId: $scope.loginEmainId,password:$scope.loginPassword}
-	   	 }).success(function(data) {
-	   		 if(data.status=="pass"){
-	   			
-	   			$cookieStore.put('loggedIn',true);
-	   			$cookieStore.put('userType',data.role);
-	   			//$cookieStore.put('headerTab',data.headerTab);
-	   			//$cookieStore.put('headerTabUrl',data.routeUrl);
-	   			$cookieStore.put('authKey',data.key);
-	   			$cookieStore.remove('user');
-		   		$cookieStore.put('user',data.user);
-		   		$scope.loginFailMessage="";
-		   		if(checkout=='checkout') {
-		   			$scope.closeThisDialog();
-		   			$location.path("/reviewOrder");
-		   		}
-		   		else $location.path("/");
-		   		
-		   		
-		   	}else{
-	   			$scope.loginFailMessage = data.message;
-	   			
-	   		}
-	   
-	   	 }).error(function(data) {
-	   		 console.log('Error: ' + data);
-		 });
+    	else{
+    		usSpinnerService.spin('spinner-login');
+    		$http({
+    	   	    url: '/user/login', 
+    	   	    method: "POST",
+    	   	    params: {emailId: $scope.loginEmainId,password:$scope.loginPassword}
+    	   	 }).success(function(data) {
+    	   		usSpinnerService.stop('spinner-login');
+    	   		 if(data.status=="pass"){
+    	   			
+    	   			$cookieStore.put('loggedIn',true);
+    	   			$cookieStore.put('userType',data.role);
+    	   			//$cookieStore.put('headerTab',data.headerTab);
+    	   			//$cookieStore.put('headerTabUrl',data.routeUrl);
+    	   			$cookieStore.put('authKey',data.key);
+    	   			$cookieStore.remove('user');
+    		   		$cookieStore.put('user',data.user);
+    		   		$scope.loginFailMessage="";
+    		   		if(checkout=='checkout') {
+    		   			$scope.closeThisDialog();
+    		   			$location.path("/reviewOrder");
+    		   		}
+    		   		else $location.path("/");
+    		   		
+    		   		
+    		   	}else{
+    	   			$scope.loginFailMessage = data.message;
+    	   			
+    	   		}
+    	   
+    	   	 }).error(function(data) {
+    	   		 console.log('Error: ' + data);
+    		 });
+    	}
      };
      
      $scope.forgotPasswordOpen = function(){
@@ -164,7 +171,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
      		$scope.pwddRecvrFailMessage = "Please provide a valid email address!!!";
      		return false;
      	}else{
-     		
+     		usSpinnerService.spin('spinner-pswRecovery');
      		var registeredEmailObj = {emailId:$scope.regisEmailId};
      		
      		$http({
@@ -173,6 +180,7 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
                  data: JSON.stringify(registeredEmailObj),
                  headers: {'Content-Type': 'application/json'}
                }).success(function (data, status, headers, config) {
+            	  usSpinnerService.stop('spinner-pswRecovery');
              	  if(data.status=="fail") $scope.pwddRecvrFailMessage = data.message;
              	  else{
              		  $scope.step1block = true;

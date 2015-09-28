@@ -119,7 +119,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             
              
              $scope.searchItemsByBrand = function(){
-            	
+            	 usSpinnerService.spin('spinner-1');
             	 var categoryData = {
            			  category:$scope.brandsArray,
            			  categoryId:$scope.category,
@@ -133,7 +133,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                      method: "POST",
 			         data: JSON.stringify(categoryData)
 			      }).success(function(data) {
-               	   	 
+			    	  usSpinnerService.stop('spinner-1');
 			    	  if($scope.lastItemDateByBrand=="notAssigned"){
 	           		   $scope.itemCount=data.itemCount;
 	           		   $scope.showItemList=[];
@@ -151,7 +151,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
              }
               
              $scope.selectedBrand = function(brandName){
-            	  
+            	
             	  if($scope.brandsArray.indexOf(brandName)!= -1) $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
             	  else $scope.brandsArray.push(brandName);
             	  if($scope.brandsArray.length>0){
