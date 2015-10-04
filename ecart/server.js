@@ -7,6 +7,9 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var nodemailer = require('nodemailer');
 var cloudinary = require('cloudinary');
+//var S3FS = require('s3fs');
+//var multiparty = require('multi-party'),
+//    multipartyMiddleware = multiparty();
 var path = require('path');
 var fs = require('fs');
 var multer  = require('multer');
@@ -61,6 +64,7 @@ app.use(function(req,res,next){
     req.ownerEmail = ownerEmail;
     req.transporter = transporter;
     req.cloudinary = cloudinary;
+   // req.multipartyMiddleware = multipartyMiddleware;
     req.adminKey = adminAuthenticationKey;
     next();
 });
