@@ -264,7 +264,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        
        $scope.expandItemFromLiveSrch = function(item,retState){
            var sideMenu;
-       	   expandItemService.setItem(item);
+           expandItemService.setItem(item);
+       	   expandItemService.setCategoryString(item.categoryTwoId);
+       	   expandItemService.setCategoryLevel("2");
        	   if(retState!='getPreSet')expandItemService.setReturnState(retState);
        	   
        	   for(var i=0;i<menuItemService.getMenu().length;i++){

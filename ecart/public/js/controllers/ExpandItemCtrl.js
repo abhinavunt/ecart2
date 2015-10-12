@@ -32,7 +32,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 $scope.catLevel = expandItemService.getCategoryLevel();
 	 $scope.products = shoppingCartService.getProducts();
 	 $scope.returnState =expandItemService.getReturnState();
-	 
+	
 	 $scope.getBreadcrumbsLevelTwo = function(){
      	for(var i=0;i<$scope.sideMenu.sub.length;i++){
      		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
@@ -58,6 +58,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	     		}
 	     	}
 	  }
+	
 	 
 	if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
 	else $scope.getBreadcrumbsLevelTwo();
