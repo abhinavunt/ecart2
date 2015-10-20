@@ -1216,6 +1216,79 @@
 			 
 		});
 		
+		// generating DB Insert Script
+		app.get('/db/generateDBInsertScript', function(req, res) {
+			 
+			var fs = req.fs;
+			var db = req.db;
+			//var dbTablesArray = ["menu","submenu","user","item","order"];
+			var dbTablesArray = ["menu","submenu"];
+			var tableName;
+			
+			var filePath = 'config/dbInsertScript.txt';
+			fs.writeFile(filePath,'', function(err){
+				 if (err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+				 else{
+					 //for table menu
+					 db.collection('menu').find({}).toArray(function (err, items) {
+							if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+							else{
+								for(var j=0;j<items.length;j++){
+									var insertObj = 'db.'+'menu'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+								    fs.appendFile(filePath,insertObj, function(){});
+								}
+								
+								//for table submenu
+								db.collection('submenu').find({}).toArray(function (err, items) {
+									if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+									else{
+										for(var j=0;j<items.length;j++){
+											var insertObj = 'db.'+'submenu'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+										    fs.appendFile(filePath,insertObj, function(){});
+										}
+										
+										//for table item
+										db.collection('item').find({}).toArray(function (err, items) {
+											if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+											else{
+												for(var j=0;j<items.length;j++){
+													var insertObj = 'db.'+'item'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+												    fs.appendFile(filePath,insertObj, function(){});
+												}
+												
+												//for table user
+												db.collection('user').find({}).toArray(function (err, items) {
+													if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+													else{
+														for(var j=0;j<items.length;j++){
+															var insertObj = 'db.'+'user'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+														    fs.appendFile(filePath,insertObj, function(){});
+														}
+														
+														//for table order
+														db.collection('order').find({}).toArray(function (err, items) {
+															if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
+															else{
+																for(var j=0;j<items.length;j++){
+																	var insertObj = 'db.'+'order'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+																    fs.appendFile(filePath,insertObj, function(){});
+																}
+																
+																res.json({response:'Insert Script File has been generated Successfully !!!'});
+															}
+													     });
+													}
+											     });
+											  }
+									     });
+									  }
+							     });
+							 }
+					 	}); 
+				  }
+			});
+		});
+		
 		//default html 
 		app.get('*', function(req, res) {
 			res.sendfile('./public/views/indexNew.html'); // load our public/index.html file
