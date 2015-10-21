@@ -1,15 +1,12 @@
 // server.js
 
-
 var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var nodemailer = require('nodemailer');
 var cloudinary = require('cloudinary');
-//var S3FS = require('s3fs');
-//var multiparty = require('multi-party'),
-//    multipartyMiddleware = multiparty();
+
 var path = require('path');
 var fs = require('fs');
 var multer  = require('multer');
@@ -19,6 +16,15 @@ var serverOptions = {
 	     'poolSize': 5,
 	     'native_parser':true
 };
+
+var S3_KEY = 'AKIAINEBDDMRZAF4ZNQA';
+var S3_SECRET = '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';
+var S3_BUCKET = 'ecart-image-bucket';
+var knox = require('knox').createClient({
+    key: S3_KEY,
+    secret: S3_SECRET,
+    bucket: S3_BUCKET
+});
 
 //var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
 var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
@@ -64,6 +70,7 @@ app.use(function(req,res,next){
     req.ownerEmail = ownerEmail;
     req.transporter = transporter;
     req.cloudinary = cloudinary;
+    req.knox = knox;
    // req.multipartyMiddleware = multipartyMiddleware;
     req.adminKey = adminAuthenticationKey;
     next();

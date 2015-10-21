@@ -398,21 +398,25 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	    			imageId:ImgId
 		  	    		};
 		           
-		           $http({
-		  	            url: '/item/addItem',
-		  	            method: "POST",
-		  	            data: angular.toJson(item),
-		  	            headers: {'Content-Type': 'application/json'}
-		  	       }).success(function (data, status, headers, config,imageName) {
-		  	    	   	$scope.itemList.unshift(data.item);
-		  	    	    $scope.submitButtonVal=true;
-		  	        	$scope.closeThisDialog();
-		  	       }).error(function (data, status, headers, config) {
-		  	              
-		  	       });
+			           $http({
+			  	            url: '/item/addItem',
+			  	            method: "POST",
+			  	            data: angular.toJson(item),
+			  	            headers: {'Content-Type': 'application/json'}
+			  	       }).success(function (data, status, headers, config,imageName) {
+			  	    	   	$scope.itemList.unshift(data.item);
+			  	    	    $scope.submitButtonVal=true;
+			  	        	$scope.closeThisDialog();
+			  	       }).error(function (data, status, headers, config) {
+			  	    	 
+			  	    	   $scope.addItemFailMessage = 'Item could not be added due to internal error !!!';    
+			  	       });
 		           
+		          }).error(function(data, status, headers, config) {
+		        	  
+		        	  $scope.addItemFailMessage = 'Image uploading Failed !!!'; 
 		          });
-			}
+			  }
 		};
 	    
 	   

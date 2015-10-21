@@ -991,7 +991,8 @@
 			}
 		});
 		
-		app.post('/item/addImage', function(req, res) {
+		//upload images in cloudinary server
+		/*app.post('/item/addImage', function(req, res) {
 		   var cloudinary = req.cloudinary;
 		   var fs = req.fs;
 		   var filePath = 'public/temp_upload/'+req.files.file.name;
@@ -1003,7 +1004,25 @@
 			   var finalJson = {ImgId:result.public_id+'.jpg'};
 			   res.json(finalJson);
 		   });
-		 });
+		 });*/
+		
+		//upload images in amazon S3 server
+		app.post('/item/addImage', function(req, res) {
+			   var knox = req.knox;
+			   var filePath = 'public/temp_upload/'+req.files.file.name;
+			   upload_name = "img_"+ getTimeStamp(); // or whatever you want it to be called
+			   
+			   knox.putFile(filePath, upload_name, {
+			         "Content-Type": "image/jpeg"
+			     }, function (err, result) {
+			         if (err != null) {
+			        	 throw err;
+			         } else {
+			        	
+			        	 res.json({"ImgId":upload_name});
+			         }
+			     });
+	     });
 		
 		//submit order
 		app.post('/order/submitOrder', function(req, res) {
@@ -1076,6 +1095,13 @@
 	        
 	        return password;
 	    };
+	    
+	    function getTimeStamp(){
+	    	
+	    	var now = new Date();
+	    	var now = new Date();
+	        return (now.getMonth() + 1).toString()+ now.getDate().toString() + now.getFullYear().toString() + now.getHours().toString() + now.getMinutes().toString() + now.getSeconds().toString();
+	    }
 			
 		// getting order list
 		app.get('/order/orderList', function(req, res) {

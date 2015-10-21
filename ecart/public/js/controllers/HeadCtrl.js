@@ -366,7 +366,7 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        	}
    	 }
        
-       $scope.generateInsertDBScript = function(){
+     $scope.generateInsertDBScript = function(){
     	   
     	   $http({
                url: '/db/generateDBInsertScript',
