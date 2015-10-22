@@ -1247,9 +1247,16 @@
 			 
 			var fs = req.fs;
 			var db = req.db;
+			var MSON = req.MSON; 
 			//var dbTablesArray = ["menu","submenu","user","item","order"];
 			var dbTablesArray = ["menu","submenu"];
 			var tableName;
+			
+			fs.appendFile('db.menu.remove({});');
+			fs.appendFile('db.submenu.remove({});');
+			fs.appendFile('db.item.remove({});');
+			fs.appendFile('db.user.remove({});');
+			fs.appendFile('db.order.remove({});');
 			
 			var filePath = 'config/dbInsertScript.txt';
 			fs.writeFile(filePath,'', function(err){
@@ -1260,7 +1267,7 @@
 							if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
 							else{
 								for(var j=0;j<items.length;j++){
-									var insertObj = 'db.'+'menu'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+									var insertObj = 'db.'+'menu'+'.insert('+MSON.stringify(items[j], null, 4)+');'+'\r\n';
 								    fs.appendFile(filePath,insertObj, function(){});
 								}
 								
@@ -1269,7 +1276,7 @@
 									if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
 									else{
 										for(var j=0;j<items.length;j++){
-											var insertObj = 'db.'+'submenu'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+											var insertObj = 'db.'+'submenu'+'.insert('+MSON.stringify(items[j], null, 4)+');'+'\r\n';
 										    fs.appendFile(filePath,insertObj, function(){});
 										}
 										
@@ -1278,7 +1285,7 @@
 											if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
 											else{
 												for(var j=0;j<items.length;j++){
-													var insertObj = 'db.'+'item'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+													var insertObj = 'db.'+'item'+'.insert('+MSON.stringify(items[j], null, 4)+');'+'\r\n';
 												    fs.appendFile(filePath,insertObj, function(){});
 												}
 												
@@ -1287,7 +1294,7 @@
 													if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
 													else{
 														for(var j=0;j<items.length;j++){
-															var insertObj = 'db.'+'user'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+															var insertObj = 'db.'+'user'+'.insert('+MSON.stringify(items[j], null, 4)+');'+'\r\n';
 														    fs.appendFile(filePath,insertObj, function(){});
 														}
 														
@@ -1296,7 +1303,7 @@
 															if(err) res.json({response:'Error Occured while generating Insert Script File !!!'});
 															else{
 																for(var j=0;j<items.length;j++){
-																	var insertObj = 'db.'+'order'+'.insert('+JSON.stringify(items[j], null, 4)+');'+'\r\n';
+																	var insertObj = 'db.'+'order'+'.insert('+MSON.stringify(items[j], null, 4)+');'+'\r\n';
 																    fs.appendFile(filePath,insertObj, function(){});
 																}
 																

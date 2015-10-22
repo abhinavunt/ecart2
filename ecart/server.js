@@ -6,6 +6,7 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var nodemailer = require('nodemailer');
 var cloudinary = require('cloudinary');
+var MSON = require('mongoson');
 
 var path = require('path');
 var fs = require('fs');
@@ -26,8 +27,8 @@ var knox = require('knox').createClient({
     bucket: S3_BUCKET
 });
 
-//var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
-var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
+var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
+//var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
 var port = process.env.PORT || 3000; // set our port
 var adminAuthenticationKey = '876##2!bf$$23jht@@@RD';
 var ownerEmail = 'abhinav.shine85@gmail.com'
@@ -71,6 +72,7 @@ app.use(function(req,res,next){
     req.transporter = transporter;
     req.cloudinary = cloudinary;
     req.knox = knox;
+    req.MSON = MSON;
    // req.multipartyMiddleware = multipartyMiddleware;
     req.adminKey = adminAuthenticationKey;
     next();
