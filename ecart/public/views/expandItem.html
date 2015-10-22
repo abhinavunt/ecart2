@@ -25,7 +25,8 @@
 			<!-- Left Starts -->
 				<div class="col-sm-5 images-block">
 					<a>
-						<img src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{itemObject.imageId}}" alt="Image" class="img-responsive thumbnail" />
+						<!-- <img src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{itemObject.imageId}}" alt="Image" class="img-responsive thumbnail" /> -->
+						<img src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{itemObject.imageId}}" alt="Image" class="img-responsive thumbnail" />
 					</a>
 				</div>
 			
@@ -179,8 +180,8 @@
 		            			<span ng-show="amount.selected.OfferCheck==true" class="label label-danger">Offer</span>
 		            		</div>
 		            	
-		             		<img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2S')"/>
-			                
+		             		<!-- <img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2S')"/> -->
+			                	 <img style="width:250px; height:200px" src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2S')"/>
 			                <div ng-hide="item.availability=='yes'" class="outOfStockCap">
 					            <h4>Out of Stock</h4>
 					        </div>
@@ -310,7 +311,8 @@
 		            			<span ng-show="amount.selected.OfferCheck==true" class="label label-danger">Offer</span>
 		            		</div>
 		            	
-		             		<img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2H')"/>
+		             		<!-- <img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2H')"/> -->
+		             		<img style="width:250px; height:200px" src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2H')"/>
 			                
 			                <div ng-hide="item.availability=='yes'" class="outOfStockCap">
 					            <h4>Out of Stock</h4>
