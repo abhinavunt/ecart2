@@ -1,158 +1,200 @@
 db.menu.insert({
-    "_id": "5624e311b96ecdc42509188a",
+    "_id": "55ba76039cd45bc81ea87628",
     "name": "Basic Food",
-    "datetime": "2015-10-19T12:33:21.447Z",
+    "datetime": "2015-07-30T19:07:47.325Z",
     "sub": [
         {
-            "_id": "5624e317b96ecdc42509188b",
-            "name": "Masala"
-        },
-        {
-            "_id": "5624e33db96ecdc42509188c",
+            "_id": "55ba77b4604a0040106fc93f",
             "name": "Snacks"
-        }
-    ]
-});
-db.submenu.insert({
-    "_id": "5624e317b96ecdc42509188b",
-    "name": "Masala",
-    "supersub": [
-        {
-            "_id": "5624e345b96ecdc42509188d",
-            "name": "Garam Masala"
         },
         {
-            "_id": "5624e34db96ecdc42509188e",
-            "name": "Mutton Masala"
+            "_id": "55ba77ba604a0040106fc940",
+            "name": "Masala"
         }
     ]
 });
 db.submenu.insert({
-    "_id": "5624e33db96ecdc42509188c",
+    "_id": "55ba77b4604a0040106fc93f",
     "name": "Snacks",
     "supersub": [
         {
-            "_id": "5624e354b96ecdc42509188f",
+            "_id": "55ba77c2604a0040106fc941",
             "name": "Namkeen"
         },
         {
-            "_id": "5624e35db96ecdc425091890",
+            "_id": "55ba77d6604a0040106fc942",
+            "name": "Biscuit"
+        },
+        {
+            "_id": "55c7b3c5d1efbfa05594e09a",
             "name": "Cold Drinks"
         }
     ]
 });
-db.user.insert({
-    "_id": "5624e2ecfa7419c7ffbe80de",
-    "fullName": "M K Ahmed Administrator",
-    "emailId": "admin@gmail.com",
-    "password": "admin",
-    "mobileNo": "999999999",
-    "alternateNo": "999999999",
-    "role": "administrator",
-    "address": "1118 sector-1 HSR layout 560102"
+db.submenu.insert({
+    "_id": "55ba77ba604a0040106fc940",
+    "name": "Masala",
+    "supersub": [
+        {
+            "_id": "55ba77e4604a0040106fc943",
+            "name": "Garam Masala"
+        },
+        {
+            "_id": "55ba77ec604a0040106fc944",
+            "name": "Mutton Masala"
+        }
+    ]
+});
+db.item.insert({
+    "_id": "5627f2c0f2cfcdd806ce92c2",
+    "categoryZeroId": "55ba76039cd45bc81ea87628",
+    "categoryOneId": "55ba77b4604a0040106fc93f",
+    "categoryTwoId": "55ba77c2604a0040106fc941",
+    "createdAt": "2015-10-21T20:17:04.567Z",
+    "name": "Khatta Meetha Namkeen",
+    "brand": "Haldiram",
+    "othernames": "namkeen",
+    "description": "bla bla",
+    "availability": "yes",
+    "isOfferCheck": "no",
+    "imageId": "img_102220151473",
+    "amountprice": [
+        {
+            "Amount": "100 gm",
+            "Price": "34",
+            "Availability": "Available",
+            "productId": "5627f2c0f2cfcdd806ce92c0"
+        },
+        {
+            "Amount": "500 gm",
+            "Price": "55",
+            "Availability": "Available",
+            "productId": "5627f2c0f2cfcdd806ce92c1"
+        }
+    ]
 });
 db.user.insert({
-    "_id": "54cf806830225ec006adfd19",
+    "_id": "55fe5d1b7adbdc11006d3007",
     "fullName": "abhinav shrivastava",
     "emailId": "abhinav.unt85@gmail.com",
     "password": "password1985",
     "mobileNo": "9916419024",
     "alternateNo": "8971117894",
-    "address": "1118 sector-1 HSR layout 560102"
+    "address": "1118 23rd main bangalore"
 });
 db.user.insert({
-    "_id": "54d1ba2e32aa81a41f2e38da",
-    "fullName": "Sudeep Shrivastava",
-    "emailId": "sudeep.2000@gmail.com",
+    "_id": "56080b0301ccf6f4492a24f0",
+    "fullName": "abhinav S",
+    "emailId": "abhinav.unr@gmail.com",
+    "password": "abhinav",
+    "mobileNo": "9916419027",
+    "alternateNo": "9916419028",
+    "address": "bl abla"
+});
+db.user.insert({
+    "_id": "561a0fbd9d8ab7c052834c7c",
+    "fullName": "aparna khare",
+    "emailId": "aparna@gmail.com",
     "password": "password1985",
-    "mobileNo": "9916419025",
-    "alternateNo": "8971117895",
-    "address": "sector 2 house number 546, 1st floor, Hsr layout bangalore 560102"
+    "mobileNo": "8791117894",
+    "alternateNo": "8791117894",
+    "address": "1118 23rd main"
+});
+db.user.insert({
+    "_id": "55eb56cde4b04e68b5a2da70",
+    "fullName": "MK Ahmed Admin",
+    "emailId": "admin@gmail.com",
+    "password": "admin",
+    "mobileNo": "9916419024",
+    "alternateNo": "8971117894",
+    "address": "1118 sector-1 HSR layout 560102",
+    "role": "administrator"
 });
 db.order.insert({
-    "_id": "54d1ba7432aa81a41f2e38db",
-    "fullName": "Sudeep Shrivastava",
-    "emailId": "sudeep.2000@gmail.com",
-    "mobileNo": "9916419025",
-    "alternateNo": "8971117895",
-    "address": "sector 2 house number 546, 1st floor, Hsr layout bangalore 560102",
-    "date": "2015-02-04T06:21:40.092Z",
-    "grandTotal": 515,
+    "_id": "5620d8d57520a21100a89e44",
+    "fullName": "abhinav shrivastava",
+    "emailId": "abhinav.unt85@gmail.com",
+    "mobileNo": "9916419024",
+    "alternateNo": "8971117894",
+    "address": "1118 23rd main bangalore",
+    "date": "2015-10-16T11:00:37.789Z",
+    "grandTotal": 195,
+    "status": 1,
+    "statusClass": "danger",
     "order": [
         {
-            "itemName": "salt",
-            "brand": "tata",
+            "itemName": "Khatta Meetha Namkeen",
+            "brand": "Haldiram",
             "amount": "100 gm",
-            "price": "20",
+            "price": "32",
             "quantity": 1,
-            "totalPrice": 20,
-            "productId": "54aa311e1f5e2118100fc5d0"
+            "totalPrice": 32,
+            "productId": "55fd62d048dcefdc31c117e2",
+            "imageId": "szz6xxordc0ih4zmoa16.jpg"
         },
         {
-            "itemName": "lal mirch",
-            "brand": "mdh",
-            "amount": "500 gm",
-            "price": "45",
+            "itemName": "Teekha Namkeen",
+            "brand": "MDH",
+            "amount": "100 gm",
+            "price": "44",
             "quantity": 1,
-            "totalPrice": 45,
-            "productId": "54aa663d1f5e2118100fc5d4"
+            "totalPrice": 44,
+            "productId": "55ff07022f1f42c43715a3e6",
+            "imageId": "se531h1avh320gicswsn.jpg"
         },
         {
-            "itemName": "lal mirch",
-            "brand": "mdh",
-            "amount": "1 kg",
-            "price": "90",
-            "quantity": 5,
-            "totalPrice": 450,
-            "productId": "54aa663d1f5e2118100fc5d5"
+            "itemName": "Meetha Namkeen",
+            "brand": "MDH",
+            "amount": "100 gm",
+            "price": "32",
+            "quantity": 1,
+            "totalPrice": 32,
+            "productId": "55ff07932f1f42c43715a3e8",
+            "imageId": "oisxllruhv3logfdjs4i.jpg"
+        },
+        {
+            "itemName": "Namkeen type7",
+            "brand": "MDH",
+            "amount": "1/2 kg",
+            "price": "32",
+            "quantity": 1,
+            "totalPrice": 32,
+            "productId": "55ff10f346c5846834914679",
+            "imageId": "zilkbplu7vllmki0vnlc.jpg"
+        },
+        {
+            "itemName": "Type 6 Namkeen",
+            "brand": "MDH",
+            "amount": "100 gm",
+            "price": "55",
+            "quantity": 1,
+            "totalPrice": 55,
+            "productId": "55ff10ab46c5846834914677",
+            "imageId": "dn4dvgaw6psa5f4sdeco.jpg"
         }
     ]
 });
 db.order.insert({
-    "_id": "54d1b70e32aa81a41f2e38d9",
-    "fullName": "abhinav shrivastava",
-    "emailId": "abhinav.unt85@gmail.com",
+    "_id": "5627a7c163650dc8227cf6fd",
+    "fullName": "MK Ahmed Admin",
+    "emailId": "admin@gmail.com",
     "mobileNo": "9916419024",
     "alternateNo": "8971117894",
     "address": "1118 sector-1 HSR layout 560102",
-    "date": "2015-02-04T06:07:10.813Z",
-    "grandTotal": 285,
+    "date": "2015-10-21T14:57:05.789Z",
+    "grandTotal": 132,
+    "status": 1,
+    "statusClass": "danger",
     "order": [
         {
-            "itemName": "salt",
-            "brand": "tata",
+            "itemName": "Type5 Namkeen",
+            "brand": "MDH",
             "amount": "100 gm",
-            "price": "20",
-            "quantity": 1,
-            "totalPrice": 20,
-            "productId": "54aa311e1f5e2118100fc5d0"
-        },
-        {
-            "itemName": "lal mirch",
-            "brand": "mdh",
-            "amount": "500 gm",
-            "price": "45",
-            "quantity": 1,
-            "totalPrice": 45,
-            "productId": "54aa663d1f5e2118100fc5d4"
-        },
-        {
-            "itemName": "salt",
-            "brand": "tata",
-            "amount": "500 gm",
-            "price": "40",
-            "quantity": 1,
-            "totalPrice": 40,
-            "productId": "54aa311e1f5e2118100fc5d1"
-        },
-        {
-            "itemName": "lal mirch",
-            "brand": "mdh",
-            "amount": "1 kg",
-            "price": "90",
-            "quantity": 2,
-            "totalPrice": 180,
-            "productId": "54aa663d1f5e2118100fc5d5"
+            "price": "44",
+            "quantity": 3,
+            "totalPrice": 132,
+            "productId": "55ff081e2f1f42c43715a3ec",
+            "imageId": "awbucylsnvhqp40uhrlu.jpg"
         }
     ]
 });
