@@ -1,4 +1,4 @@
-angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController', function($scope,$http) {
+angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController', function($scope,$http,usSpinnerService) {
 	$scope.showItemList=[{"itemPerPage":"10 Users/Page","value":10},{"itemPerPage":"20 Users/Page","value":20},{"itemPerPage":"30 Users/Page","value":30}]
 	$scope.limitPerPage = $scope.showItemList[0].value;
 	$scope.firstUserDate = "notAssigned";
@@ -6,14 +6,14 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
 	$scope.keyword = "";
 	
 	$scope.searchUsers = function(){
-		
+		usSpinnerService.spin('spinner-admin');
 		$http({
             url: '/user/getUsers',
             method: "GET",
             params:{keyword: $scope.keyword, firstDate: $scope.firstUserDate, lastDate: $scope.lastUserDate, limit:$scope.limitPerPage}
     	
          }).success(function(data) {
-        	
+        	 usSpinnerService.stop('spinner-admin');
         	 if(data.users.length==0){
         		 $scope.userlist = [];
         		 $scope.noDataFound=true;
@@ -39,6 +39,7 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
             	 $scope.noDataFound=false;
         	 }
          }).error(function(data) {
+        	 	usSpinnerService.stop('spinner-admin');
     			console.log('Error: ' + data);
     	 });
     }

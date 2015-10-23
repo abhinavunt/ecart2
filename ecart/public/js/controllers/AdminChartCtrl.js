@@ -1,5 +1,5 @@
 
-angular.module('AdminChartCtrl',[]).controller('AdminChartController', function($scope,$http,$cookieStore) {
+angular.module('AdminChartCtrl',[]).controller('AdminChartController', function($scope,$http,$cookieStore,usSpinnerService) {
 	
 	$scope.yearList = [];
 	for(var i=1;i>=0;i--){
@@ -19,7 +19,7 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
     
 	
 	$scope.getChart = function (yearVal,userType){
-		
+		usSpinnerService.spin('spinner-admin');
 		if(userType=="customer"){
 			var parameters = {year: yearVal, userType:userType, emailId:$cookieStore.get('user').emailId};
 		}else if(userType=="admin"){
@@ -31,6 +31,7 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
             method: "GET",
             params: parameters
          }).success(function(data) {
+        	 usSpinnerService.stop('spinner-admin');
 			 $scope.data = data;
         	
 			 if($scope.chartTypeSelect=='Total Amount') {
@@ -42,6 +43,7 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 			
 			
 		}).error(function(data) {
+			usSpinnerService.stop('spinner-admin');
 			console.log('Error: ' + data);
 		});
 		

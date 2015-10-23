@@ -161,7 +161,8 @@
                       <div class="col-lg-2 col-lg-offset-2">
                      	<button class="btn btn-success" ng-disabled="submitButtonVal" data-ng-click="addItem()">Save Item</button>
                       </div>
-                       <div class="col-lg-6">
+                       <div class="col-lg-6 paddingBottom">
+                        <span us-spinner="{radius:38, width:13,length: 21,scale:0.20,left:'1%'}" spinner-key="spinner-addItem" class="ng-scope"></span>
                       	<div style="color:red">{{addItemFailMessage}}</div>
                       </div>
                    </div>

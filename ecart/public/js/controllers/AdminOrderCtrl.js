@@ -1,5 +1,5 @@
 // public/js/controllers/MainCtrl.js
-angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog) {
+angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog,usSpinnerService) {
 	
 	$scope.orderPerPageList = [{'order':10},{'order':20},{'order':30}];
 	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders','value':3},{'criteria':'Last 7 days orders','value':7},{'criteria':'Last 30 days orders','value':30},{'criteria':'Choose Month..','value':4}];
@@ -31,8 +31,10 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	$scope.searchCriteriaVal = $scope.searchCriteriaList[0].value;
 	
+	
 	$scope.getOrderList = function(limitVal,firstDateVal,lastDateVal,searchCriteriaVal,criteriaYearVal,criteriaMonthVal,keyword){
 		
+		usSpinnerService.spin('spinner-admin');
 		var parameter;
 		if(searchCriteriaVal==4){
 			parameter = {limit: limitVal, firstDate:firstDateVal, lastDate:lastDateVal, searchCriteriaVal:searchCriteriaVal, criteriaYear:criteriaYearVal, criteriaMonth:criteriaMonthVal};
@@ -47,6 +49,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
             method: "GET",
             params: parameter
          }).success(function(data) {
+        	 usSpinnerService.stop('spinner-admin');
         	 $scope.orderlist = data.items;
         	 $scope.totalRecords = data.totalRecords; 
         	 if(data.items.length>0 && data.items.length<=limitVal){
@@ -68,8 +71,10 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
         	 
         	 $scope.firstOrderDate = data.items[0].date;
         	 $scope.lastOrderDate = data.items[data.items.length-1].date;
+        	 
          
          }).error(function(data) {
+        	 usSpinnerService.stop('spinner-admin');
 			console.log('Error: ' + data);
 		 });
 		
@@ -254,13 +259,14 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	}
 	
 	$scope.saveStatus = function(){
-		
+		usSpinnerService.spin('spinner-saveOrderStatus');
 		$http({
             url: '/order/saveOrderStatus',
             method: "POST",
             data: {orderId:$scope.showOrderList._id,status:$scope.tempSelectedStatus.value},
             headers: {'Content-Type': 'application/json'}
         }).success(function (data, status, headers, config) {
+        	usSpinnerService.stop('spinner-saveOrderStatus');
         	for(var i=0;i<$scope.orderlist.length;i++){
         		if($scope.orderlist[i]._id==$scope.showOrderList._id){
         			$scope.orderlist[i].status = data.changedStatus;
@@ -270,7 +276,7 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
         	}
         	$scope.orderStatusCheck =true;
         }).error(function (data, status, headers, config) {
-        
+        	usSpinnerService.stop('spinner-saveOrderStatus');
         });
 		
 	}

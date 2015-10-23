@@ -1,5 +1,4 @@
 // server.js
-
 var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
@@ -18,20 +17,18 @@ var serverOptions = {
 	     'native_parser':true
 };
 
-var S3_KEY = 'AKIAINEBDDMRZAF4ZNQA';
-var S3_SECRET = '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';
-var S3_BUCKET = 'ecart-image-bucket';
 var knox = require('knox').createClient({
-    key: S3_KEY,
-    secret: S3_SECRET,
-    bucket: S3_BUCKET
+    key: process.env.S3_Key,
+    secret: process.env.S3_SECRET_KEY,
+    bucket: process.env.S3_BUCKET
 });
 
-var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
-//var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
+//var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
+var mongoLabStr = 'mongodb://'+process.env.MONGO_LAB_USERNAME+':'+process.env.MONGO_LAB_PASSWORD+'@ds036698.mongolab.com:36698/ecart';
+var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
 var port = process.env.PORT || 3000; // set our port
 var adminAuthenticationKey = '876##2!bf$$23jht@@@RD';
-var ownerEmail = 'abhinav.shine85@gmail.com'
+var ownerEmail = process.env.USER_EMAIL
 
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,23 +41,21 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
 app.use(multer({ dest: __dirname +'/public/temp_upload/'}));
 
-
-
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'abhinav.shine85@gmail.com',
-        pass: 'password1985'
+        user: process.env.USER_EMAIL,
+        pass: process.env.USER_PASSWORD
     }
 });
 
 cloudinary.config({ 
-	  cloud_name: 'dylc7fren', 
-	  api_key: '587333156871669', 
-	  api_secret: 'xoErcX_c-s0aXZcHd4nYQQAXXVY' 
+	  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+	  api_key: process.env.CLOUDINARY_API_KEY , 
+	  api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
 //Make our db accessible to our router

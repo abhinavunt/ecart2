@@ -366,6 +366,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        	}
    	 }
        
+     $scope.openAdminMenuTab = function(){
+    	 
+    	 $state.go('adminPortal.menu',{menuRoute:'admin'});
+     }
+       
      $scope.generateInsertDBScript = function(){
     	   
     	   $http({

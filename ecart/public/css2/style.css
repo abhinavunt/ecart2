@@ -1361,6 +1361,14 @@ hr{
 	min-height:180px;
 }
 
+.paddingBottom{
+	padding-bottom:30px;
+}
+
+.uiViewClass{
+	min-height:450px;
+}
+
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 
 .copyright{

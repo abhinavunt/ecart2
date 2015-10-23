@@ -1,5 +1,5 @@
 
-angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http,ngDialog,$upload) {
+angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http,ngDialog,$upload,usSpinnerService) {
 	
 	$scope.submitButtonVal=false;
 	$scope.submitButtonValEdit=false;
@@ -84,7 +84,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		
 	    
 	    $scope.searchItems = function(menuObj,firstOrderDate,lastOrderDate,itemPerPage,criteriaType){
-	    	
+	    	usSpinnerService.spin('spinner-admin');
 	    	if(menuObj._id!="SameObjectId"){
 	    		$scope.menuLevelTwoName = menuObj.name;
 		    	$scope.menuLevelTwoId = menuObj._id;
@@ -98,7 +98,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	    method: "GET",
 	    	    params: {searchMenuId: $scope.menuLevelTwoId, firstDate: firstOrderDate, lastDate: lastOrderDate, limit:itemPerPage, searchCriteriaVal:criteriaType}
 	    	 }).success(function(data) {
-	    		 
+	    		 usSpinnerService.stop('spinner-admin');
 	    		 if(data.items.length==0) $scope.itemList = [];
 	    		 else $scope.itemList = data.items;
 	    		 $scope.disableCriteriaSelect=false;
@@ -133,24 +133,27 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	        	 
 	        	 
 	    	}).error(function(data) {
+	    		usSpinnerService.stop('spinner-admin');
 	    		 console.log('Error: ' + data);
 			});
 		};
 		
 		$scope.searchItemByKeyword = function(){
+			
 			$scope.firstOrderDate ="notAssigned";
         	$scope.lastOrderDate = "notAssigned";
 			
 			$scope.disableCriteriaSelect=true;
 			$scope.addItemButtonVal = true;
 			if(!($scope.keyword.replace(/\s/g,"")==""|| typeof($scope.keyword)=='undefined')){
-					
+				usSpinnerService.spin('spinner-admin');
 					$http({
 	                   url: '/item/searchItemByKeyword',
 	                   method: "POST",
 	                   data: {keyWord:$scope.keyword,firstDate:$scope.firstOrderDate, lastDate:$scope.lastOrderDate,limit:$scope.itemPerPage},
 	                   headers: {'Content-Type': 'application/json'}
 	                 }).success(function (data, status, headers, config) {
+	                	 usSpinnerService.stop('spinner-admin');
 	                	 if(data.items.length==0) $scope.itemList = [];
 	    	    		 else $scope.itemList = data.items;
 	    	    		 $scope.disableCriteriaSelect=true;
@@ -186,7 +189,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    	        	 }
 	                     
 	                 }).error(function (data, status, headers, config) {
-	               
+	                	 usSpinnerService.stop('spinner-admin');
 	                 });
 	               
            }
@@ -374,6 +377,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		$scope.addItem = function(){
 			$scope.addItemValidation();
 			if($scope.addItemValidationCheck){
+				usSpinnerService.spin('spinner-addItem');
 				$scope.upload = $upload.upload({
 		    		url: '/item/addImage',
 	                method: 'POST',                 
@@ -404,11 +408,12 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 			  	            data: angular.toJson(item),
 			  	            headers: {'Content-Type': 'application/json'}
 			  	       }).success(function (data, status, headers, config,imageName) {
+			  	    	    usSpinnerService.stop('spinner-addItem');
 			  	    	   	$scope.itemList.unshift(data.item);
 			  	    	    $scope.submitButtonVal=true;
 			  	        	$scope.closeThisDialog();
 			  	       }).error(function (data, status, headers, config) {
-			  	    	 
+			  	    	   usSpinnerService.stop('spinner-addItem');
 			  	    	   $scope.addItemFailMessage = 'Item could not be added due to internal error !!!';    
 			  	       });
 		           
@@ -426,6 +431,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    $scope.editItem = function(editItemRowId, itemNameEdit, brandEdit, othernamesEdit, availabilityEdit, imageIdEdit,newImg, descriptionEdit, isOfferCheckEdit){
 	    	$scope.editItemValidation(itemNameEdit,brandEdit);
 	    	if($scope.editItemValidationCheck){
+	    		usSpinnerService.spin('spinner-editItem');
 	    		$scope.amountPriceRowEditFnl=[];
 		    	if($scope.isOfferCheckEdit=='yes'){
 		    		for(var i=0; i<$scope.amountPriceRowEdit.length; i++){
@@ -472,6 +478,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 				  	            data: angular.toJson(item),
 				  	            headers: {'Content-Type': 'application/json'}
 				  	          }).success(function (data, status, headers, config,imageName) {
+				  	        	usSpinnerService.stop('spinner-editItem');
 				  	        	for(var i=0; i<$scope.itemList.length; i++){
 				  	        		if($scope.itemList[i]._id==editItemRowId){
 				  	        			$scope.itemList[i] =data.itemObj; 
@@ -480,7 +487,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 				  	        	$scope.submitButtonValEdit=true;
 				  	        	ngDialog.close();
 				  	          }).error(function (data, status, headers, config) {
-				  	              
+				  	        	usSpinnerService.stop('spinner-editItem'); 
 				  	          });
 			    		
 			    	}else{
@@ -516,6 +523,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 						  	            data: angular.toJson(item),
 						  	            headers: {'Content-Type': 'application/json'}
 						  	          }).success(function (data, status, headers, config,imageName) {
+						  	        	usSpinnerService.stop('spinner-editItem');
 						  	        	for(var i=0; i<$scope.itemList.length; i++){
 						  	        		if($scope.itemList[i]._id==editItemRowId){
 						  	        			$scope.itemList[i] =data.itemObj; 
@@ -524,7 +532,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 						  	        	$scope.submitButtonValEdit=true;
 						  	        	ngDialog.close();
 						  	          }).error(function (data, status, headers, config) {
-						  	              
+						  	        	usSpinnerService.stop('spinner-editItem'); 
 						  	          });
 				        	  
 				          });

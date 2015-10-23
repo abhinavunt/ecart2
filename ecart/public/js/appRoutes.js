@@ -75,7 +75,7 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 			
 					})
 				.state('adminPortal.menu', {
-						url:'/menu',
+						url:'/menu/:menuRoute',
 						templateUrl: 'views/adminTemplates/menu.html'
 		
 			
