@@ -1011,16 +1011,11 @@
 			   var knox = req.knox;
 			   var filePath = 'public/temp_upload/'+req.files.file.name;
 			   upload_name = "img_"+ getTimeStamp(); // or whatever you want it to be called
-			   
 			   knox.putFile(filePath, upload_name, {
 			         "Content-Type": "image/jpeg"
 			     }, function (err, result) {
-			         if (err != null) {
-			        	 throw err;
-			         } else {
-			        	
-			        	 res.json({"ImgId":upload_name});
-			         }
+			         if (err)  throw err;
+			         else res.json({"ImgId":upload_name});
 			     });
 	     });
 		
