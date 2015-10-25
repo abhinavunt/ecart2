@@ -25,7 +25,7 @@ var knox = require('knox').createClient({
 
 //var db = mongo.db("mongodb://localhost:27017/ecart", {native_parser:true});
 var mongoLabStr = 'mongodb://'+process.env.MONGO_LAB_USERNAME+':'+process.env.MONGO_LAB_PASSWORD+'@ds036698.mongolab.com:36698/ecart';
-var db = mongo.db("mongodb://abhinavunt:Tavant1985@ds036698.mongolab.com:36698/ecart",serverOptions);
+var db = mongo.db(mongoLabStr,serverOptions);
 var port = process.env.PORT || 3000; // set our port
 var adminAuthenticationKey = '876##2!bf$$23jht@@@RD';
 var ownerEmail = process.env.USER_EMAIL
@@ -68,6 +68,7 @@ app.use(function(req,res,next){
     req.cloudinary = cloudinary;
     req.knox = knox;
     req.MSON = MSON;
+    req.bucket = process.env.S3_BUCKET;
    // req.multipartyMiddleware = multipartyMiddleware;
     req.adminKey = adminAuthenticationKey;
     next();
