@@ -37,9 +37,10 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
         		 $scope.noLatestItemAvaiable=false;
         		 $scope.showLatestItemsPanel=true;
         		 $scope.latestItemList = data.latestItems;
+        		
      			 $scope.lastLatestItemDate=$scope.latestItemList[$scope.latestItemList.length-1].createdAt;
      			
-     			 if($scope.latestItemList.length<$scope.endIndex){
+     			 if($scope.latestItemList.length<=$scope.endIndex){
      				for(var i=$scope.startIndex;i<$scope.latestItemList.length;i++){
      					$scope.latestItemShow.push($scope.latestItemList[i]);
      				}
@@ -140,7 +141,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 				$scope.offerItemList = data.offerItems;
 				$scope.lastOfferItemDate=$scope.offerItemList[$scope.offerItemList.length-1].createdAt;
 				
-				if($scope.offerItemList.length<$scope.endIndexOff){
+				if($scope.offerItemList.length<=$scope.endIndexOff){
 					for(var i=$scope.startIndexOff;i<$scope.offerItemList.length;i++){
 						$scope.offerItemShow.push($scope.offerItemList[i]);
 					}

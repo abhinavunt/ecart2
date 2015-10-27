@@ -933,14 +933,15 @@
 		app.post('/item/removeItem', function(req, res) {
 			
 			var db = req.db;
-			var fs = req.fs;
-			
+			var knox = req.knox;
 			db.collection('item').removeById(req.body.itemId,function(err,records) {
-				if(err) throw err;
+			  if(err) throw err;
 		      else {
-		    	  var filePath = 'public/temp_upload/'+req.body.imageId;
-				  fs.unlinkSync(filePath);
-		    	  res.json({"out":"removed"});
+		    	  var filePath = '/'+req.body.imageId;
+				  knox.deleteFile(filePath, function(err, res) {
+		    		   if(err) throw err;
+		    		   else res.json({"out":"removed"});  
+		    	  });
 		      }
 		   });
 		});

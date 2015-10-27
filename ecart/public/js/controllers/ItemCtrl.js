@@ -541,12 +541,15 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 	    };
 	    
 	    $scope.removeItem = function(editItemRowId,imageIdEdit){
+	    	$scope.editItemFailMessage ="";
+	    	usSpinnerService.spin('spinner-editItem');
 	    	$http({
 	  	            url: '/item/removeItem',
 	  	            method: "POST",
 	  	            data: {itemId:editItemRowId,imageId:imageIdEdit},
 	  	            headers: {'Content-Type': 'application/json'}
 	  	          }).success(function (data, status, headers, config,imageName) {
+	  	        	  	usSpinnerService.stop('spinner-editItem');
 		  	        	$scope.removeButtonValEdit=true;
 		  	        	ngDialog.close();
 		  	        	var index;
@@ -558,8 +561,8 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	        	}
 		  	        	$scope.itemList.splice(index,1);
 		  	      }).error(function (data, status, headers, config) {
-	  	        	alert("Failed : Item could not be removed !!!");
-	  	          });
+		  	    	 $scope.editItemFailMessage = "Failed : Item could not be removed due to internal error !!!";
+		  	      });
 	    };
 	    
 	    

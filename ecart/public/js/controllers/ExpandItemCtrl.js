@@ -179,7 +179,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
         	  		$scope.itemSameCatList = data.itemSameCat;
     	  			$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
     	  			
-    	  			if($scope.itemSameCatList.length<$scope.endIndex){
+    	  			if($scope.itemSameCatList.length<=$scope.endIndex){
     	  				for(var i=$scope.startIndex;i<$scope.itemSameCatList.length;i++){
     	  					$scope.itemSameCatShow.push($scope.itemSameCatList[i]);
     	  				}
@@ -280,7 +280,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 		      	  	$scope.itemSameBrdList = data.itemSameBrd;
 		  			$scope.lastSameBrdItemDate=$scope.itemSameBrdList[$scope.itemSameBrdList.length-1].createdAt;
 		  			
-		  			if($scope.itemSameBrdList.length<$scope.endIndexBrd){
+		  			if($scope.itemSameBrdList.length<=$scope.endIndexBrd){
 		  				for(var i=$scope.startIndexBrd; i<$scope.itemSameBrdList.length;i++){
 		  					$scope.itemSameBrdShow.push($scope.itemSameBrdList[i]);
 		  				}
