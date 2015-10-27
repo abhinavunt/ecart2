@@ -938,7 +938,7 @@
 			  if(err) throw err;
 		      else {
 		    	  var filePath = '/'+req.body.imageId;
-				  knox.deleteFile(filePath, function(err, res) {
+				  knox.deleteFile(filePath, function(err, result) {
 		    		   if(err) throw err;
 		    		   else res.json({"out":"removed"});  
 		    	  });
