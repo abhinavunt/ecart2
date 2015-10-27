@@ -887,7 +887,7 @@
 		app.post('/item/editItem', function(req, res) {
 			
 			var db = req.db;
-			var fs = req.fs;
+			var knox = req.knox;
 			var mongo = req.mongo;
 			var amtPriceObj = req.body.amountprice;
 			var ObjectID = mongo.ObjectID;
@@ -919,12 +919,16 @@
 						itemInfo["_id"] = req.body.itemId;
 						res.json({"itemObj":itemInfo});
 					}else{
-						var filePath = 'public/temp_upload/'+req.body.oldImageId;
-						fs.unlinkSync(filePath);
-						itemInfo["_id"] = req.body.itemId;
-						res.json({"itemObj":itemInfo});
+						
+						var filePath = '/'+req.body.oldImageId;
+						knox.deleteFile(filePath, function(err, result) {
+				    		   if(err) throw err;
+				    		   else{
+				    			   itemInfo["_id"] = req.body.itemId;
+								   res.json({"itemObj":itemInfo});
+				    		   } 
+				    	 });
 					}
-					
 				}
 			});
 		});
@@ -1016,7 +1020,10 @@
 			         "Content-Type": "image/jpeg"
 			     }, function (err, result) {
 			         if (err)  throw err;
-			         else res.json({"ImgId":upload_name});
+			         else{
+			        	 fs.unlinkSync(filePath);
+			        	 res.json({"ImgId":upload_name}); 
+			         } 
 			     });
 	     });
 		

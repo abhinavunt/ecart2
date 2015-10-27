@@ -561,6 +561,7 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		  	        	}
 		  	        	$scope.itemList.splice(index,1);
 		  	      }).error(function (data, status, headers, config) {
+		  	    	 usSpinnerService.stop('spinner-editItem');
 		  	    	 $scope.editItemFailMessage = "Failed : Item could not be removed due to internal error !!!";
 		  	      });
 	    };
