@@ -1384,6 +1384,12 @@ hr{
     opacity: 0.6;
 }
 
+.welcomeMsg{
+	min-height: 26px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 
