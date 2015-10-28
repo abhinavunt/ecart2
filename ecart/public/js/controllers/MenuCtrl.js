@@ -12,6 +12,7 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	.success(function(data) {
 			$scope.menulist = data;
 			menuItemService.setMenu(data);
+			menuItemService.setDarkOutVal("");
 			usSpinnerService.stop('spinner-1');
 			usSpinnerService.stop('spinner-admin');
 			

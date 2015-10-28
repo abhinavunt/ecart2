@@ -5,6 +5,9 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
        $scope.products = shoppingCartService.getProducts();
        $scope.user = $cookieStore.get('user');
        $cookieStore.put('editUserFlip',false);
+       $scope.darkOutBg = 'darkOut';
+       
+       
        
        if(typeof($cookieStore.get('grandTotal'))=='undefined'){
     	   $scope.grandTotal = 0;
@@ -24,6 +27,11 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
     	  $scope.showLogIn = true;
     	  $scope.showLogOut = false;  
        }
+       
+       $scope.$watch(function() { return menuItemService.getDarkOutVal()}, function() {
+    	   
+    	   $scope.darkOutBg = menuItemService.getDarkOutVal();
+       });
        
        $scope.$watch(function() { return $cookieStore.get('grandTotal') }, function() {
     	   if(typeof($cookieStore.get('grandTotal'))!='undefined'){

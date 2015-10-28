@@ -6,40 +6,43 @@
 		app.get('/menu/menulist', function(req, res) {
 			
 			var db = req.db;
-			db.collection('menu').find({}, {"sort" : [['datetime', 1]]} ).toArray(function (err, items) {
-				if(err) throw err;
-				else{
-					db.collection('submenu').find().toArray(function (err, subitems) {
-						this.finalJson = new Array();
-					    items.forEach(function(item){
-							
-					    	item.sub.forEach(function(subitem){
-								var subItemName = subitem.name;
-								var supersub = new Array();
-								supersub = getSuperSub(subItemName);
-								subitem["supersub"]=supersub;
+				db.collection('menu').find({}, {"sort" : [['datetime', 1]]} ).toArray(function (err, items) {
+					if(err) throw err;
+					else{
+						db.collection('submenu').find().toArray(function (err, subitems) {
+							this.finalJson = new Array();
+						    items.forEach(function(item){
+								
+						    	item.sub.forEach(function(subitem){
+									var subItemName = subitem.name;
+									var supersub = new Array();
+									supersub = getSuperSub(subItemName);
+									subitem["supersub"]=supersub;
+								});
+								
+								this.finalJson.push(item);
 							});
 							
-							this.finalJson.push(item);
+							res.json(this.finalJson);
+							
+							// function to get supersub array of each sub elements
+							function getSuperSub(subItemName) {
+							     var superSubMenu = new Array();
+							     subitems.forEach(function(subitem){
+							    	 if(subItemName==subitem.name){
+							    		 superSubMenu = subitem.supersub; 
+							    	 }
+							   });
+							     
+							     return superSubMenu ;              
+							}
 						});
 						
-						res.json(this.finalJson);
-						
-						// function to get supersub array of each sub elements
-						function getSuperSub(subItemName) {
-						     var superSubMenu = new Array();
-						     subitems.forEach(function(subitem){
-						    	 if(subItemName==subitem.name){
-						    		 superSubMenu = subitem.supersub; 
-						    	 }
-						   });
-						     
-						     return superSubMenu ;              
-						}
-					});
-					
-				}
-			});
+					}
+				});
+		   
+			
+			
 		});
 		
 		
@@ -1326,5 +1329,7 @@
 		//default html 
 		app.get('*', function(req, res) {
 			res.sendfile('./public/views/indexNew.html'); // load our public/index.html file
+			
+			
 		});
 };

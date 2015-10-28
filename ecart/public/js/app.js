@@ -190,6 +190,7 @@ app.service('expandItemService', function($cookieStore) {
 
 app.service('menuItemService', function() {
 	var menuObject;
+	var darkOutVal='darkOut';
 	
 	var setMenu = function(menuObj){
 		menuObject = menuObj;
@@ -199,9 +200,19 @@ app.service('menuItemService', function() {
 		return menuObject;
 	}
 	
+	var setDarkOutVal = function(darkOut){
+		darkOutVal = darkOut;
+	}
+	
+	var getDarkOutVal = function(){
+		return darkOutVal;
+	}
+	
 	return {
 		setMenu:setMenu,
-		getMenu:getMenu
+		getMenu:getMenu,
+		getDarkOutVal:getDarkOutVal,
+		setDarkOutVal:setDarkOutVal
 	};
 });
 
