@@ -6,14 +6,13 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 	$scope.menuLevel='';
 	
 	if($stateParams.menuRoute=='admin') usSpinnerService.spin('spinner-admin');
-	else usSpinnerService.spin('spinner-1');
+	
 	
     $http.get('/menu/menulist')
 	.success(function(data) {
 			$scope.menulist = data;
 			menuItemService.setMenu(data);
 			menuItemService.setDarkOutVal("");
-			usSpinnerService.stop('spinner-1');
 			usSpinnerService.stop('spinner-admin');
 			
 		})

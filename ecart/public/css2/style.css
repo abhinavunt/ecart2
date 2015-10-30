@@ -1390,6 +1390,21 @@ hr{
     padding-bottom: 5px;
 }
 
+.darkOut{
+	background: #e8e8e8;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.3;
+    background-image: url('../img/477.GIF');
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+}
+
 
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 
