@@ -300,62 +300,24 @@
 			<!-- Main Header Ends -->
 			<!-- Main Menu Starts -->
 			<div id="wrapper" ng-controller="MenuController">
-			<span us-spinner="{radius:21, width:8,top:'65%', length: 19,scale:0.75}" spinner-key="spinner-admin"></span>
-			<!-- <div>
-				<div id="main-menu" class="navbar navbar-inverse">
-					
-							<ul class="nav navbar-nav">
-		
-								<li class="dropdown" data-ng-repeat="oneMenu in menulist"><a
-										href="#" data-toggle="dropdown" class="dropdown-toggle">{{oneMenu.name}}</a>
-									<ul class="dropdown-menu">
-										<div class="yamm-content">
-											<div class="row">
-												<ul class="col-lg-6 list-unstyled"
-													data-ng-repeat="submenu in oneMenu.sub">
-													<li>
-														<p>
-															<strong class="showPointer" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</strong>
-														</p>
-													</li>
-		
-													<li data-ng-repeat="supersub in submenu.supersub"><a ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
-												</ul>
-											</div>
-										</div>
-									</ul>
-								</li>
-		
-							</ul>
-							
-						
-		
-					</div>
-				</div>  -->
-				
-				<div>
-				<div id="main-menu" class="navbar navbar-inverse">
-					<ul class="nav navbar-nav">
-						
-						<li class="dropdown" id="accountmenu" data-ng-repeat="oneMenu in menulist">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{oneMenu.name}}</a>
-							<ul class="dropdown-menu">
+			    <span id="menuSpinner" us-spinner="{radius:27,lines:13, width:7, length: 18,scale:0.75}" spinner-key="spinner-1"></span>
+				<span us-spinner="{radius:21, width:8,top:'65%', length: 19,scale:0.75}" spinner-key="spinner-admin"></span>
+				<div id="main-menu" class="navbar navbar-default ">
+				  <ul class="nav navbar-nav container-fluid">
+					<li class="dropdown" id="accountmenu" data-ng-repeat="oneMenu in menulist">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{oneMenu.name}}</a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-submenu" data-ng-repeat="submenu in oneMenu.sub">
+							  <a tabindex="-1" href="#" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</a>
+							  <ul class="dropdown-menu supersubMenu">
+								<li data-ng-repeat="supersub in submenu.supersub"><a tabindex="-1" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
 								
-								<li class="dropdown-submenu" data-ng-repeat="submenu in oneMenu.sub">
-								  <a tabindex="-1" href="#" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</a>
-								  <ul class="dropdown-menu supersubMenu">
-									<li data-ng-repeat="supersub in submenu.supersub"><a tabindex="-1" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
-									
-								  </ul>
-								</li>
-								
-								
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div> 
-				
+							  </ul>
+							</li>
+						</ul>
+					</li>
+				 </ul>
+			    </div>
 			</div>
 			<!-- Main Menu Ends -->
 			</div>
