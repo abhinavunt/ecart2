@@ -678,18 +678,34 @@
 		    var db = req.db;
 		    var mongo = req.mongo;
 			var ObjectID = mongo.ObjectID;
-			
+			var itemsToSkip = parseInt(req.param("itemsToSkip"));
 			var searchMenuId = req.param("category");
+			var sortString;
+			
+			if(req.param("sortCriteriaVal")==2){
+				//Alphabetically (A-Z)
+				sortString = 'name';
+			}else if(req.param("sortCriteriaVal")==3){
+				//Price (Low to High)
+				sortString = 'name';
+			}else if(req.param("sortCriteriaVal")==4){
+				//Price (High to Low)
+				sortString = [['createdAt', -1]];
+			}else{
+				// default sorting 
+				sortString = [['createdAt', -1]];
+				
+			}
 			
 			if(req.param("catLevel")==1){
-				
-				if(req.param("lastItemDate")=="notAssigned"){
+			
+				if(itemsToSkip==0){
 					
 					db.collection('item').count({categoryOneId: ObjectID(searchMenuId)},function (err, count){
 						if (err) throw err;
 						else{
 							
-							db.collection('item').find({categoryOneId: ObjectID(searchMenuId)},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							db.collection('item').find({categoryOneId: ObjectID(searchMenuId)},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 								 if (err) throw err;
 								 else res.json({items:items,itemCount:count});
 							});
@@ -698,7 +714,7 @@
 					
 				}else{
 					
-					db.collection('item').find({categoryOneId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+					db.collection('item').find({categoryOneId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 						 if (err) throw err;
 						 else res.json({items:items});
 					});
@@ -706,21 +722,24 @@
 				
 			}else{
 				
-				if(req.param("lastItemDate")=="notAssigned"){
+				if(itemsToSkip==0){
 					
 					db.collection('item').count({categoryTwoId: ObjectID(searchMenuId)},function (err, count){
 						if (err) throw err.code;
 						else{
 							
-							db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 								 if (err) throw err;
-								 else res.json({items:items,itemCount:count});
+								 else{
+									 console.log(typeof(items[0].amountprice[0].Price));
+									 res.json({items:items,itemCount:count});
+								 }
 							});
 						}
 					});
 				}else{
 					
-					db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+					db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 						 if (err) throw err;
 						 else res.json({items:items});
 					});

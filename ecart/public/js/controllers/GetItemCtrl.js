@@ -6,7 +6,9 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			$scope.getMoreItemBtn=true;
 			$scope.lastItemDate="notAssigned";
 			$scope.lastItemDateByBrand="notAssigned";
-			$scope.itemLimit=8;
+			$scope.itemLimit=4;
+			$scope.itemsToSkip=0;
+			$scope.itemsToSkipCount=1;
 			$scope.showItemList=[];
 			$scope.itemCount=0;
 			$scope.category = $stateParams.category;
@@ -35,22 +37,26 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 		   		$http({
                       url: '/item/searchItemsDisplay',
                       method: "GET",
-                      params: {category: $scope.category, lastItemDate:$scope.lastItemDate, limit:$scope.itemLimit, catLevel:$scope.catLevel}
+                      params: {category: $scope.category, itemsToSkip:$scope.itemsToSkip, limit:$scope.itemLimit, catLevel:$scope.catLevel, sortCriteriaVal:$scope.selectedSortCriteriaVal}
                    }).success(function(data) {
                 	   if(data.items.length==0){
                 		   $scope.showItemGrid=false;
                 	   }else{
                 		   $scope.showItemGrid=true;
-                		   if($scope.lastItemDate=="notAssigned"){
+                		   if($scope.itemsToSkip==0){
                     		   $scope.itemCount=data.itemCount;
                     		   $scope.showItemList=[];
                     	   }
                     	   
                     	   $scope.showItemList = $scope.showItemList.concat(data.items);
-                    	   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                    	   //$scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
                     	   
                     	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
-                    	   else $scope.getMoreItemBtn=true;   
+                    	   else{
+                    		   $scope.getMoreItemBtn=true;
+                    		   $scope.itemsToSkip = $scope.itemsToSkipCount * $scope.itemLimit;
+                    		   $scope.itemsToSkipCount = $scope.itemsToSkipCount+1;
+                    	   }
                 	   }
                 	   usSpinnerService.stop('spinner-1'); 
                 	  
