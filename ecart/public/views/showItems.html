@@ -30,11 +30,34 @@
 		</div>
 		<div class="col-lg-10">
 		<!-- Breadcrumb Starts -->
-			<ol class="breadcrumb">
+			<!-- <ol class="breadcrumb">
 				<li class="active">{{catName}}</li>
 				<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subCatId,catLevel:1, menuObj:sideMenu})"><a class="showPointer">{{subCatName}}</a></li>
 				<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supSubCatId,catLevel:2, menuObj:sideMenu})" ng-show="catLevel!=1"><a class="showPointer">{{supSubCatName}}</a></li>
-			</ol>
+			</ol> -->
+			
+			<div class="product-filter">
+				<div class="row">
+					<div class="col-md-8">
+						<ol class="breadcrumb">
+							<li class="active">{{catName}}</li>
+							<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subCatId,catLevel:1, menuObj:sideMenu})"><a class="showPointer">{{subCatName}}</a></li>
+							<li ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supSubCatId,catLevel:2, menuObj:sideMenu})" ng-show="catLevel!=1"><a class="showPointer">{{supSubCatName}}</a></li>
+						</ol>	
+					 </div>
+					<div class="col-md-2 text-right">
+						<label class="control-label">Sort</label>
+					</div>
+					<div class="col-md-2 text-right">
+						<select class="form-control" 
+								ng-init="sortCriteriaObj=sortCriteriaList[0]"
+				                ng-model="sortCriteriaObj"
+				                ng-options="sortCriteriaListObj.criteria for sortCriteriaListObj in sortCriteriaList"
+				                ng-change="selectedSortCriteria(sortCriteriaObj)">
+				        </select>
+					</div>
+				</div>						 
+			</div>
 			
 			<div ng-if="showItemGrid">
 				<div class="row" id="itemId">

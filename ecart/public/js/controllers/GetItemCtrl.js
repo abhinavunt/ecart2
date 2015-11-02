@@ -17,6 +17,9 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			expandItemService.setCategoryString($scope.category);
 			expandItemService.setCategoryLevel($scope.catLevel);
 			
+			$scope.sortCriteriaList = [{'criteria':'Default','value':1},{'criteria':'Alphabetically (A-Z)','value':2},{'criteria':'Price (Low to High)','value':3},{'criteria':'Price (High to Low)','value':4}];
+			$scope.selectedSortCriteriaVal = $scope.sortCriteriaList[0].value;
+			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
 					$scope.expandedItem = item[0];
@@ -164,6 +167,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	  
             	 
              };
+             
+             $scope.selectedSortCriteria = function(sortCriteriaObj){
+            	 $scope.selectedSortCriteriaVal = sortCriteriaObj.value;
+            	 $scope.lastItemDate="notAssigned";
+       		  	 $scope.searchItems(); 
+             }
              
              $scope.loadMoreItems = function(){
             	if($scope.brandsArray.length>0) $scope.searchItemsByBrand();
