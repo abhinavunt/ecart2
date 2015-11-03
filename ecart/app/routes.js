@@ -687,17 +687,17 @@
 				sortString = 'name';
 			}else if(req.param("sortCriteriaVal")==3){
 				//Price (Low to High)
-				sortString = 'name';
+				sortString ='sortPrice';
 			}else if(req.param("sortCriteriaVal")==4){
 				//Price (High to Low)
-				sortString = [['createdAt', -1]];
+				sortString = [['sortPrice', -1]];
 			}else{
 				// default sorting 
 				sortString = [['createdAt', -1]];
 				
 			}
 			
-			if(req.param("catLevel")==1){
+		    if(req.param("catLevel")==1){
 			
 				if(itemsToSkip==0){
 					
@@ -723,15 +723,14 @@
 			}else{
 				
 				if(itemsToSkip==0){
-					
 					db.collection('item').count({categoryTwoId: ObjectID(searchMenuId)},function (err, count){
-						if (err) throw err.code;
-						else{
+					if (err) throw err.code;
+					else{
 							
 							db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 								 if (err) throw err;
 								 else{
-									 console.log(typeof(items[0].amountprice[0].Price));
+									
 									 res.json({items:items,itemCount:count});
 								 }
 							});
@@ -745,8 +744,6 @@
 					});
 				}	
 			}
-			
-			
 		});
 		
 		// Search Latest Items
@@ -894,6 +891,7 @@
 					availability : req.body.availability,
 					isOfferCheck : req.body.isOfferCheck,
 					imageId : req.body.imageId,
+					sortPrice:parseInt(amtPriceObj[0].Price),
 					amountprice : amtPriceObj
 			};
 			
@@ -930,7 +928,8 @@
 					availability : req.body.availability,
 					isOfferCheck: req.body.isOfferCheck,
 					imageId : req.body.imageId,
-					amountprice : amtPriceObj,
+					sortPrice:parseInt(amtPriceObj[0].Price),
+					amountprice : amtPriceObj
 			};
 			
 			//edit record

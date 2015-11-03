@@ -176,7 +176,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
              
              $scope.selectedSortCriteria = function(sortCriteriaObj){
             	 $scope.selectedSortCriteriaVal = sortCriteriaObj.value;
-            	 $scope.lastItemDate="notAssigned";
+            	 $scope.itemsToSkip=0;
        		  	 $scope.searchItems(); 
              }
              
