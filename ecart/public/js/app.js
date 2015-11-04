@@ -216,6 +216,24 @@ app.service('menuItemService', function() {
 	};
 });
 
+app.service('itemService', function() {
+	
+	var sortCriteriaVal = 1;
+	
+	var getSortCriteria = function(){
+		return sortCriteriaVal;
+	}
+	
+	var setSortCriteria = function(sortCriteria){
+		sortCriteriaVal = sortCriteria;
+	}
+	
+	return {
+		getSortCriteria:getSortCriteria,
+		setSortCriteria:setSortCriteria
+	};
+});
+
 
 app.filter('unique', function() {
 	   return function(collection, keyname) {

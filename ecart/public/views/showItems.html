@@ -50,10 +50,9 @@
 					</div>
 					<div class="col-md-2 text-right">
 						<select class="form-control" 
-								ng-init="sortCriteriaObj=sortCriteriaList[0]"
-				                ng-model="sortCriteriaObj"
+								ng-model="selectedSortCriteriaObj"
 				                ng-options="sortCriteriaListObj.criteria for sortCriteriaListObj in sortCriteriaList"
-				                ng-change="selectedSortCriteria(sortCriteriaObj)">
+				                ng-change="selectedSortCriteria(selectedSortCriteriaObj)">
 				        </select>
 					</div>
 				</div>						 

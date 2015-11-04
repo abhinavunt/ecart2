@@ -682,6 +682,7 @@
 			var searchMenuId = req.param("category");
 			var sortString;
 			
+			
 			if(req.param("sortCriteriaVal")==2){
 				//Alphabetically (A-Z)
 				sortString = 'name';
@@ -694,10 +695,9 @@
 			}else{
 				// default sorting 
 				sortString = [['createdAt', -1]];
-				
 			}
 			
-		    if(req.param("catLevel")==1){
+			if(req.param("catLevel")==1){
 			
 				if(itemsToSkip==0){
 					
@@ -714,10 +714,22 @@
 					
 				}else{
 					
-					db.collection('item').find({categoryOneId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
-						 if (err) throw err;
-						 else res.json({items:items});
-					});
+					if(req.param("sortCriteriaVal")==1){
+						
+						db.collection('item').find({categoryOneId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}else{
+						
+						db.collection('item').find({categoryOneId: ObjectID(searchMenuId)},{"sort" : sortString}).skip(itemsToSkip).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+					}
+					
+					
 				}
 				
 			}else{
@@ -736,12 +748,24 @@
 							});
 						}
 					});
+					
 				}else{
 					
-					db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
-						 if (err) throw err;
-						 else res.json({items:items});
-					});
+					if(req.param("sortCriteriaVal")==1){
+						
+						db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),createdAt:{"$lt":new Date(req.param("lastItemDate"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}else{
+						
+						db.collection('item').find({categoryTwoId: ObjectID(searchMenuId)},{"sort" : sortString}).skip(itemsToSkip).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}
 				}	
 			}
 		});

@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService) {
+angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService,itemService) {
 			
 	 		$window.scrollTo(0, 50);
 			$scope.brandsArray=[];
@@ -20,7 +20,8 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 			expandItemService.setCategoryLevel($scope.catLevel);
 			
 			$scope.sortCriteriaList = [{'criteria':'Default','value':1},{'criteria':'Alphabetically (A-Z)','value':2},{'criteria':'Price (Low to High)','value':3},{'criteria':'Price (High to Low)','value':4}];
-			$scope.selectedSortCriteriaVal = $scope.sortCriteriaList[0].value;
+			$scope.selectedSortCriteriaObj = $scope.sortCriteriaList[itemService.getSortCriteria()-1];
+			$scope.selectedSortCriteriaVal = $scope.sortCriteriaList[itemService.getSortCriteria()-1].value;
 			
 			$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
@@ -37,7 +38,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
 		   		$http({
                       url: '/item/searchItemsDisplay',
                       method: "GET",
-                      params: {category: $scope.category, itemsToSkip:$scope.itemsToSkip, limit:$scope.itemLimit, catLevel:$scope.catLevel, sortCriteriaVal:$scope.selectedSortCriteriaVal}
+                      params: {category: $scope.category, itemsToSkip:$scope.itemsToSkip, limit:$scope.itemLimit, catLevel:$scope.catLevel, sortCriteriaVal:$scope.selectedSortCriteriaVal, lastItemDate:$scope.lastItemDate}
                    }).success(function(data) {
                 	   if(data.items.length==0){
                 		   $scope.showItemGrid=false;
@@ -47,15 +48,22 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
                     		   $scope.itemCount=data.itemCount;
                     		   $scope.showItemList=[];
                     	   }
+                		   
+                		   
                     	   
                     	   $scope.showItemList = $scope.showItemList.concat(data.items);
                     	   //$scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
                     	   
-                    	   if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
-                    	   else{
-                    		   $scope.getMoreItemBtn=true;
+                    	   
+                    	   if($scope.showItemList.length<$scope.itemCount){
+                    		   $scope.getMoreItemBtn=false;
                     		   $scope.itemsToSkip = $scope.itemsToSkipCount * $scope.itemLimit;
                     		   $scope.itemsToSkipCount = $scope.itemsToSkipCount+1;
+                    		   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                    	   }
+                    	   else{
+                    		   $scope.getMoreItemBtn=true;
+                    		   
                     	   }
                 	   }
                 	   usSpinnerService.stop('spinner-1'); 
@@ -176,7 +184,12 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
              
              $scope.selectedSortCriteria = function(sortCriteriaObj){
             	 $scope.selectedSortCriteriaVal = sortCriteriaObj.value;
+            	 itemService.setSortCriteria(sortCriteriaObj.value);
+            	 $scope.selectedSortCriteriaObj = $scope.sortCriteriaList[itemService.getSortCriteria()-1];
+            	 $scope.selectedSortCriteriaVal = $scope.sortCriteriaList[itemService.getSortCriteria()-1].value;
             	 $scope.itemsToSkip=0;
+            	 $scope.itemsToSkipCount=1;
+            	 $scope.lastItemDate="notAssigned";
        		  	 $scope.searchItems(); 
              }
              
