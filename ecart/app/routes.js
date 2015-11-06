@@ -840,54 +840,98 @@
 		// Search Items by Brand
 		app.post('/item/searchItemsByBrand', function(req, res) {
 			
-			
-			var db = req.db;
-			var mongo = req.mongo;
+		    var db = req.db;
+		    var mongo = req.mongo;
 			var ObjectID = mongo.ObjectID;
+			var itemsToSkip = parseInt(req.param("itemsToSkip"));
+			var searchMenuId = req.param("categoryId");
+			var sortString;
 			
-			if(req.body.catLevel =="1"){
-				if(req.body.lastItemDateByBrand =="notAssigned"){
-					
-					db.collection('item').count({categoryOneId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}},function (err, count){
-						if (err) throw err;
-						else{
-							
-							db.collection('item').find({categoryOneId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
-								 if (err) throw err;
-								 else res.json({items:items,itemCount:count});
-							});
-						}
-					});
-				}else{
-					
-					db.collection('item').find({categoryOneId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}, createdAt:{"$lt":new Date(req.body.lastItemDateByBrand)}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
-						 if (err) throw err;
-						 else res.json({items:items});
-					});
-				}
 			
+			if(req.param("sortCriteriaVal")==2){
+				//Alphabetically (A-Z)
+				sortString = 'name';
+			}else if(req.param("sortCriteriaVal")==3){
+				//Price (Low to High)
+				sortString ='sortPrice';
+			}else if(req.param("sortCriteriaVal")==4){
+				//Price (High to Low)
+				sortString = [['sortPrice', -1]];
 			}else{
+				// default sorting 
+				sortString = [['createdAt', -1]];
+			}
 			
-				if(req.body.lastItemDateByBrand =="notAssigned"){
+			if(req.param("catLevel")==1){
+			
+				if(itemsToSkip==0){
 					
-					db.collection('item').count({categoryTwoId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}},function (err, count){
+					db.collection('item').count({categoryOneId: ObjectID(searchMenuId),brand:{$in:req.body.category}},function (err, count){
 						if (err) throw err;
 						else{
 							
-							db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
+							db.collection('item').find({categoryOneId: ObjectID(searchMenuId),brand:{$in:req.body.category}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
 								 if (err) throw err;
 								 else res.json({items:items,itemCount:count});
 							});
 						}
 					});
+					
 				}else{
 					
-					db.collection('item').find({categoryTwoId: ObjectID(req.body.categoryId),brand:{$in:req.body.category}, createdAt:{"$lt":new Date(req.body.lastItemDateByBrand)}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.body.limit)).toArray(function (err, items) {
-						 if (err) throw err;
-						 else res.json({items:items});
-					});
+					if(req.param("sortCriteriaVal")==1){
+						
+						db.collection('item').find({categoryOneId: ObjectID(searchMenuId),brand:{$in:req.body.category},createdAt:{"$lt":new Date(req.param("lastItemDateByBrand"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}else{
+						
+						db.collection('item').find({categoryOneId: ObjectID(searchMenuId),brand:{$in:req.body.category}},{"sort" : sortString}).skip(itemsToSkip).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+					}
+					
+					
 				}
 				
+			}else{
+				
+				if(itemsToSkip==0){
+					db.collection('item').count({categoryTwoId: ObjectID(searchMenuId),brand:{$in:req.body.category}},function (err, count){
+					if (err) throw err.code;
+					else{
+							
+							db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),brand:{$in:req.body.category}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+								 if (err) throw err;
+								 else{
+									
+									 res.json({items:items,itemCount:count});
+								 }
+							});
+						}
+					});
+					
+				}else{
+					
+					if(req.param("sortCriteriaVal")==1){
+						
+						db.collection('item').find({categoryTwoId: ObjectID(searchMenuId), brand:{$in:req.body.category}, createdAt:{"$lt":new Date(req.param("lastItemDateByBrand"))}},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}else{
+						
+						db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),brand:{$in:req.body.category}},{"sort" : sortString}).skip(itemsToSkip).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else res.json({items:items});
+						});
+						
+					}
+				}	
 			}
 		});
 		

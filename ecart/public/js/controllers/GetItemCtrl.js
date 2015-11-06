@@ -142,27 +142,46 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
            			  categoryId:$scope.category,
            			  lastItemDateByBrand:$scope.lastItemDateByBrand, 
            			  limit:$scope.itemLimit,
-           			  catLevel:$scope.catLevel
+           			  catLevel:$scope.catLevel,
+           			  itemsToSkip:$scope.itemsToSkip,
+					  sortCriteriaVal:$scope.selectedSortCriteriaVal
            	  	 };
-           	  
-           	  	$http({
+            	 
+            	 $http({
                      url: '/item/searchItemsByBrand',
                      method: "POST",
 			         data: JSON.stringify(categoryData)
 			      }).success(function(data) {
-			    	  usSpinnerService.stop('spinner-1');
-			    	  if($scope.lastItemDateByBrand=="notAssigned"){
-	           		   $scope.itemCount=data.itemCount;
-	           		   $scope.showItemList=[];
-	           	   	  }
-               	   
-               	      $scope.showItemList = $scope.showItemList.concat(data.items);
-               	      $scope.lastItemDateByBrand = $scope.showItemList[$scope.showItemList.length-1].createdAt;
-               	   
-               	      if($scope.showItemList.length<$scope.itemCount) $scope.getMoreItemBtn=false;
-               	      else $scope.getMoreItemBtn=true;
-			    	  
-               	  }).error(function(data) {
+
+               	   if(data.items.length==0){
+               		   $scope.showItemGrid=false;
+               	   }else{
+               		   $scope.showItemGrid=true;
+               		   if($scope.itemsToSkip==0){
+                   		   $scope.itemCount=data.itemCount;
+                   		   $scope.showItemList=[];
+                   	   }
+               		   
+               		   
+                   	   
+                   	   $scope.showItemList = $scope.showItemList.concat(data.items);
+                   	   //$scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                   	   
+                   	   
+                   	   if($scope.showItemList.length<$scope.itemCount){
+                   		   $scope.getMoreItemBtn=false;
+                   		   $scope.itemsToSkip = $scope.itemsToSkipCount * $scope.itemLimit;
+                   		   $scope.itemsToSkipCount = $scope.itemsToSkipCount+1;
+                   		   $scope.lastItemDate = $scope.showItemList[$scope.showItemList.length-1].createdAt;
+                   	   }
+                   	   else{
+                   		   $scope.getMoreItemBtn=true;
+                   		   
+                   	   }
+               	   }
+               	   usSpinnerService.stop('spinner-1'); 
+               	  
+			      }).error(function(data) {
                          console.log('Error: ' + data);
                   }); 
              }
@@ -172,14 +191,16 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	  if($scope.brandsArray.indexOf(brandName)!= -1) $scope.brandsArray.splice($scope.brandsArray.indexOf(brandName),1)
             	  else $scope.brandsArray.push(brandName);
             	  if($scope.brandsArray.length>0){
+            		  $scope.itemsToSkip=0;
+                 	  $scope.itemsToSkipCount=1;
             		  $scope.lastItemDateByBrand="notAssigned";
                 	  $scope.searchItemsByBrand();   
             	  }else{
-            		  $scope.lastItemDate="notAssigned";
-            		  $scope.searchItems(); 
+            		  $scope.itemsToSkip=0;
+                 	  $scope.itemsToSkipCount=1;
+                 	  $scope.lastItemDate="notAssigned";
+            		  $scope.searchItems();
             	  }
-            	  
-            	 
              };
              
              $scope.selectedSortCriteria = function(sortCriteriaObj){
@@ -187,10 +208,18 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
             	 itemService.setSortCriteria(sortCriteriaObj.value);
             	 $scope.selectedSortCriteriaObj = $scope.sortCriteriaList[itemService.getSortCriteria()-1];
             	 $scope.selectedSortCriteriaVal = $scope.sortCriteriaList[itemService.getSortCriteria()-1].value;
-            	 $scope.itemsToSkip=0;
-            	 $scope.itemsToSkipCount=1;
-            	 $scope.lastItemDate="notAssigned";
-       		  	 $scope.searchItems(); 
+            	 
+            	 if($scope.brandsArray.length>0){
+           		  $scope.itemsToSkip=0;
+                	  $scope.itemsToSkipCount=1;
+           		  $scope.lastItemDateByBrand="notAssigned";
+               	  $scope.searchItemsByBrand();   
+           	  }else{
+           		  $scope.itemsToSkip=0;
+                	  $scope.itemsToSkipCount=1;
+                	  $scope.lastItemDate="notAssigned";
+           		  $scope.searchItems();
+           	  }
              }
              
              $scope.loadMoreItems = function(){
