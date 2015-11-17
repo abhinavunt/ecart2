@@ -1,5 +1,5 @@
 // public/js/controllers/MainCtrl.js
-angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function($scope,$http,ngDialog,usSpinnerService) {
+angular.module('AdminOrderCtrl', []).controller('AdminOrderController',['$scope','$http','ngDialog','usSpinnerService', function($scope,$http,ngDialog,usSpinnerService) {
 	
 	$scope.orderPerPageList = [{'order':10},{'order':20},{'order':30}];
 	$scope.searchCriteriaList = [{'criteria':'Last 3 days orders','value':3},{'criteria':'Last 7 days orders','value':7},{'criteria':'Last 30 days orders','value':30},{'criteria':'Choose Month..','value':4}];
@@ -284,4 +284,4 @@ angular.module('AdminOrderCtrl', []).controller('AdminOrderController', function
 	
 	
 	$scope.getOrderList($scope.orderPerPage,$scope.firstOrderDate,$scope.lastOrderDate,$scope.searchCriteriaVal,$scope.criteriaYear,$scope.criteriaMonth,"");
-});
+}]);

@@ -2,7 +2,7 @@
 app = angular.module('sampleApp', ['ngRoute','appRoutes','MenuCtrl','AdminChartCtrl','HomeCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ExpandItemCtrl','AdminFeedbackCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll','ngAnimate','angularSpinner']);
  
  
-app.service('shoppingCartService', function($cookieStore) {
+app.service('shoppingCartService',['$cookieStore', function($cookieStore) {
 		var productList;
 		var grandTotal;
 		var orderId ='';
@@ -101,9 +101,9 @@ app.service('shoppingCartService', function($cookieStore) {
            emptyCart:emptyCart
  
          };
-});
+}]);
 
-app.service('expandItemService', function($cookieStore) {
+app.service('expandItemService',['$cookieStore', function($cookieStore) {
 	
 	var itemObjectList=[];
 	var expandItemFlag;
@@ -185,7 +185,7 @@ app.service('expandItemService', function($cookieStore) {
 		
 	};
 	
-});
+}]);
 
 
 app.service('menuItemService', function() {

@@ -1,5 +1,5 @@
 
-angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlRouterProvider,$locationProvider) {
+angular.module('appRoutes', ['ui.router']).config(["$stateProvider", "$urlRouterProvider","$locationProvider",function($stateProvider, $urlRouterProvider,$locationProvider) {
 		
 		
 		$stateProvider
@@ -161,6 +161,6 @@ angular.module('appRoutes', ['ui.router']).config(function($stateProvider, $urlR
 
 	$locationProvider.html5Mode(true);
 
-});
+}]);
 
 	

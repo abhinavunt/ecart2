@@ -1,5 +1,5 @@
 
-angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http,ngDialog,$upload,usSpinnerService) {
+angular.module('ItemCtrl',[]).controller('ItemController',['$scope','$http','ngDialog','$upload','usSpinnerService', function($scope,$http,ngDialog,$upload,usSpinnerService) {
 	
 	$scope.submitButtonVal=false;
 	$scope.submitButtonValEdit=false;
@@ -831,4 +831,4 @@ angular.module('ItemCtrl',[]).controller('ItemController', function($scope,$http
 		var isNumber = function(n) {
 	    	  return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n) && n>=0;
 	    }
-});
+}]);

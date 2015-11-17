@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService,itemService) {
+angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$http','$window','$stateParams','expandItemService','usSpinnerService','itemService', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService,itemService) {
 			
 	 		$window.scrollTo(0, 50);
 			$scope.brandsArray=[];
@@ -232,4 +232,4 @@ angular.module('GetItemCtrl', []).controller('GetItemController', function($scop
              
              $scope.searchItems();
              $scope.searchBrands();
-});
+}]);

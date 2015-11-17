@@ -1,4 +1,4 @@
-angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController', function($scope,$http,usSpinnerService) {
+angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController',['$scope','$http','usSpinnerService', function($scope,$http,usSpinnerService) {
 	$scope.showItemList=[{"itemPerPage":"10 Users/Page","value":10},{"itemPerPage":"20 Users/Page","value":20},{"itemPerPage":"30 Users/Page","value":30}]
 	$scope.limitPerPage = $scope.showItemList[0].value;
 	$scope.firstUserDate = "notAssigned";
@@ -120,4 +120,4 @@ angular.module('RegisteredUsersCtrl', []).controller('RegisteredUsersController'
 	
 	$scope.searchUsers();
 	
-});
+}]);

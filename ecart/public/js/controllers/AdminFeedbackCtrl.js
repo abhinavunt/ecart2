@@ -1,4 +1,4 @@
-angular.module('AdminFeedbackCtrl',[]).controller('AdminFeedbackController', function($scope,$http,usSpinnerService) {
+angular.module('AdminFeedbackCtrl',[]).controller('AdminFeedbackController',['$scope','$http','usSpinnerService', function($scope,$http,usSpinnerService) {
 	
 	$scope.showFeedbackList=[{"feedbackPerPage":"10 Feedbacks/Page","value":10},{"feedbackPerPage":"20 Feedbacks/Page","value":20},{"feedbackPerPage":"30 Feedbacks/Page","value":30}]
 	$scope.limitPerPage = $scope.showFeedbackList[0].value;
@@ -119,4 +119,4 @@ angular.module('AdminFeedbackCtrl',[]).controller('AdminFeedbackController', fun
 	}
 	
 	$scope.searchFeedbacks();
-});
+}]);

@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('MenuCtrl', []).controller('MenuController', function($scope,$http,$state,$stateParams, $rootScope, ngDialog,menuItemService,expandItemService,usSpinnerService) {
+angular.module('MenuCtrl', []).controller('MenuController',['$scope','$http','$state','$stateParams', '$rootScope', 'ngDialog','menuItemService','expandItemService','usSpinnerService', function($scope,$http,$state,$stateParams, $rootScope, ngDialog,menuItemService,expandItemService,usSpinnerService) {
 
 	$scope.formData = {};
 	$scope.menulist=[];
@@ -436,4 +436,4 @@ angular.module('MenuCtrl', []).controller('MenuController', function($scope,$htt
 			
 		}
 		
-});
+}]);

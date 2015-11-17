@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('UserCtrl', []).controller('UserController', function($scope,$http,$state,ngDialog,$cookieStore) {
+angular.module('UserCtrl', []).controller('UserController',['$scope','$http','$state','ngDialog','$cookieStore', function($scope,$http,$state,ngDialog,$cookieStore) {
 	
 	$scope.user = {};
 	
@@ -219,4 +219,4 @@ angular.module('UserCtrl', []).controller('UserController', function($scope,$htt
 	}
 	
 	
-});
+}]);

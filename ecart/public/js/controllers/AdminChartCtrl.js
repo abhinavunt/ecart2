@@ -1,5 +1,5 @@
 
-angular.module('AdminChartCtrl',[]).controller('AdminChartController', function($scope,$http,$cookieStore,usSpinnerService) {
+angular.module('AdminChartCtrl',[]).controller('AdminChartController',['$scope','$http','$cookieStore','usSpinnerService', function($scope,$http,$cookieStore,usSpinnerService) {
 	
 	$scope.yearList = [];
 	for(var i=1;i>=0;i--){
@@ -191,4 +191,4 @@ angular.module('AdminChartCtrl',[]).controller('AdminChartController', function(
 	$scope.getChart($scope.initYear,$cookieStore.get('userType'));
     
     
-});
+}]);

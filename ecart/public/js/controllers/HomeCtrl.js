@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HomeCtrl', []).controller('HomeController', function($scope,$http,usSpinnerService) {
+angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','usSpinnerService', function($scope,$http,usSpinnerService) {
 	
 	$scope.addItemsIndex = 5;
 	
@@ -223,4 +223,4 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope,$htt
 
 	$scope.getLatestItems();
 	$scope.getOfferItems();
-});
+}]);

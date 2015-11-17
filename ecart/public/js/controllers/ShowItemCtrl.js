@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ShowItemCtrl', []).controller('ShowItemController', function($scope,$http,$state,shoppingCartService,expandItemService,menuItemService) {
+angular.module('ShowItemCtrl', []).controller('ShowItemController',['$scope','$http','$state','shoppingCartService','expandItemService','menuItemService', function($scope,$http,$state,shoppingCartService,expandItemService,menuItemService) {
 			
               
               $scope.products = shoppingCartService.getProducts();
@@ -128,4 +128,4 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController', function($sc
               }
               
            
-});
+}]);

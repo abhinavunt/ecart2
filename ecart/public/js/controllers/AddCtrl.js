@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('AddCtrl', []).controller('AddController', function($scope,$http,$location,ngDialog,$cookieStore,usSpinnerService) {
+angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$location','ngDialog','$cookieStore','usSpinnerService', function($scope,$http,$location,ngDialog,$cookieStore,usSpinnerService) {
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
@@ -243,6 +243,6 @@ angular.module('AddCtrl', []).controller('AddController', function($scope,$http,
     };
      
     
-});    
+}]);    
       
 

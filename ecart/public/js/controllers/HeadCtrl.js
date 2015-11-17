@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HeadCtrl', []).controller('HeadController', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService) {
+angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$state','$location','$cookieStore','ngDialog','shoppingCartService','menuItemService','expandItemService','usSpinnerService', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService) {
  
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
@@ -397,4 +397,4 @@ angular.module('HeadCtrl', []).controller('HeadController', function($scope,$htt
 	        else true;
        }
       
-});
+}]);

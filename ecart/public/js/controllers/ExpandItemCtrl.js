@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function($scope,$http,$window,$state,$stateParams,expandItemService,shoppingCartService) {
+angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope','$http','$window','$state','$stateParams','expandItemService','shoppingCartService', function($scope,$http,$window,$state,$stateParams,expandItemService,shoppingCartService) {
 	$window.scrollTo(0, 50);
 	$scope.addItemsIndex = 4;
 		
@@ -365,4 +365,4 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController', function
 	 
 	 $scope.getProductFromSameCat();
 	 $scope.getProductFromSameBrd();
-});
+}]);
