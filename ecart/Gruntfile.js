@@ -1,4 +1,4 @@
-module.exports = function(grunt){
+/*module.exports = function(grunt){
 	
 	grunt.initConfig({
 		
@@ -120,4 +120,4 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.registerTask('final', ['uncss', 'concat','uglify','cssmin','clean']);
 
-};
+};*/
