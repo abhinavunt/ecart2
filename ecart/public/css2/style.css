@@ -1429,6 +1429,14 @@ hr{
 	border-radius:0px;
 }
 
+.ftrdCatRow{
+	margin-bottom:20px;
+}
+
+.ftrdCath2{
+	margin-bottom:7px;
+}
+
 
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 
