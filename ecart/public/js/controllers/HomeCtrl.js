@@ -33,6 +33,8 @@ angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','us
         	 if(data.latestItems.length==0){
  				$scope.showLatestItemsPanel=false;
  				$scope.noLatestItemAvaiable=true;
+ 				$scope.nextLatestItemsBtn =true;
+ 				$scope.previousLatestItemsBtn =true;
  			}else{
         		 $scope.noLatestItemAvaiable=false;
         		 $scope.showLatestItemsPanel=true;
@@ -135,6 +137,8 @@ angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','us
 			if(data.offerItems.length==0){
 				$scope.showOfferListPanel=false;
  				$scope.noOfferItemAvaiable=true;
+ 				$scope.nextOfferItemsBtn =true;
+ 				$scope.previousOfferItemsBtn =true;
 			}else{
 				$scope.noOfferItemAvaiable=false;
 				$scope.showOfferListPanel=true;
