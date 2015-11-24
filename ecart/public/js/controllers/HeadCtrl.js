@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$state','$location','$cookieStore','ngDialog','shoppingCartService','menuItemService','expandItemService','usSpinnerService', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService) {
+angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$state','$location','$cookieStore','ngDialog','shoppingCartService','menuItemService','expandItemService','usSpinnerService','screenSize', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService,screenSize) {
  
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
@@ -7,7 +7,11 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$s
        $cookieStore.put('editUserFlip',false);
        $scope.darkOutBg = 'darkOut';
        
-       
+       if(screenSize.is('xs, sm')){
+    	   
+       }else if(screenSize.is('lg, md')){
+    	  
+       }
        
        if(typeof($cookieStore.get('grandTotal'))=='undefined'){
     	   $scope.grandTotal = 0;

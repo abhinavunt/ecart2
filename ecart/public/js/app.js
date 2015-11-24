@@ -1,5 +1,5 @@
 // public/js/app.js
-app = angular.module('sampleApp', ['ngRoute','appRoutes','MenuCtrl','AdminChartCtrl','HomeCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ExpandItemCtrl','AdminFeedbackCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll','ngAnimate','angularSpinner']);
+app = angular.module('sampleApp', ['ngRoute','appRoutes','MenuCtrl','AdminChartCtrl','HomeCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ExpandItemCtrl','AdminFeedbackCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll','ngAnimate','angularSpinner','matchMedia']);
  
  
 app.service('shoppingCartService',['$cookieStore', function($cookieStore) {
