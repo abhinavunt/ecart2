@@ -400,7 +400,7 @@
 			var ObjectID = mongo.ObjectID;
 			var levelOneObjectId = new ObjectID();
 			
-			db.collection('menu').update({_id:ObjectID(req.body.levelZeroId)},{ $addToSet: {sub:{_id:levelOneObjectId, name : nameVal}}},function(err, records) {
+			db.collection('menu').update({_id:ObjectID(req.body.levelZeroId)},{ $addToSet: {sub:{_id:levelOneObjectId, name : nameVal,itemCount:0}}},function(err, records) {
 				if (err) throw err;
 				else{
 					db.collection('submenu').insert({_id:levelOneObjectId, name:nameVal,supersub:[]},function(err2,records){
@@ -426,7 +426,7 @@
 			var levelTwoObjectId = new ObjectID();
 			var returnObject = {_id:levelTwoObjectId,name:nameVal};
 			
-			db.collection('submenu').update({_id:ObjectID(req.body.levelOneId)},{ $addToSet: {supersub:{_id:levelTwoObjectId, name : nameVal}}},function(err, records) {
+			db.collection('submenu').update({_id:ObjectID(req.body.levelOneId)},{ $addToSet: {supersub:{_id:levelTwoObjectId, name : nameVal, itemCount:0}}},function(err, records) {
 				if (err) throw err;
 				else{
 					res.json(returnObject);
@@ -966,8 +966,20 @@
 			//insert record
 			db.collection('item').insert(itemInfo, function(err, records) {
 				if (err) throw err;
-				console.log("Record added as "+records[0]);
-				res.json({"item":records[0]});
+				else{
+					
+					db.collection('menu').update({_id:ObjectID(req.body.categoryZeroId),'sub._id':ObjectID(req.body.categoryOneId)},{$inc:{'sub.$.itemCount':1}},function(err,records){
+						if (err) throw err;
+						else{
+							db.collection('submenu').update({_id:ObjectID(req.body.categoryOneId),'supersub._id':ObjectID(req.body.categoryTwoId)},{$inc:{'supersub.$.itemCount':1}},function(err,records){
+								if (err) throw err;
+								else{
+									res.json({"item":records[0]});
+								}
+							});	
+						}
+					});
+				}
 			});
 		});
 		
@@ -1027,15 +1039,34 @@
 			
 			var db = req.db;
 			var knox = req.knox;
+			var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			
+			console.log(req.body.itemId);
+			console.log(req.body.catZeroIdEdit);
+			console.log(req.body.catOneIdEdit);
+			console.log(req.body.catTwoIdEdit);
+			
 			db.collection('item').removeById(req.body.itemId,function(err,records) {
 			  if(err) throw err;
 		      else {
-		    	  var filePath = '/'+req.body.imageId;
-				  knox.deleteFile(filePath, function(err, result) {
-		    		   if(err) throw err;
-		    		   else res.json({"out":"removed"});  
-		    	  });
-		      }
+		    	  		db.collection('menu').update({_id:ObjectID(req.body.catZeroIdEdit),'sub._id':ObjectID(req.body.catOneIdEdit)},{$inc:{'sub.$.itemCount':-1}},function(err,records){
+		    			if (err) throw err;
+		    			else{
+		    				db.collection('submenu').update({_id:ObjectID(req.body.catOneIdEdit),'supersub._id':ObjectID(req.body.catTwoIdEdit)},{$inc:{'supersub.$.itemCount':-1}},function(err,records){
+		    					if (err) throw err;
+		    					else{
+		    						
+		    						var filePath = '/'+req.body.imageId;
+		    						  knox.deleteFile(filePath, function(err, result) {
+		    				    		   if(err) throw err;
+		    				    		   else res.json({"out":"removed"});  
+		    				    	});	
+		    					}
+		    				});	
+		    			}
+		    		});
+		    	}
 		   });
 		});
 		

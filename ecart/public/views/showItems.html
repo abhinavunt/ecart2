@@ -5,11 +5,11 @@
 			<div class="list-group">
 				<div data-ng-repeat="subMenu in sideMenu.sub">
 					<div class="list-group-item">
-						<label class="showPointer" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subMenu._id, catLevel:1, menuObj:sideMenu})">{{subMenu.name}}</label>
+						<label class="showPointer" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:subMenu._id, catLevel:1, menuObj:sideMenu})">{{subMenu.name}} ({{subMenu.itemCount}})</label>
 					</div>
 					<div class="list-group-item">
 						<div class="showPointer" data-ng-repeat="superSubMenu in subMenu.supersub" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:superSubMenu._id,catLevel:2, menuObj:sideMenu})">
-							{{superSubMenu.name}}
+							{{superSubMenu.name}} ({{superSubMenu.itemCount}})
 						</div>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 			<div ng-if="showItemGrid">
 				<div class="row" id="itemId">
 					<!-- Product #1 Starts -->
-				    <div class="item  col-md-1-5 col-lg-1-5" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
+				    <div class="item  col-md-1-5 col-lg-1-5 col-sm-3" data-ng-repeat="item in showItemList" ng-controller="ShowItemController">
 		            	
 		            	<div class="thumbnail">
 		            		

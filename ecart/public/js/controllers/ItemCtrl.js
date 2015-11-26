@@ -540,13 +540,13 @@ angular.module('ItemCtrl',[]).controller('ItemController',['$scope','$http','ngD
 	    	}
 	    };
 	    
-	    $scope.removeItem = function(editItemRowId,imageIdEdit){
+	   $scope.removeItem = function(editItemRowId,imageIdEdit){
 	    	$scope.editItemFailMessage ="";
 	    	usSpinnerService.spin('spinner-editItem');
 	    	$http({
 	  	            url: '/item/removeItem',
 	  	            method: "POST",
-	  	            data: {itemId:editItemRowId,imageId:imageIdEdit},
+	  	            data: {itemId:editItemRowId,imageId:imageIdEdit,catZeroIdEdit: $scope.catZeroIdEdit, catOneIdEdit: $scope.catOneIdEdit,catTwoIdEdit: $scope.catTwoIdEdit},
 	  	            headers: {'Content-Type': 'application/json'}
 	  	          }).success(function (data, status, headers, config,imageName) {
 	  	        	  	usSpinnerService.stop('spinner-editItem');
@@ -571,6 +571,7 @@ angular.module('ItemCtrl',[]).controller('ItemController',['$scope','$http','ngD
 	    
 	    		
 	    $scope.editItemOpenPopUp = function(item){
+	    		console.log(item);
 	    		$scope.editItemFailMessage="";
 	    		$scope.amountPriceRowEdit = [];
 	    		$scope.itemNameEdit = item.name;
@@ -585,7 +586,11 @@ angular.module('ItemCtrl',[]).controller('ItemController',['$scope','$http','ngD
 	    		$scope.removeButtonValEdit=false;
 	    		$scope.createdAt = item.createdAt;
 	    		
-	    		getCategory2(item._id);
+	    		$scope.catZeroIdEdit = item.categoryZeroId;
+	    		$scope.catOneIdEdit = item.categoryOneId;
+	    		$scope.catTwoIdEdit = item.categoryTwoId;
+	    		
+	              getCategory2(item._id);
 	    		
 	    		if($scope.isOfferCheckEdit){
 	    			

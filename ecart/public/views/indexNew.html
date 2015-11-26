@@ -315,7 +315,7 @@
 							<li class="dropdown-submenu" data-ng-repeat="submenu in oneMenu.sub">
 							  <a tabindex="-1" href="#" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:submenu._id,catLevel:1, menuObj:oneMenu})">{{submenu.name}}</a>
 							  <ul class="dropdown-menu supersubMenu">
-								<li data-ng-repeat="supersub in submenu.supersub"><a tabindex="-1" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}}</a></li>
+								<li data-ng-repeat="supersub in submenu.supersub"><a tabindex="-1" ui-sref-opts="{reload: true}" ui-sref="searchItems({category:supersub._id,catLevel:2, menuObj:oneMenu})">{{supersub.name}} ({{supersub.itemCount}})</a></li>
 								
 							  </ul>
 							</li>
