@@ -1,5 +1,5 @@
 // public/js/app.js
-app = angular.module('sampleApp', ['ngRoute','appRoutes','MenuCtrl','AdminChartCtrl','HomeCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ExpandItemCtrl','AdminFeedbackCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll','ngAnimate','angularSpinner','matchMedia']);
+app = angular.module('sampleApp', ['ngRoute','appRoutes','MenuCtrl','AdminChartCtrl','HomeCtrl','CompleteOrderCtrl','UserCtrl','RegisteredUsersCtrl','AdminOrderCtrl','AddCtrl','HeadCtrl','ItemCtrl','GetItemCtrl','ShowItemCtrl','ExpandItemCtrl','AdminFeedbackCtrl','ReviewOrderCtrl','PaymentGatewayCtrl','ngDialog','file-model','angularFileUpload','ngCookies','googlechart','infinite-scroll','ngAnimate','angularSpinner','matchMedia']);
  
  
 app.service('shoppingCartService',['$cookieStore', function($cookieStore) {
@@ -60,8 +60,8 @@ app.service('shoppingCartService',['$cookieStore', function($cookieStore) {
          var emptyCart = function(){
                productList.length=0;
                grandTotal =0;
-               $cookieStore.remove('productList');
-               $cookieStore.remove('grandTotal');
+               $cookieStore.put('grandTotal',0);
+               $cookieStore.put('productList',[]);
          }
         
          var setOrderId = function(data){

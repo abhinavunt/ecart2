@@ -80,6 +80,8 @@
 					"public/js/controllers/AdminChartCtrl.js",
 					"public/js/controllers/AdminOrderCtrl.js",
 					"public/js/controllers/AdminFeedbackCtrl.js",
+					"public/js/controllers/PaymentGatewayCtrl.js",
+					"public/js/controllers/ReviewOrderCtrl.js.js",
 					"public/js/appRoutes.js"
 				],
 			      dest: 'public/prod/scripts.js',

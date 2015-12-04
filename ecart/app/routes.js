@@ -1154,12 +1154,13 @@
             		mobileNo : req.body.mobileNo,
             		alternateNo : req.body.alternateNo,
             		address : req.body.address,
-					date : new Date(),
+					date : new Date(req.body.date),
+					deliveryDate: new Date(req.body.deliveryDate),
+					slot:req.body.slot,
 					grandTotal:req.body.grandTotal,
 					status:1,
 					statusClass:"danger",
 					order: req.body.order
-					
 			};
 			
 			db.collection('order').insert(orderInfo, function(err, records) {
@@ -1440,6 +1441,19 @@
 							 }
 					 	}); 
 				  }
+			});
+		});
+		
+		//create consolidated item list from order
+		app.get('/order/consolidatedItemList', function(req, res) {
+			var db = req.db;
+			db.collection('order').aggregate([{$unwind:"$order"},{ $group: { _id: {itemId:"$order.productId",itemName: "$order.itemName",brand:"$order.brand", amount:"$order.amount"}, count: {$sum: "$order.quantity"}}}],function(err, items) {
+				if (err) throw err;
+				else{
+					console.log(items);
+					res.json({itemList:items});
+					
+				}
 			});
 		});
 		

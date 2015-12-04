@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$state','$location','$cookieStore','ngDialog','shoppingCartService','menuItemService','expandItemService','usSpinnerService','screenSize', function($scope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService,screenSize) {
+angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope','$http','$state','$location','$cookieStore','ngDialog','shoppingCartService','menuItemService','expandItemService','usSpinnerService','screenSize', function($scope,$rootScope,$http,$state,$location,$cookieStore,ngDialog,shoppingCartService,menuItemService,expandItemService,usSpinnerService,screenSize) {
  
        $scope.tagline = 'Nothing beats a pocket protector!';
        $scope.products = shoppingCartService.getProducts();
@@ -180,12 +180,10 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$s
     	            scope: $scope,
     	            className: 'ngdialog-theme-default',
     	          });
-    		}else{
-    			
-    			$location.path("/reviewOrder");
-    		}
-       }
+    		}else $state.go('reviewOrder');
+    }
        
+      
        $scope.quantityList = [{quantity:1 },
                               {quantity:2 },
                               {quantity:3 },
@@ -394,6 +392,20 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$http','$s
         	   alert(data.response);
            }); 
        }
+     
+     $scope.generateConsolidatedItemList = function(){
+  	   
+  	   $http({
+             url: '/order/consolidatedItemList',
+             method: "GET"
+         }).success(function(data) {
+      	   alert("done");
+         }).error(function(data) {
+        	 alert("error");
+         }); 
+     }
+     
+     
        
        function validateEmail(email) {
 	       	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

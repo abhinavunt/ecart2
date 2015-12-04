@@ -42,7 +42,7 @@ angular.module('appRoutes', ['ui.router']).config(["$stateProvider", "$urlRouter
 		
 		
 		.state('paymentGateway', {
-			url:'/paymentGateway',
+			url:'/paymentGateway/:slot',
 			templateUrl: 'views/paymentGateway.html'
 			
 		})

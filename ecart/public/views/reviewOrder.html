@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="ReviewOrderController">
 	<div class="row">
 		<div class="col-lg-12">
 			<h4>Review Order</h4>
@@ -15,16 +15,16 @@
 	<div class="controls">
 	<div class="row">
    		<div class="col-lg-4">
-   		<p class="form-control-static"><b>Full Name: </b>{{user.fullName}}</p>
-   		<p class="form-control-static"><b>Email: </b>{{user.emailId}}</p>
+   		<p class="form-control-static"><b>Full Name: </b>{{reviewUser.fullName}}</p>
+   		<p class="form-control-static"><b>Email: </b>{{reviewUser.emailId}}</p>
    		</div>
    		<div class="col-lg-4">
-   		 <p class="form-control-static"><b>Mobile Number: </b>{{user.mobileNo}}</p>
-   		 <p class="form-control-static"><b>Alternate Number: </b>{{user.alternateNo}}</p>
+   		 <p class="form-control-static"><b>Mobile Number: </b>{{reviewUser.mobileNo}}</p>
+   		 <p class="form-control-static"><b>Alternate Number: </b>{{reviewUser.alternateNo}}</p>
    		</div>
    		<div class="col-lg-4">
    		<p class="form-control-static"><b>Delivery Address: </b></p>
-   		 <p class="form-control-static">{{user.address}}</p>
+   		 <p class="form-control-static">{{reviewUser.address}}</p>
    		</div>
   		
 	</div>
@@ -53,7 +53,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-ng-repeat="product in products">
+				<tr data-ng-repeat="product in reviewProducts">
 					<td>{{product.itemName}} ({{product.brand}})</td>
 					<td>{{product.amount}}</td>
 					<td>{{product.quantity}}</td>
@@ -65,14 +65,22 @@
 				<th></th>
 				<th></th>
 				<th>Grand Total</th>
-				<th>{{grandTotal}} Rs</th>
+				<th>{{reviewGrandTotal}} Rs</th>
 			</tr>
 		</table>
-		<div class="col-xs-9 col-md-9">
-			
+		<div class="col-xs-6 col-md-6">
+			<div style="color:red" class="pull-right">{{validateDeliSlotMsg}}</div>
 		</div>
 		<div class="col-xs-3 col-md-3">
-			<button ui-sref="paymentGateway" class="btn btn-success" ng-click=" ">Proceed to Payment</button>
+			<select class="form-control" 
+				
+                ng-model="deliverySlotObj"
+                ng-options="deliverySlot.slot disable when deliverySlot.disable=='Y' for deliverySlot in deliverySlotList"
+                ng-change="selectedDeliverySlot(deliverySlotObj)">
+        	</select>
+		</div>
+		<div class="col-xs-3 col-md-3">
+			<button class="btn btn-success" ng-disabled="deliverySlotObj.value==0" ng-click="proceedToPayment()">Proceed to Payment</button>
 		</div>
 	
 	</div>
