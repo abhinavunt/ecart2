@@ -6,6 +6,9 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
        $scope.user = $cookieStore.get('user');
        $cookieStore.put('editUserFlip',false);
        $scope.darkOutBg = 'darkOut';
+       $scope.showHeaderMenu = false;
+       
+      
        
        if(screenSize.is('xs, sm')){
     	   
@@ -393,24 +396,44 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
            }); 
        }
      
-     $scope.generateConsolidatedItemList = function(){
-  	   
-  	   $http({
-             url: '/order/consolidatedItemList',
-             method: "GET"
-         }).success(function(data) {
-      	   alert("done");
-         }).error(function(data) {
-        	 alert("error");
-         }); 
-     }
      
      
-       
-       function validateEmail(email) {
+     var flag;
+     $('html').on('mousewheel DOMMouseScroll', function (e) {
+         var delta = e.originalEvent.wheelDelta || e.originalEvent.detail;
+         if (flag != 1 && delta < 0) {
+             flag = 1;
+             $scope.showHeaderMenu = true;
+             console.log($scope.showHeaderMenu);
+         } else if (flag != 2 && delta > 0) {
+             flag = 2;
+             $scope.showHeaderMenu = false;
+             console.log($scope.showHeaderMenu);
+         }
+     });
+     
+     $(window).scroll(function () {
+         if ($(this).scrollTop() > 50) {
+             $('#back-to-top').fadeIn();
+         } else {
+             $('#back-to-top').fadeOut();
+         }
+     });
+     // scroll body to 0px on click
+     $('#back-to-top').click(function () {
+         $('#back-to-top').tooltip('hide');
+         $('body,html').animate({
+             scrollTop: 0
+         }, 500);
+         return false;
+     });
+     
+     $('#back-to-top').tooltip('show');
+     
+     function validateEmail(email) {
 	       	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	       	if (!filter.test(email))  return false;
 	        else true;
-       }
+     }
       
 }]);

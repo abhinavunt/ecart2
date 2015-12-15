@@ -1343,8 +1343,8 @@
 		app.get('/order/getChart', function(req, res) {
 			var db = req.db;
 			var year = req.param("year");
-			var start = new Date(year,1,1);
-			var end = new Date(year,12,31);
+			var start = new Date(year,0,1);
+			var end = new Date(year,11,31);
 			var userType = req.param("userType");
 			
 			if(userType=="admin"){
@@ -1446,14 +1446,16 @@
 		
 		//create consolidated item list from order
 		app.get('/order/consolidatedItemList', function(req, res) {
+			
+			var today = new Date(req.param("dateVal"));
+			var tomorrow = new Date((new Date(req.param("dateVal"))).setDate(new Date(req.param("dateVal")).getDate() + 1));
+			var start = new Date(today.getFullYear(),today.getMonth(),today.getDate());
+			var end = new Date(tomorrow.getFullYear(),tomorrow.getMonth(),tomorrow.getDate());
 			var db = req.db;
-			db.collection('order').aggregate([{$unwind:"$order"},{ $group: { _id: {itemId:"$order.productId",itemName: "$order.itemName",brand:"$order.brand", amount:"$order.amount"}, count: {$sum: "$order.quantity"}}}],function(err, items) {
+			db.collection('order').aggregate([{$unwind:"$order"},{$match:{'deliveryDate':{$gte: start, $lt: end},'slot':parseInt(req.param("slotVal"))}},{ $group: { _id: {itemId:"$order.productId",itemName: "$order.itemName",brand:"$order.brand", amount:"$order.amount",imageId:"$order.imageId"}, count: {$sum: "$order.quantity"}}}],function(err, items) {
 				if (err) throw err;
-				else{
-					console.log(items);
-					res.json({itemList:items});
-					
-				}
+				else res.json({itemList:items});
+				
 			});
 		});
 		

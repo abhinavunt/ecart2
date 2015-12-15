@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','usSpinnerService', function($scope,$http,usSpinnerService) {
+angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','usSpinnerService','$window', function($scope,$http,usSpinnerService,$window) {
 	
 	$scope.addItemsIndex = 5;
 	
@@ -223,6 +223,18 @@ angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','us
 		else $scope.previousOfferItemsBtn =true;
 		$scope.nextOfferItemsBtn =false;
 	}
+	
+	$scope.scrollToLatestItems = function(){
+		
+		$window.scrollTo(0, 1000);
+	}
+	
+	$scope.scrollToOfferItems = function(){
+		
+		$window.scrollTo(0, 1500);
+	}
+	
+	
 	
 
 	$scope.getLatestItems();

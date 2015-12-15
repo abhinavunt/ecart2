@@ -98,6 +98,15 @@ angular.module('appRoutes', ['ui.router']).config(["$stateProvider", "$urlRouter
 		
 			
 					})
+				
+				.state('adminPortal.slotItemsList', {
+					url:'/slotItemsList',
+					templateUrl: 'views/adminTemplates/consolidatedItems.html'
+	
+		
+				})
+					
+					
 				.state('adminPortal.chart', {
 						url:'/chart',
 						templateUrl: 'views/adminTemplates/chart.html',
