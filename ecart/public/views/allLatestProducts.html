@@ -1,0 +1,148 @@
+<div ng-controller="AllLatestProdsController">
+	<!-- <section class="products-list" id="lstItemsPanel">			
+		<h4 class="lstOfferProdsPanel">Latest Products</h4>
+	</section> -->
+	
+	<section class="products-list" id="lstItemsPanel" ng-hide="noLatestItemFlag">			
+			<div class="container">
+			<!-- Heading Starts -->
+				<h4 class="lstOfferProdsPanel">Latest Products</h4>
+				
+			<!-- Heading Ends -->
+			<!-- Products Row Starts -->
+				
+			<span us-spinner="{radius:27,lines:13, width:7, length: 18,scale:0.75}"  spinner-key="spinner-1"></span>	
+			<div class="row list-group lstprodsWidth">
+				<div id="itemId">
+				<!-- Product #1 Starts -->
+			    <div class="item  col-lg-1-5 col-sm-4" data-ng-repeat="item in itemListObj" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" ng-controller="ShowItemController">
+	            	
+	            	<div class="thumbnail">
+	            		
+	            		<div class="offerLabel" >
+	            			<span ng-show="amount.selected.OfferCheck==true" class="label label-danger">Offer</span>
+	            		</div>
+	            	
+	               <!-- <img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2H')"/> -->
+	             		<img style="width:250px; height:200px" ng-src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItem(item,'B2H')"/>
+		                
+		                <div ng-hide="item.availability=='yes'" class="outOfStockCap">
+				            <h4>Out of Stock</h4>
+				        </div>
+				        
+				        <fieldset ng-disabled="item.availability=='no'">
+			                <div class="caption">
+				                <div class="row">
+				                	<div class="col-md-12">
+				                		<div class="itemBrand">{{item.brand}}</div>
+				                	</div>
+				                </div>
+				                <div class="row">
+				                	<div class="col-md-12" id="permalink_section">
+				                		<div id="itemName" ng-click="item.availability=='no'||expandItem(item,'B2H')"">{{item.name}}</div>
+				            		</div>
+				                </div>
+			                	 
+			          			  <div class="row">
+				                  	 
+				                  	 <div class="col-md-7">
+				                          <select class="form-control input-sm" ng-init="amount.selected =item.amountprice[0]"
+				                              ng-model="amount.selected"
+				                              ng-options="amtPrice.Amount disable when amtPrice.Availability!='Available' for amtPrice in item.amountprice">
+				                          </select>
+				                     </div>
+				                     
+				                     <div class="col-md-5" ng-hide="amount.selected.OfferCheck==true">
+				                         <p>Rs. {{amount.selected.Price}}</p>  
+				                     </div>
+				                     
+				                     <div class="col-md-5" ng-show="amount.selected.OfferCheck==true">
+				                         <p>Rs. {{amount.selected.OfferPrice}}</p>  
+				                     </div>
+				                  </div>
+				                
+			                  	  <div class="mrp">
+			                 		 <div class="row" ng-show="amount.selected.OfferCheck==true">
+				                   		 <div class="col-md-7 text-right">
+				                  	 		<p>MRP:</p>
+				                 		 </div>
+						                 <div class="col-md-5">
+						                  	<div class="oldPrice">Rs. {{amount.selected.Price}}</div>
+					                  	 </div>
+			                  		</div>
+			                      </div>
+			                   
+				                  <div class="row" ng-hide="isSelected(amount.selected)">
+					                 <div class="col-md-2">
+					                 	<div>Qty</div> 
+					                 </div>
+				                     <div class="col-md-5">
+					                     
+				                                  <select class="form-control input-sm"
+				                                         ng-init="quantity.selected=quantityList[0]"
+				                                         ng-model="quantity.selected"
+				                                         ng-options="qnt.quantity for qnt in quantityList">
+				                                  </select>
+				                          
+					                      
+				                      </div>
+				                      <div class="col-md-5"  ng-hide="isSelected(amount.selected)">
+					                     <button class="btn btn-xs btn-success" data-ng-click="addToCart(amount.selected,quantity.selected,item)">Add <i class="fa fa-shopping-cart"></i></button>
+					                  </div>
+				                  </div>
+			                  
+			                  <div class="row" ng-show="isSelected(amount.selected)">
+			                     <div class="col-md-12">
+			                      <div class="input-group">
+			                         <span class="input-group-btn">
+			                              <button type="button" class="btn btn-sm btn-warning btn-number" data-ng-click="counterMinus()"  data-type="minus" data-field="quant[2]">
+			                                <span class="glyphicon glyphicon-minus"></span>
+			                              </button>
+			                         </span>
+			                         <input type="text" name="quant[2]" class="form-control input-sm input-number" ng-model="qnt" ng-init="initQnt()" min="1" max="100">
+			                        
+			                         <span class="input-group-btn">
+			                              <button type="button" class="btn btn-sm btn-success btn-number" data-ng-click="counterPlus()" data-type="plus" data-field="quant[2]">
+			                                  <span class="glyphicon glyphicon-plus"></span>
+			                              </button>
+			                         </span>
+			                      </div>
+			                     </div>
+			                  </div>
+			                  
+			                  <div class="saveStmt">
+				                  <div class="row" ng-show="amount.selected.OfferCheck==true">
+				                     <div class="col-md-12">
+				                      <p><i class="fa fa-money"></i> Save Rs. {{amount.selected.Price-amount.selected.OfferPrice}}</p>
+				                     </div>
+				                  </div>
+			                  </div>
+			               	</div>
+		                	</fieldset>
+	            		</div>
+	        		</div>
+				 </div>
+			  </div>
+ 				 
+ 				  
+ 				  
+ 				  <div ng-if="noLatestItemAvaiable">
+			      <div class="jumbotron">
+			      	<i class="fa fa-frown-o fa-3x"></i>
+					<h4 class="hidden-sm hidden-xs">No Latest Item Avaiable !!!</h4>
+			     </div>
+			  </div>
+ 				  
+			  </div>
+  				 
+  		</section>
+  		
+		<div ng-show="noLatestItemFlag">
+		`	<div class="container">
+		      <div class="jumbotron">
+		      	<i class="fa fa-frown-o fa-3x"></i>
+				<h4 class="hidden-sm hidden-xs">No Products Available !!!</h4>
+		     </div>
+		     </div>
+		 </div>				
+</div>

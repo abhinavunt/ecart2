@@ -54,6 +54,18 @@ angular.module('appRoutes', ['ui.router']).config(["$stateProvider", "$urlRouter
 			
 		})
 		
+		.state('allLatestProducts', {
+			url:'/allLatestProducts',
+			templateUrl: 'views/allLatestProducts.html'
+		})
+		
+		.state('allOfferProducts', {
+			url:'/allOfferProducts',
+			templateUrl: 'views/allOfferProducts.html'
+		})
+		
+		
+		
 		.state('adminPortal', {
 			url:'/adminPortal',
 			templateUrl: 'views/admin.html'

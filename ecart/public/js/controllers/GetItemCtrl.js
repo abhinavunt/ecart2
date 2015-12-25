@@ -6,7 +6,7 @@ angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$htt
 			$scope.getMoreItemBtn=true;
 			$scope.lastItemDate="notAssigned";
 			$scope.lastItemDateByBrand="notAssigned";
-			$scope.itemLimit=4;
+			$scope.itemLimit=40;
 			$scope.itemsToSkip=0;
 			$scope.itemsToSkipCount=1;
 			$scope.showItemList=[];

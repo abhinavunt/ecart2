@@ -769,6 +769,51 @@
 				}	
 			}
 		});
+	    
+	    
+	    app.get('/item/seeAllProducts', function(req, res) {
+			
+		    var db = req.db;
+		    var mongo = req.mongo;
+			var ObjectID = mongo.ObjectID;
+			var searchMenuId = req.param("category");
+			var sortString =[['createdAt', -1]];
+			
+			if(req.param("searchCriteria")=="latestItems"){
+				
+				db.collection('item').find({},{"sort" : sortString}).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+					 if (err) throw err;
+					 else res.json({items:items});
+				});
+			
+			}else if(req.param("searchCriteria")=="offerItems"){
+				var itemsToSkip = req.param("itemsToSkip");
+				if(itemsToSkip==0){
+					db.collection('item').count({isOfferCheck:"yes"},function (err, count){
+					if (err) throw err.code;
+					else{
+						 db.collection('item').find({isOfferCheck:"yes"},{"sort" : sortString}).skip(parseInt(itemsToSkip)).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+							 if (err) throw err;
+							 else{
+								
+								 res.json({items:items,itemCount:count});
+							 }
+						 });
+					   }
+					});
+					
+				}else{
+
+					 db.collection('item').find({isOfferCheck:"yes"},{"sort" : sortString}).skip(parseInt(req.param("itemsToSkip"))).limit(parseInt(req.param("limit"))).toArray(function (err, items) {
+						 if (err) throw err;
+						 else{
+							 res.json({items:items});
+						 }
+					 });
+				   
+			    }	
+			}
+		});
 		
 		// Search Latest Items
 		app.get('/item/getLatestItems', function(req, res) {
