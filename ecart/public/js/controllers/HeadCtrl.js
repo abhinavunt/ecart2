@@ -404,11 +404,10 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
          if (flag != 1 && delta < 0) {
              flag = 1;
              $scope.showHeaderMenu = true;
-             console.log($scope.showHeaderMenu);
+             
          } else if (flag != 2 && delta > 0) {
              flag = 2;
              $scope.showHeaderMenu = false;
-             console.log($scope.showHeaderMenu);
          }
      });
      
@@ -419,6 +418,20 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
              $('#back-to-top').fadeOut();
          }
      });
+     
+    
+     $scope.offSetTop = $("#main-menu").offset().top;
+     $(window).scroll(function(){
+    	 $scope.scrollPosition = $(window).scrollTop();
+    	 if($scope.scrollPosition>=$scope.offSetTop){
+    		 $("#main-menu").addClass("navbar-fixed-top");
+    	 }else{
+    		 $("#main-menu").removeClass("navbar-fixed-top"); 
+    	 }
+     });
+     
+    
+     
      // scroll body to 0px on click
      $('#back-to-top').click(function () {
          $('#back-to-top').tooltip('hide');

@@ -1,32 +1,55 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope','$http','$window','$state','$stateParams','expandItemService','shoppingCartService', function($scope,$http,$window,$state,$stateParams,expandItemService,shoppingCartService) {
+angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope','$http','$window','$state','$stateParams','expandItemService','shoppingCartService','menuItemService', function($scope,$http,$window,$state,$stateParams,expandItemService,shoppingCartService,menuItemService) {
 	$window.scrollTo(0, 50);
-	$scope.addItemsIndex = 4;
+	$scope.addItemsIndex = 5;
 		
 	$scope.itemSameCatShow = [];
 	$scope.startIndex = 0;
-	$scope.endIndex = 3;
+	$scope.endIndex = 4;
 	$scope.lastSameCatItemDate ="notAssigned";
 	$scope.maxLimit = 6;
 	$scope.itemSameCatMaxLimit=0;
 	
 	$scope.itemSameBrdShow = [];
 	$scope.startIndexBrd = 0;
-	$scope.endIndexBrd = 3;
+	$scope.endIndexBrd = 4;
 	$scope.lastSameBrdItemDate ="notAssigned";
 	$scope.maxLimitBrd = 6;
 	$scope.itemSameBrdMaxLimit=0;
+	
+	
+	
+	$scope.getSideMenuObject = function(){
+		if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'){
+	     	//$scope.sideMenu = expandItemService.getMenuObject();
+	     	$scope.itemObject = expandItemService.getItemObject();
+	     	
+	     	
+	     	$scope.catLevelZeroId = menuItemService.getCatLevelZeroId();
+			
+	    	$http.get('/menu/menulist').success(function(data) {
+	    		$scope.menuObject = data;
+	    		for(var i=0;i<$scope.menuObject.length;i++){
+	    			if($scope.menuObject[i]._id==$scope.catLevelZeroId){
+	    				$scope.sideMenu = $scope.menuObject[i];
+	    				break;
+	    			}
+	    		}
+	    		$scope.getBreadCrumeVal();
+	    	}).error(function(data) {
+	    			
+	    	});
+	     	
+	     }else{
+	     	$scope.sideMenu = $stateParams.menuObj;
+	     	$scope.itemObject = $stateParams.itemObj;
+	     	//expandItemService.setMenuObject($stateParams.menuObj);
+	     	expandItemService.setItemObject($stateParams.itemObj);
+	     	$scope.getBreadCrumeVal();
+	     }
+	}
 		
-	 if(typeof($stateParams.menuObj)=='string'|| typeof($stateParams.itemObj)=='string'){
-     	$scope.sideMenu = expandItemService.getMenuObject();
-     	$scope.itemObject = expandItemService.getItemObject();
-     	
-     }else{
-     	$scope.sideMenu = $stateParams.menuObj;
-     	$scope.itemObject = $stateParams.itemObj;
-     	expandItemService.setMenuObject($stateParams.menuObj);
-     	expandItemService.setItemObject($stateParams.itemObj);
-     }
+	 
 	
 	 $scope.categoryStr = expandItemService.getCategoryString();
 	 $scope.catLevel = expandItemService.getCategoryLevel();
@@ -58,10 +81,15 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope'
 	     		}
 	     	}
 	  }
+	 
+	 $scope.getBreadCrumeVal = function(){
+		
+		 if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
+		 else $scope.getBreadcrumbsLevelTwo(); 
+	 }
 	
 	 
-	if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
-	else $scope.getBreadcrumbsLevelTwo();
+	
      
     $scope.$watch('products', function() {
      if($scope.products.length>0){
@@ -165,19 +193,21 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope'
  	
 	 
 	$scope.getProductFromSameCat= function(){
-		
+		console.log("catLevel is:-"+$scope.catLevel);
 		$http({
              url: '/item/itemFromSameCategory',
              method: "GET",
-             params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
+             params: {category: $scope.categoryStr,catLevel:$scope.catLevel, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:(2*$scope.addItemsIndex)}
           }).success(function(data) {
         	
         	  	if(data.itemSameCat.length==0){
         	  		$scope.showItemsSameCatPanel=false;
+        	  		$scope.previousSameCatItemsBtn =true;
+        	  		$scope.nextSameCatItemsBtn =true;
         	  	}else{
         	  		$scope.showItemsSameCatPanel=true;
         	  		$scope.itemSameCatList = data.itemSameCat;
-    	  			$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
+        	  		$scope.lastSameCatItemDate=$scope.itemSameCatList[$scope.itemSameCatList.length-1].createdAt;
     	  			
     	  			if($scope.itemSameCatList.length<=$scope.endIndex){
     	  				for(var i=$scope.startIndex;i<$scope.itemSameCatList.length;i++){
@@ -218,7 +248,7 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope'
 			$http({
 	            url: '/item/itemFromSameCategory',
 	            method: "GET",
-	            params: {category: $scope.categoryStr, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:$scope.addItemsIndex}
+	            params: {category: $scope.categoryStr,catLevel:$scope.catLevel, excludeItemId:$scope.itemObject._id, lastSameCatItemDate:$scope.lastSameCatItemDate, limitPerSlide:$scope.addItemsIndex}
 	         }).success(function(data) {
 	 
 	        	if(data.itemSameCat.length==0){
@@ -275,6 +305,8 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope'
         	
         	  	if(data.itemSameBrd.length==0){
         	  		$scope.showItemsSameBrdPanel=false;
+        	  		$scope.previousSameBrdItemsBtn =true;
+        	  		$scope.nextSameBrdItemsBtn =true;
 	      	  	}else{
 	      	  		$scope.showItemsSameBrdPanel=true;
 		      	  	$scope.itemSameBrdList = data.itemSameBrd;
@@ -362,6 +394,8 @@ angular.module('ExpandItemCtrl', []).controller('ExpandItemController',['$scope'
 		else $scope.previousSameBrdItemsBtn =true;
 		$scope.nextSameBrdItemsBtn =false;
 	}
+	
+	 $scope.getSideMenuObject();
 	 
 	 $scope.getProductFromSameCat();
 	 $scope.getProductFromSameBrd();

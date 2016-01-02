@@ -1,7 +1,7 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$http','$window','$stateParams','expandItemService','usSpinnerService','itemService', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService,itemService) {
+angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$http','$window','$stateParams','expandItemService','usSpinnerService','itemService','menuItemService', function($scope,$http,$window,$stateParams,expandItemService,usSpinnerService,itemService,menuItemService) {
 			
-	 		$window.scrollTo(0, 50);
+		    $window.scrollTo(0, 50);
 			$scope.brandsArray=[];
 			$scope.getMoreItemBtn=true;
 			$scope.lastItemDate="notAssigned";
@@ -12,10 +12,14 @@ angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$htt
 			$scope.showItemList=[];
 			$scope.itemCount=0;
 			$scope.category = $stateParams.category;
-			$scope.catLevel = parseInt($stateParams.catLevel);
+			expandItemService.setCategoryLevel(parseInt($stateParams.catLevel));
+			$scope.catLevel = expandItemService.getCategoryLevel();
 			$scope.showItemGrid=true;
 			
-			$scope.itemToExpand = expandItemService.getItem();
+			
+			
+			//$scope.itemToExpand = expandItemService.getItem();
+			
 			expandItemService.setCategoryString($scope.category);
 			expandItemService.setCategoryLevel($scope.catLevel);
 			
@@ -23,17 +27,18 @@ angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$htt
 			$scope.selectedSortCriteriaObj = $scope.sortCriteriaList[itemService.getSortCriteria()-1];
 			$scope.selectedSortCriteriaVal = $scope.sortCriteriaList[itemService.getSortCriteria()-1].value;
 			
-			$scope.$watch('itemToExpand', function(item) {
+			/*$scope.$watch('itemToExpand', function(item) {
 				if(item.length>0){
 					$scope.expandedItem = item[0];
 					$scope.expandItemFlag= expandItemService.getExpandItemFlag();
 				}
-	        },true);
+	        },true);*/
 			
 			
 			
 	       //Search Items
 		   	$scope.searchItems = function(){
+		   		
 		   		usSpinnerService.spin('spinner-1');
 		   		$http({
                       url: '/item/searchItemsDisplay',
@@ -75,39 +80,65 @@ angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$htt
             	  
               };
               
-            if(typeof($stateParams.menuObj)=='string'){
-            	$scope.sideMenu = expandItemService.getMenuObject();
-            }else{
-            	$scope.sideMenu = $stateParams.menuObj;
-            	expandItemService.setMenuObject($stateParams.menuObj);
-			}
+              $scope.getBreadcrumbsLevelOne = function(){
+  	           	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+  	        		if($scope.sideMenu.sub[i]._id==$scope.category){
+          				$scope.catName = $scope.sideMenu.name;
+          				$scope.subCatName = $scope.sideMenu.sub[i].name;
+          				$scope.subCatId = $scope.sideMenu.sub[i]._id;
+          				break;
+  	        		}
+  	        	}
+  	         }
+  	       
+  		     $scope.getBreadcrumbsLevelTwo = function(){
+  		    	    outer_loop: 
+  		        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
+  		        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
+  		        			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.category){
+  		        				$scope.catName = $scope.sideMenu.name;
+  		        				$scope.subCatName = $scope.sideMenu.sub[i].name;
+  		        				$scope.subCatId = $scope.sideMenu.sub[i]._id;
+  		        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
+  		        				$scope.supSubCatId = $scope.sideMenu.sub[i].supersub[j]._id;
+  		        				break outer_loop;
+  		        			}
+  		        		}
+  		        	}
+  		      }
+              
+            $scope.getSideMenuObject = function(){
+            	
+            	if(typeof($stateParams.menuObj)=='string'){
+                	$scope.catLevelZeroId = menuItemService.getCatLevelZeroId();
+            		
+                	$http.get('/menu/menulist').success(function(data) {
+                		$scope.menuObject = data;
+                		for(var i=0;i<$scope.menuObject.length;i++){
+                			if($scope.menuObject[i]._id==$scope.catLevelZeroId){
+                				$scope.sideMenu = $scope.menuObject[i];
+                				break;
+                			}
+                		}
+                		$scope.getBreadCrumeVal();
+                	}).error(function(data) {
+                			
+                	});
+                	
+                }else{
+                	
+                	$scope.sideMenu = $stateParams.menuObj;
+                	menuItemService.setCatLevelZeroId($scope.sideMenu._id);
+                	$scope.getBreadCrumeVal();
+                	//expandItemService.setMenuObject($stateParams.menuObj);
+    			}
+            	
+            	
+            }
+              
             
-	        $scope.getBreadcrumbsLevelOne = function(){
-	           	for(var i=0;i<$scope.sideMenu.sub.length;i++){
-	        		if($scope.sideMenu.sub[i]._id==$scope.category){
-        				$scope.catName = $scope.sideMenu.name;
-        				$scope.subCatName = $scope.sideMenu.sub[i].name;
-        				$scope.subCatId = $scope.sideMenu.sub[i]._id;
-        				break;
-	        		}
-	        	}
-	         }
-	       
-		     $scope.getBreadcrumbsLevelTwo = function(){
-	            	outer_loop: 
-		        	for(var i=0;i<$scope.sideMenu.sub.length;i++){
-		        		for(var j=0;j<$scope.sideMenu.sub[i].supersub.length;j++){
-		        			if($scope.sideMenu.sub[i].supersub[j]._id==$scope.category){
-		        				$scope.catName = $scope.sideMenu.name;
-		        				$scope.subCatName = $scope.sideMenu.sub[i].name;
-		        				$scope.subCatId = $scope.sideMenu.sub[i]._id;
-		        				$scope.supSubCatName = $scope.sideMenu.sub[i].supersub[j].name;
-		        				$scope.supSubCatId = $scope.sideMenu.sub[i].supersub[j]._id;
-		        				break outer_loop;
-		        			}
-		        		}
-		        	}
-		      }
+            
+	        
            
            
             
@@ -227,9 +258,13 @@ angular.module('GetItemCtrl', []).controller('GetItemController',['$scope','$htt
             	else $scope.searchItems();
              }
              
-             if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
-             else $scope.getBreadcrumbsLevelTwo();
+             $scope.getBreadCrumeVal = function(){
+            	 if($scope.catLevel==1) $scope.getBreadcrumbsLevelOne();
+                 else $scope.getBreadcrumbsLevelTwo();
+            	 $scope.searchBrands();
+             }
              
+             $scope.getSideMenuObject();
              $scope.searchItems();
-             $scope.searchBrands();
+             
 }]);

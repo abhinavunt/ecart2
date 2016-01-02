@@ -109,10 +109,10 @@ angular.module('ShowItemCtrl', []).controller('ShowItemController',['$scope','$h
               }
               
               $scope.expandItemFromSearch = function(item,sideMenu,retState){
-            	  
+            	 
             	  expandItemService.setItem(item);
               	  expandItemService.setReturnState(retState);
-            	  $state.go('expandItem',{itemObj:item,menuObj:sideMenu});  
+            	  $state.go('expandItem',{itemObj:item,menuObj:sideMenu},{reload: true});  
               }
               
               

@@ -435,5 +435,5 @@ angular.module('MenuCtrl', []).controller('MenuController',['$scope','$http','$s
 			$state.go('searchItems', {category:categoryTwoId});
 			
 		}
-		
+
 }]);

@@ -187,8 +187,8 @@ app.service('expandItemService',['$cookieStore', function($cookieStore) {
 	
 }]);
 
+app.service('menuItemService',['$cookieStore', function($cookieStore) {
 
-app.service('menuItemService', function() {
 	var menuObject;
 	var darkOutVal='darkOut';
 	
@@ -198,6 +198,15 @@ app.service('menuItemService', function() {
 	
 	var getMenu = function(){
 		return menuObject;
+	}
+	
+	var setCatLevelZeroId = function(id){
+		
+		$cookieStore.put('catLevelZeroId',id);
+	}
+	
+	var getCatLevelZeroId = function(){
+		return $cookieStore.get('catLevelZeroId');
 	}
 	
 	var setDarkOutVal = function(darkOut){
@@ -212,9 +221,11 @@ app.service('menuItemService', function() {
 		setMenu:setMenu,
 		getMenu:getMenu,
 		getDarkOutVal:getDarkOutVal,
-		setDarkOutVal:setDarkOutVal
+		setDarkOutVal:setDarkOutVal,
+		getCatLevelZeroId:getCatLevelZeroId,
+		setCatLevelZeroId:setCatLevelZeroId
 	};
-});
+}]);
 
 app.service('itemService', function() {
 	

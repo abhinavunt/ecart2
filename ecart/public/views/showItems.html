@@ -70,7 +70,7 @@
 		            		</div>
 		            	
 		               <!-- <img style="width:250px; height:200px" src="https://res.cloudinary.com/dylc7fren/image/upload/v1442516903/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItemFromSearch(item,sideMenu,'B2S')"/> -->
-			                <img style="width:250px; height:165px" ng-src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItemFromSearch(item,sideMenu,'B2S')"/>
+			                <img class="img_md" ng-src="https://s3-ap-southeast-1.amazonaws.com/ecart-image-bucket/{{item.imageId}}" alt="" ng-class="{'fadeImage':item.availability=='no'}" ng-click="item.availability=='no'||expandItemFromSearch(item,sideMenu,'B2S')"/>
 			                <div ng-hide="item.availability=='yes'" class="outOfStockCap">
 					            <h4>Out of Stock</h4>
 					        </div>

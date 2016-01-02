@@ -1125,16 +1125,38 @@
 			
 			if(req.param("lastSameCatItemDate")=="notAssigned"){
 				
-				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId) }},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
-					   if(err) throw err;
-					   else res.json({"itemSameCat":itemSameCat});
-				});	
+				if(req.param("catLevel")==1){
+					
+					db.collection('item').find({categoryOneId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId) }},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+						   if(err) throw err;
+						   else res.json({"itemSameCat":itemSameCat});
+					});	
+					
+				}else if(req.param("catLevel")==2){
+					
+					db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId) }},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+						   if(err) throw err;
+						   else res.json({"itemSameCat":itemSameCat});
+					});	
+				}
+				
+				
 			}else{
 				
-				db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastSameCatItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
-					   if(err) throw err;
-					   else res.json({"itemSameCat":itemSameCat});
-				});	
+				if(req.param("catLevel")==1){
+					
+					db.collection('item').find({categoryOneId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastSameCatItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+						   if(err) throw err;
+						   else res.json({"itemSameCat":itemSameCat});
+					});
+					
+				}else if(req.param("catLevel")==2){
+					
+					db.collection('item').find({categoryTwoId: ObjectID(searchMenuId),_id: {'$ne':ObjectID(excludeItemId)},createdAt:{"$lt":new Date(req.param("lastSameCatItemDate"))}},{"sort" : [['createdAt', -1]]}).limit(parseInt(req.param("limitPerSlide"))).toArray(function (err, itemSameCat) {
+						   if(err) throw err;
+						   else res.json({"itemSameCat":itemSameCat});
+					});
+				}
 			}
 		});
 		

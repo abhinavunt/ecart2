@@ -239,4 +239,13 @@ angular.module('HomeCtrl', []).controller('HomeController',['$scope','$http','us
 
 	$scope.getLatestItems();
 	$scope.getOfferItems();
+	
+	$('a[data-slide="prev"]').click(function() {
+	  $('#main-carousel').carousel('prev');
+	});
+
+	$('a[data-slide="next"]').click(function() {
+	  $('#main-carousel').carousel('next');
+	});
+	
 }]);
