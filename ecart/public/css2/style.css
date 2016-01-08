@@ -1397,7 +1397,7 @@ hr{
 }
 
 .uiViewClass{
-	min-height:700px;
+	min-height:550px;
 }
 
 .centerBlock{
@@ -1575,7 +1575,13 @@ hr{
 	background: #337ab7;
 }
 
-
+.fixedTop{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top:0;
+  z-index: 1030;
+ }
 
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 

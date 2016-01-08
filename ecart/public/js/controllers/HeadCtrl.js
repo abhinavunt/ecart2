@@ -439,13 +439,21 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
      });
      
     
-     $scope.offSetTop = $("#main-menu").offset().top;
+     var offSetTop = $("#main-menu").offset().top;
+    /* $("#main-menu").wrap('<div class="nav-placeholder"></div>');
+     $(".nav-placeholder").height($("#main-menu").outerHeight());*/
+     
      $(window).scroll(function(){
-    	 $scope.scrollPosition = $(window).scrollTop();
-    	 if($scope.scrollPosition>=$scope.offSetTop){
-    		 $("#main-menu").addClass("navbar-fixed-top");
+    	 
+    	 
+    	 var scrollPosition = $(window).scrollTop();
+    	 if(scrollPosition>=offSetTop){
+    		 $("#main-menu").wrap('<div class="nav-placeholder"></div>');
+             $(".nav-placeholder").height($("#main-menu").outerHeight());
+    		 $("#main-menu").addClass("fixedTop");
     	 }else{
-    		 $("#main-menu").removeClass("navbar-fixed-top"); 
+    		 $("#main-menu").unwrap();
+    		 $("#main-menu").removeClass("fixedTop");
     	 }
      });
      
