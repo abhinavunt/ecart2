@@ -7,7 +7,10 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
        $cookieStore.put('editUserFlip',false);
        $scope.darkOutBg = 'darkOut';
        $scope.showHeaderMenu = false;
-       
+       $scope.extUserCheckout=false;
+       $scope.newUserCheckout=true;
+       $scope.guestUserCheckout=true;
+       $cookieStore.remove('guest');
       
        
        if(screenSize.is('xs, sm')){
@@ -47,6 +50,8 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
     	   }
        });
        
+      
+       
        $scope.$watch(function() { return $cookieStore.get('loggedIn') }, function() {
     	   if($cookieStore.get('loggedIn')==true){
     		   
@@ -73,7 +78,6 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
     	   }
        });
        
-      
        $scope.getAdminPage = function(){
     	   
     	   $http({
@@ -177,12 +181,13 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
        $scope.checkForReviw = function(){
     	  
     	  if($cookieStore.get('loggedIn')==false){
-    		 $scope.showLoginPage=true;
+    		/*$scope.showLoginPage=true;
     		 var dialog = ngDialog.open({
     	            template: 'views/loginOrSignupCheckout.html',
     	            scope: $scope,
-    	            className: 'ngdialog-theme-default',
-    	          });
+    	            className: 'ngdialog-theme-medium',
+    	          });*/
+    		  $state.go('loginOrSignupCheckout');
     		}else $state.go('reviewOrder');
     }
        
@@ -294,16 +299,30 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
        }
        
        $scope.submitOrder = function() {
-    	 var finalOrderObject = {
-    			 fullName: $cookieStore.get('user').fullName,
-                 emailId : $cookieStore.get('user').emailId,
-                 mobileNo : $cookieStore.get('user').mobileNo,
-                 alternateNo : $cookieStore.get('user').alternateNo,
-                 address : $cookieStore.get('user').address,
-                 date : new Date(),
-                 grandTotal: $cookieStore.get('grandTotal'),
-                 order: $scope.products
-    	  }
+    	   if(typeof($cookieStore.get('user'))=="undefined"){
+    		   var finalOrderObject = {
+    	    			 fullName: $cookieStore.get('guest').fullName,
+    	                 emailId : $cookieStore.get('guest').emailId,
+    	                 mobileNo : $cookieStore.get('guest').mobileNo,
+    	                 alternateNo : $cookieStore.get('guest').alternateNo,
+    	                 address : $cookieStore.get('guest').address,
+    	                 date : new Date(),
+    	                 grandTotal: $cookieStore.get('grandTotal'),
+    	                 order: $scope.products
+    	    	  }
+    	   }else{
+    		   var finalOrderObject = {
+    	    			 fullName: $cookieStore.get('user').fullName,
+    	                 emailId : $cookieStore.get('user').emailId,
+    	                 mobileNo : $cookieStore.get('user').mobileNo,
+    	                 alternateNo : $cookieStore.get('user').alternateNo,
+    	                 address : $cookieStore.get('user').address,
+    	                 date : new Date(),
+    	                 grandTotal: $cookieStore.get('grandTotal'),
+    	                 order: $scope.products
+    	    	  }
+    	   }
+    	 
     	 
     	$http({
 		   url: '/order/submitOrder',

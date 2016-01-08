@@ -174,6 +174,13 @@ angular.module('appRoutes', ['ui.router']).config(["$stateProvider", "$urlRouter
 		controller: 'GetItemController'
 		})
 		
+		.state('loginOrSignupCheckout', {
+		url:'/loginOrSignupCheckout',
+		templateUrl: 'views/loginOrSignupCheckout.html'
+		})
+		
+		
+		
 		.state('expandItem', {
 			url:'/expandItem/:itemObj?menuObj?retStat',
 			templateUrl: 'views/expandItem.html',

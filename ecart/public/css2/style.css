@@ -558,6 +558,7 @@ hr{
 		padding-top:20px;
 	}
 	.panel-smart{
+		
 		padding:20px;
 		background:#fff;
 		border:1px solid #e8e8e8;
@@ -1396,7 +1397,7 @@ hr{
 }
 
 .uiViewClass{
-	min-height:450px;
+	min-height:700px;
 }
 
 .centerBlock{
@@ -1553,6 +1554,28 @@ hr{
 	width:250px; 
 	height:200px;
 }
+
+.panel-primary {
+    border-color: rgba(158, 158, 158, 0.54);
+}
+
+#loginSignupUsers .panel-body{
+	padding-top: 0px;
+    padding-bottom: 5px;
+    background: #ff8080;
+    color: white;
+    cursor: pointer;
+}
+
+#loginSignupUsers h3{
+	color:white
+}
+
+#loginSignupUsers .clickedUser{
+	background: #337ab7;
+}
+
+
 
 .ngdialog .dialogwidth550 .ngdialog-content{width : 550px;}
 

@@ -1,6 +1,12 @@
 angular.module('ReviewOrderCtrl', []).controller('ReviewOrderController',['$scope','$http','usSpinnerService','shoppingCartService','$cookieStore','$state', function($scope,$http,usSpinnerService,shoppingCartService,$cookieStore,$state) {
 	 $scope.reviewProducts = shoppingCartService.getProducts();
-     $scope.reviewUser = $cookieStore.get('user');
+	
+	 if(typeof($cookieStore.get('user'))!='undefined'){
+		 $scope.reviewUser = $cookieStore.get('user');
+	 }else{
+		 $scope.reviewUser = $cookieStore.get('guest'); 
+	 }
+     
      $scope.reviewGrandTotal = $cookieStore.get('grandTotal');
 	 $scope.deliverySlotList = [{'slot':'-- Select Delivery Slot --','value':0},{'slot':'Today (between 10am to 1pm )','value':1,'disable':'N'},{'slot':'Today (between 5pm to 8pm )','value':2,'disable':'N'},{'slot':'Tomorrow (between 10am to 1pm)','value':3,'disable':'N'},{'slot':'Tomorrow (between 5pm to 8pm)','value':4,'disable':'N'}];
      $scope.deliverySlotObj = $scope.deliverySlotList[0];

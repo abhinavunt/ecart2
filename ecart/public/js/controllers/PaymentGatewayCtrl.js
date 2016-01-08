@@ -42,20 +42,32 @@ angular.module('PaymentGatewayCtrl', []).controller('paymentGatewayController',[
     		deliveryDateVal.setDate(deliveryDateVal.getDate() + 1);
     		var slotVal = 2;
     	}	
+    
+    	if(typeof($cookieStore.get('user'))=="undefined"){
+ 		   var finalOrderObject = {
+ 	    			 fullName: $cookieStore.get('guest').fullName,
+ 	                 emailId : $cookieStore.get('guest').emailId,
+ 	                 mobileNo : $cookieStore.get('guest').mobileNo,
+ 	                 alternateNo : $cookieStore.get('guest').alternateNo,
+ 	                 address : $cookieStore.get('guest').address,
+ 	                 date : new Date(),
+ 	                 grandTotal: $cookieStore.get('grandTotal'),
+ 	                 order: $scope.products
+ 	    	  }
+ 	   }else{
+ 		   var finalOrderObject = {
+ 	    			 fullName: $cookieStore.get('user').fullName,
+ 	                 emailId : $cookieStore.get('user').emailId,
+ 	                 mobileNo : $cookieStore.get('user').mobileNo,
+ 	                 alternateNo : $cookieStore.get('user').alternateNo,
+ 	                 address : $cookieStore.get('user').address,
+ 	                 date : new Date(),
+ 	                 grandTotal: $cookieStore.get('grandTotal'),
+ 	                 order: $scope.products
+ 	    	  }
+ 	   }
     	
-    	
-   	 var finalOrderObject = {
-   			fullName: $cookieStore.get('user').fullName,
-            emailId : $cookieStore.get('user').emailId,
-            mobileNo : $cookieStore.get('user').mobileNo,
-            alternateNo : $cookieStore.get('user').alternateNo,
-            address : $cookieStore.get('user').address,
-            date : new Date(),
-            deliveryDate : deliveryDateVal,
- 			slot:slotVal,
-            grandTotal: $cookieStore.get('grandTotal'),
-            order: shoppingCartService.getProducts()
-   	  }
+   	 
    	 
    	  $http({
 		   url: '/order/submitOrder',

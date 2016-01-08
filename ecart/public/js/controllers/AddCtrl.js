@@ -1,5 +1,5 @@
 // public/js/controllers/NerdCtrl.js
-angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$location','ngDialog','$cookieStore','usSpinnerService', function($scope,$http,$location,ngDialog,$cookieStore,usSpinnerService) {
+angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$location','$state','ngDialog','$cookieStore','usSpinnerService', function($scope,$http,$location,$state,ngDialog,$cookieStore,usSpinnerService) {
 
 	$scope.formData = {};
 	$scope.signUpBtnDisable = false;
@@ -78,10 +78,10 @@ angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$loc
 		   		$scope.loginFailMessage="";
 		   		
 		   		if(checkout=='checkout') {
-		   			$scope.closeThisDialog();
-		   			$location.path("/reviewOrder");
+		   			
+		   			$state.go("reviewOrder");
 		   		}
-		   		else $location.path("/");
+		   		else $state.go("home");
         	}
         	  
           }).error(function (data, status, headers, config) {
@@ -91,6 +91,53 @@ angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$loc
     	}
 		
     };
+    
+    $scope.guestCheckout = function(){
+    	
+    	$scope.guestCheckoutFailMessage="";
+    	
+    	if( typeof($scope.userForm.fullName)=='undefined'||$scope.userForm.fullName==''||
+    		typeof($scope.userForm.mobileNo)=='undefined'||$scope.userForm.mobileNo==''||
+			typeof($scope.userForm.address)=='undefined'||$scope.userForm.address=='')
+			
+    	{
+    		$scope.guestCheckoutFailMessage = "Required(*) field/(s) are missing !!!";
+    		return false;
+    	}
+    	
+    	else if($scope.userForm.fullName.length<3){
+    		$scope.guestCheckoutFailMessage = "Your Full Name should contain atleast 3 characters!!!";
+    		return false;
+    	}
+    		
+    	else if(isNaN($scope.userForm.mobileNo)){
+    		
+    		$scope.guestCheckoutFailMessage = "Mobile No. must be digits !!!";
+    		return false;
+    	}
+    	
+    	else if($scope.userForm.mobileNo.length!=10){
+    		$scope.guestCheckoutFailMessage = "Mobile No. must contain 10 digits !!!";
+    		return false;
+    	}
+    	
+    	else{
+    		
+    		guestData = {
+    				fullName : $scope.userForm.fullName,
+    				emailId : "Not Applicable",
+    				mobileNo : $scope.userForm.mobileNo,
+    				alternateNo : "Not Applicable",
+    				address : $scope.userForm.address
+    		}
+    		
+    		$cookieStore.put('guest',guestData);
+    		$scope.guestCheckoutFailMessage="";
+    		$state.go("reviewOrder");
+    	}
+    	
+    	
+    }
     
     $scope.login = function(checkout){
     	$scope.loginFailMessage="";
@@ -125,10 +172,10 @@ angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$loc
     		   		$cookieStore.put('user',data.user);
     		   		$scope.loginFailMessage="";
     		   		if(checkout=='checkout') {
-    		   			$scope.closeThisDialog();
-    		   			$location.path("/reviewOrder");
+    		   			
+    		   			$state.go("reviewOrder");
     		   		}
-    		   		else $location.path("/");
+    		   		else $state.go("home");
     		   		
     		   		
     		   	}else{

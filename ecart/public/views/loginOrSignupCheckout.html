@@ -1,18 +1,138 @@
-<div class="bs-docs-section" ng-controller="AddController">
-        <div class="row">
+<div class="container">
+	<div class="bs-docs-section" ng-controller="AddController">
+		<div class="row">
           <div class="col-lg-12">
-            <div class="page-header">
-              <h2 id="forms">Please Login or Sign Up to complete your order !!!</h2>
-            </div>
+           
+              <h2 id="forms">Please Login/Sign Up or choose Guest Checkout to complete your order !!!</h2>
+            
           </div>
         </div>
-
-        <div class="row" ng-hide="showLoginPage">
-          <div class="col-sm-6">
+        <div class="row" ng-hide="extUserCheckout">
+	        <div class="col-lg-3" id="loginSignupUsers">
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body clickedUser" ng-click="extUserCheckout=false;newUserCheckout=true;guestUserCheckout=true">
+							<h3>Existing User</h3>
+						    <p>Login</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=true;newUserCheckout=false;guestUserCheckout=true">
+						    <h3>New User</h3>
+						    <p>SignUp / Register</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+			     <div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=true;newUserCheckout=true;guestUserCheckout=false">
+						    <h3>Guest Checkout</h3>
+						    <p>No Login/SignUp Required</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+	        </div>
+        	<div class="col-sm-7">
 					<!-- Registration Block Starts -->
 						<div class="panel panel-smart">
 							<div class="panel-heading">
-								<h3 class="panel-title">Personal Information</h3>
+								<h3 class="panel-title">Existing User/ Login</h3>
+							</div>
+							
+			                <div class="msg-block" ng-show="myForm.$error">
+							  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+							    Passwords don't match.
+							  </span>
+							</div>
+							<div class="panel-body">
+							<!-- Registration Form Starts -->
+								<form class="form-horizontal" role="form">
+								<!-- Personal Information Starts -->
+									<div class="form-group required">
+										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="loginEmainId" placeholder="Email">
+										</div>
+									</div>
+									<div class="form-group required">
+										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" ng-model="loginPassword" placeholder="Password">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-3">
+											<button class="btn btn-success btn-sm" data-ng-click="login('checkout')">
+												Login
+											</button>
+											<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '80%'}" spinner-key="spinner-login" class="ng-scope"></span>
+										</div>
+										<div class="col-sm-6">
+											
+											<a class="showPointer" data-ng-click="forgotPasswordOpen()">Forgot password?</a>
+											
+										</div>
+										
+									</div>
+								<!-- Password Area Ends -->
+								</form>
+							<!-- Registration Form Starts -->
+							</div>
+							<div style="color:red">{{loginFailMessage}}</div>						
+						</div>
+					<!-- Registration Block Ends -->
+					</div>
+					<div class="col-lg-2">
+				</div>
+			</div>
+			
+			<div class="row" ng-hide="newUserCheckout">
+	        <div class="col-lg-3" id="loginSignupUsers">
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=false;newUserCheckout=true;guestUserCheckout=true">
+							<h3>Existing User</h3>
+						    <p>Login</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body clickedUser" ng-click="extUserCheckout=true;newUserCheckout=false;guestUserCheckout=true">
+						    <h3>New User</h3>
+						    <p>SignUp / Register</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+			     <div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=true;newUserCheckout=true;guestUserCheckout=false">
+						    <h3>Guest Checkout</h3>
+						    <p>No Login/SignUp Required</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+	        </div>
+        	<div class="col-sm-7">
+					<!-- Registration Block Starts -->
+						<div class="panel panel-smart">
+							
+							<div class="panel-heading">
+								<h3 class="panel-title">New User / SignUp</h3>
 							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
@@ -76,23 +196,7 @@
 											<input type="password" class="form-control" ng-model="userForm.rePassword"  placeholder="Re-Password">
 										</div>
 									</div>
-									<div class="form-group">
-										<span class="col-sm-3 control-label">Newsletter :</span>
-										<div class="col-sm-9">
-											<div class="radio">
-												<label>
-													<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-													Subscribe
-												</label>
-											</div>
-											<div class="radio">
-												<label>
-													<input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
-													Unsubscribe
-												</label>
-											</div>
-										</div>
-									</div>
+									
 									<div class="form-group">
 										<div class="col-sm-offset-3 col-sm-9">
 											<div class="checkbox">
@@ -107,6 +211,7 @@
 											<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="submit('checkout')">
 												Register
 											</button>
+											<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '35%'}" spinner-key="spinner-signup"></span>
 										</div>
 									</div>
 								<!-- Password Area Ends -->
@@ -117,127 +222,107 @@
 						</div>
 					<!-- Registration Block Ends -->
 					</div>
-          			<div class="col-sm-6">
-					<!-- Guest Checkout Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Are you a Registered Member ?
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									
-								</p>
-								<button class="btn btn-warning" ng-click="loginSignUpSwitch('login')">Member Login</button>
-							</div>
+					<div class="col-lg-2">
+				</div>
+			</div>
+			
+			<div class="row" ng-hide="guestUserCheckout">
+	        <div class="col-lg-3" id="loginSignupUsers">
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=false;newUserCheckout=true;guestUserCheckout=true">
+							<h3>Existing User</h3>
+						    <p>Login</p>
+						  </div>
 						</div>
-					<!-- Guest Checkout Panel Ends -->
-					<!-- Conditions Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Conditions
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including  versions of Lorem Ipsum.
-								</p>
-								<ol>
-								  <li>Lorem ipsum dolor sit amet</li>
-								  <li>Consectetur adipiscing elit</li>
-								  <li>Integer molestie lorem at massa</li>
-								  <li>Facilisis in pretium nisl aliquet</li>
-								  <li>Nulla volutpat aliquam velit</li>
-								  <li>Faucibus porta lacus fringilla vel</li>
-								  <li>Aenean sit amet erat nunc</li>
-								  <li>Eget porttitor lorem</li>
-								</ol>
-								<p>
-									HTML Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. 
-								</p>
-								<p>
-									Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. 
-								</p>
-								<p>
-									Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. 
-								</p>
-								<p>
-									Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. 
-								</p>
-							</div>
-						</div>
-					<!-- Conditions Panel Ends -->
 					</div>
-        </div>
-        
-        
-        <div class="row" ng-show="showLoginPage">
-					<div class="col-sm-6">
+			     </div>
+	        	<div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body" ng-click="extUserCheckout=true;newUserCheckout=false;guestUserCheckout=true">
+						    <h3>New User</h3>
+						    <p>SignUp / Register</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+			     <div class="row">
+	        		<div class="col-lg-12">
+		        		<div class="panel panel-default">
+						  <div class="panel-body clickedUser" ng-click="extUserCheckout=true;newUserCheckout=true;guestUserCheckout=false">
+						    <h3>Guest Checkout</h3>
+						    <p>No Login/SignUp Required</p>
+						  </div>
+						</div>
+					</div>
+			     </div>
+	        </div>
+        	<div class="col-sm-7">
 					<!-- Registration Block Starts -->
 						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">Login Information</h3>
-							</div>
 							
-			                <div class="msg-block" ng-show="myForm.$error">
-							  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
-							    Passwords don't match.
-							  </span>
+							<div class="panel-heading">
+								<h3 class="panel-title">Guest Checkout</h3>
 							</div>
 							<div class="panel-body">
 							<!-- Registration Form Starts -->
-								<form class="form-horizontal" role="form">
+								<form name="userForm" class="form-horizontal" role="form">
 								<!-- Personal Information Starts -->
 									<div class="form-group required">
-										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" ng-model="loginEmainId" placeholder="Email">
+											<input type="text" class="form-control" ng-model="userForm.fullName"  placeholder="Full Name">
 										</div>
 									</div>
+									
+									
+									
+									
 									<div class="form-group required">
-										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+										<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
 										<div class="col-sm-9">
-											<input type="password" class="form-control" ng-model="loginPassword" placeholder="Password">
+											<input type="text" class="form-control" ng-model="userForm.mobileNo"  placeholder="Phone">
+										</div>
+									</div>
+									
+								
+									
+									<div class="form-group required">
+										<label class="col-lg-3 control-label">Address</label>
+										<div class="col-lg-9">
+											<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
+											<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-9">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" ng-model="agreeCheck"> I have read and agreed on Conditions
+												</label>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-offset-3 col-sm-3">
-											<button class="btn btn-success btn-sm" data-ng-click="login('checkout')">
-												Login
+										<div class="col-sm-offset-3 col-sm-9">
+											<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="guestCheckout()">
+												Proceed
 											</button>
-											
 										</div>
-										<div class="col-sm-6">
-											
-											<a href="#">Forgot password?</a>
-											
-										</div>
-										
 									</div>
 								<!-- Password Area Ends -->
 								</form>
 							<!-- Registration Form Starts -->
 							</div>
-							<div style="color:red">{{loginFailMessage}}</div>						
+							<div style="color:red">{{guestCheckoutFailMessage}}</div>							
 						</div>
 					<!-- Registration Block Ends -->
 					</div>
-					<div class="col-sm-6">
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Create New Account
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-								Registration allows you to avoid filling in billing and shipping forms every time you checkout on this website	
-								</p>
-								<button class="btn btn-warning" ng-click="loginSignUpSwitch('signup')">Register</button>
-							</div>
-						</div>
-					</div>
+					<div class="col-lg-2">
 				</div>
-      </div>
+			</div>
+	</div>
+</div>
