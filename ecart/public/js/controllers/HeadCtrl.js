@@ -439,15 +439,16 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
      });
      
     
-     var offSetTop = $("#main-menu").offset().top;
+     
     /* $("#main-menu").wrap('<div class="nav-placeholder"></div>');
      $(".nav-placeholder").height($("#main-menu").outerHeight());*/
+     $scope.offSetTop = $("#main-menu").offset().top;
      
      $(window).scroll(function(){
     	 
     	 
     	 var scrollPosition = $(window).scrollTop();
-    	 if(scrollPosition>=offSetTop){
+    	 if(scrollPosition>=$scope.offSetTop){
     		 $("#main-menu").wrap('<div class="nav-placeholder"></div>');
              $(".nav-placeholder").height($("#main-menu").outerHeight());
     		 $("#main-menu").addClass("fixedTop");

@@ -21,11 +21,11 @@ angular.module('ReviewOrderCtrl', []).controller('ReviewOrderController',['$scop
      }
 	 
 	 $scope.updateDeliverySlotValidate = function(hour){
-		   if(hour>8 && hour<=15 && $scope.deliverySlotObj.value!=3 && $scope.deliverySlotObj.value!=4){
+		   if(hour>8 && hour<=15 && $scope.deliverySlotObj.value==1){
 	  		 $scope.deliverySlotList[1].disable='Y';
 	  		 $scope.deliverySlotObj = $scope.deliverySlotList[0];
 	  		 $scope.validateDeliSlotMsg = "Please re-select the delivery slot !!!"
-	  	   }else if(hour>15 && $scope.deliverySlotObj.value!=3 && $scope.deliverySlotObj.value!=4){
+	  	   }else if(hour>15 && ($scope.deliverySlotObj.value==1 || $scope.deliverySlotObj.value==2)){
 			 $scope.deliverySlotList[1].disable='Y';
 			 $scope.deliverySlotList[2].disable='Y';
 			 $scope.deliverySlotObj = $scope.deliverySlotList[0];
@@ -42,13 +42,13 @@ angular.module('ReviewOrderCtrl', []).controller('ReviewOrderController',['$scop
      }
      
      $scope.proceedToPayment = function(){
-    	 
+    	
     	 $scope.updateDeliverySlotValidate(new Date().getHours());
     	 
     	 
      }
      
      $scope.updateDeliverySlot(new Date().getHours());
-    // $scope.updateDeliverySlot(9); 
+   
 	
 }]);

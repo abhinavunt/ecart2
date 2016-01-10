@@ -1562,7 +1562,7 @@ hr{
 #loginSignupUsers .panel-body{
 	padding-top: 0px;
     padding-bottom: 5px;
-    background: #ff8080;
+    background: rgba(51, 122, 183, 0.47);
     color: white;
     cursor: pointer;
 }
