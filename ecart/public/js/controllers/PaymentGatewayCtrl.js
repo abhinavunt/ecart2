@@ -50,7 +50,9 @@ angular.module('PaymentGatewayCtrl', []).controller('paymentGatewayController',[
  	                 mobileNo : $cookieStore.get('guest').mobileNo,
  	                 alternateNo : $cookieStore.get('guest').alternateNo,
  	                 address : $cookieStore.get('guest').address,
+ 	                 slot: slotVal,
  	                 date : new Date(),
+ 	                 deliveryDate: deliveryDateVal,
  	                 grandTotal: $cookieStore.get('grandTotal'),
  	                 order: $scope.products
  	    	  }
@@ -61,7 +63,9 @@ angular.module('PaymentGatewayCtrl', []).controller('paymentGatewayController',[
  	                 mobileNo : $cookieStore.get('user').mobileNo,
  	                 alternateNo : $cookieStore.get('user').alternateNo,
  	                 address : $cookieStore.get('user').address,
+ 	                 slot: slotVal,
  	                 date : new Date(),
+ 	                 deliveryDate: deliveryDateVal,
  	                 grandTotal: $cookieStore.get('grandTotal'),
  	                 order: $scope.products
  	    	  }
