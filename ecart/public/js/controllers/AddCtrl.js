@@ -5,6 +5,10 @@ angular.module('AddCtrl', []).controller('AddController',['$scope','$http','$loc
 	$scope.signUpBtnDisable = false;
 	$scope.step1block = false;
 	$scope.step2block = true;
+	
+	$scope.signinTab = false;
+	$scope.signupTab = true;
+	$scope.guestTab = true;
 
     $scope.submit = function(checkout){
     	

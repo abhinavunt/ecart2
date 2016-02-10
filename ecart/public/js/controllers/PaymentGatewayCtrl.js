@@ -3,7 +3,7 @@ angular.module('PaymentGatewayCtrl', []).controller('paymentGatewayController',[
 	
 	
 	
-	$scope.paymentMode="";
+	$scope.paymentMode="debit";
 	
 	//month list for payment gateway page
     var months = [{"selectMonth":"01(Jan)"},{"selectMonth":"02(Fab)"},{"selectMonth":"03(Mar)"},

@@ -1,5 +1,5 @@
-<div class="container">
-	<div class="bs-docs-section" ng-controller="AddController">
+<div class="container" ng-controller="AddController">
+	<!-- <div class="bs-docs-section" ng-controller="AddController">
 		<div class="row">
           <div class="col-lg-12">
            
@@ -41,7 +41,7 @@
 			     </div>
 	        </div>
         	<div class="col-sm-7">
-					<!-- Registration Block Starts -->
+					Registration Block Starts
 						<div class="panel panel-smart">
 							<div class="panel-heading">
 								<h3 class="panel-title">Existing User/ Login</h3>
@@ -53,9 +53,9 @@
 							  </span>
 							</div>
 							<div class="panel-body">
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 								<form class="form-horizontal" role="form">
-								<!-- Personal Information Starts -->
+								Personal Information Starts
 									<div class="form-group required">
 										<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
 										<div class="col-sm-9">
@@ -82,13 +82,13 @@
 										</div>
 										
 									</div>
-								<!-- Password Area Ends -->
+								Password Area Ends
 								</form>
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 							</div>
 							<div style="color:red">{{loginFailMessage}}</div>						
 						</div>
-					<!-- Registration Block Ends -->
+					Registration Block Ends
 					</div>
 					<div class="col-lg-2">
 				</div>
@@ -128,16 +128,16 @@
 			     </div>
 	        </div>
         	<div class="col-sm-7">
-					<!-- Registration Block Starts -->
+					Registration Block Starts
 						<div class="panel panel-smart">
 							
 							<div class="panel-heading">
 								<h3 class="panel-title">New User / SignUp</h3>
 							</div>
 							<div class="panel-body">
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 								<form name="userForm" class="form-horizontal" role="form">
-								<!-- Personal Information Starts -->
+								Personal Information Starts
 									<div class="form-group required">
 										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
@@ -165,11 +165,11 @@
 											<input type="text" class="form-control" ng-model="userForm.alternateNo" placeholder="Alternate No">
 										</div>
 									</div>
-								<!-- Personal Information Ends -->
+								Personal Information Ends
 									<h3 class="panel-heading inner">
 										Delivery Information
 									</h3>
-								<!-- Delivery Information Starts -->
+								Delivery Information Starts
 									
 									<div class="form-group required">
 										<label class="col-lg-3 control-label">Address</label>
@@ -179,11 +179,11 @@
 										</div>
 									</div>
 									
-								<!-- Delivery Information Ends -->
+								Delivery Information Ends
 									<h3 class="panel-heading inner">
 										Password
 									</h3>
-								<!-- Password Area Starts -->
+								Password Area Starts
 									<div class="form-group required">
 										<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
 										<div class="col-sm-9">
@@ -214,13 +214,13 @@
 											<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '35%'}" spinner-key="spinner-signup"></span>
 										</div>
 									</div>
-								<!-- Password Area Ends -->
+								Password Area Ends
 								</form>
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 							</div>
 							<div style="color:red">{{signUpFailMessage}}</div>							
 						</div>
-					<!-- Registration Block Ends -->
+					Registration Block Ends
 					</div>
 					<div class="col-lg-2">
 				</div>
@@ -260,16 +260,16 @@
 			     </div>
 	        </div>
         	<div class="col-sm-7">
-					<!-- Registration Block Starts -->
+					Registration Block Starts
 						<div class="panel panel-smart">
 							
 							<div class="panel-heading">
 								<h3 class="panel-title">Guest Checkout</h3>
 							</div>
 							<div class="panel-body">
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 								<form name="userForm" class="form-horizontal" role="form">
-								<!-- Personal Information Starts -->
+								Personal Information Starts
 									<div class="form-group required">
 										<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
 										<div class="col-sm-9">
@@ -313,16 +313,210 @@
 											</button>
 										</div>
 									</div>
-								<!-- Password Area Ends -->
+								Password Area Ends
 								</form>
-							<!-- Registration Form Starts -->
+							Registration Form Starts
 							</div>
 							<div style="color:red">{{guestCheckoutFailMessage}}</div>							
 						</div>
-					<!-- Registration Block Ends -->
+					Registration Block Ends
 					</div>
 					<div class="col-lg-2">
 				</div>
 			</div>
+	</div> -->
+	<h2 id="forms">Please Login/Sign Up or choose Guest Checkout to complete your order !!!</h2>
+	<div class="navLginSgnup">
+	<ul class="nav nav-tabs">
+	  <li class="active" ng-click="signinTab=false;signupTab=true;guestTab=true"><a data-toggle="tab" class="showPointer">Login (Existing User)</a></li>
+	  <li ng-click="signinTab=true;signupTab=false;guestTab=true"><a data-toggle="tab" class="showPointer">SignUp (New User)</a></li>
+	  <li ng-click="signinTab=true;signupTab=true;guestTab=false"><a data-toggle="tab" class="showPointer">Guest Checkout</a></li>
+	</ul>
+	</div>
+	<div class="row">
+		<div class="col-md-7">
+			<div class="panel panel-smart" ng-hide="signinTab">
+				<div class="panel-heading">
+					<h3 class="panel-title">Existing User/ Login</h3>
+				</div>
+				
+                <div class="msg-block" ng-show="myForm.$error">
+				  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+				    Passwords don't match.
+				  </span>
+				</div>
+				<div class="panel-body">
+				
+					<form class="form-horizontal" role="form">
+					
+						<div class="form-group required">
+							<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="loginEmainId" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" ng-model="loginPassword" placeholder="Password">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-3">
+								<button class="btn btn-success btn-sm" data-ng-click="login('checkout')">
+									Login
+								</button>
+								<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '80%'}" spinner-key="spinner-login" class="ng-scope"></span>
+							</div>
+							<div class="col-sm-6">
+								
+								<a class="showPointer" data-ng-click="forgotPasswordOpen()">Forgot password?</a>
+								
+							</div>
+							
+						</div>
+					
+					</form>
+				
+				</div>
+				<div style="color:red">{{loginFailMessage}}</div>						
+			</div>
+			
+			<div class="panel panel-smart" ng-hide="signupTab">
+				<div class="panel-heading">
+					<h3 class="panel-title">New User / SignUp</h3>
+				</div>
+				<div class="panel-body">
+				
+					<form name="userForm" class="form-horizontal" role="form">
+					
+						<div class="form-group required">
+							<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.fullName"  placeholder="Full Name">
+							</div>
+						</div>
+						
+						<div class="form-group required">
+							<label for="inputEmail" class="col-sm-3 control-label">Email :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.emailId"  placeholder="Email">
+							</div>
+						</div>
+						
+						
+						<div class="form-group required">
+							<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.mobileNo"  placeholder="Phone">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputFax" class="col-sm-3 control-label">Alternate No :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.alternateNo" placeholder="Alternate No">
+							</div>
+						</div>
+					
+						<h3 class="panel-heading inner">
+							Delivery Information
+						</h3>
+					
+						
+						<div class="form-group required">
+							<label class="col-lg-3 control-label">Address</label>
+							<div class="col-lg-9">
+								<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
+								<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
+							</div>
+						</div>
+						
+					
+						<h3 class="panel-heading inner">
+							Password
+						</h3>
+					
+						<div class="form-group required">
+							<label for="inputPassword" class="col-sm-3 control-label">Password :</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" ng-model="userForm.password"  placeholder="Password">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label for="inputRePassword" class="col-sm-3 control-label">Re-Password :</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" ng-model="userForm.rePassword"  placeholder="Re-Password">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="agreeCheck"> I have read and agreed on Conditions
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="submit('checkout')">
+									Register
+								</button>
+								<span us-spinner="{radius:38, width:13, length: 21,scale:0.20,left: '35%'}" spinner-key="spinner-signup"></span>
+							</div>
+						</div>
+				    </form>
+				</div>
+				<div style="color:red">{{signUpFailMessage}}</div>							
+			</div>
+			
+			<div class="panel panel-smart" ng-hide="guestTab">
+				<div class="panel-heading">
+					<h3 class="panel-title">Guest Checkout</h3>
+				</div>
+				<div class="panel-body">
+					<form name="userForm" class="form-horizontal" role="form">
+					
+						<div class="form-group required">
+							<label for="inputFname" class="col-sm-3 control-label">Full Name :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.fullName"  placeholder="Full Name">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="userForm.mobileNo"  placeholder="Phone">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-lg-3 control-label">Address</label>
+							<div class="col-lg-9">
+								<textarea class="form-control" rows="3" ng-model="userForm.address"></textarea>
+								<span class="help-block">Include Flat No, Street, Area, City, Pin code and Landmark</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="agreeCheck"> I have read and agreed on Conditions
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-warning" ng-disabled="!agreeCheck" data-ng-click="guestCheckout()">
+									Proceed
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div style="color:red">{{guestCheckoutFailMessage}}</div>							
+			</div>
+		</div>
 	</div>
 </div>

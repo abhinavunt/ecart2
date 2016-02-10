@@ -1575,6 +1575,10 @@ hr{
 	background: #337ab7;
 }
 
+.navLginSgnup{
+	margin-bottom:10px;
+}
+
 .fixedTop{
   position: fixed;
   right: 0;

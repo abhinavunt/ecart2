@@ -11,6 +11,7 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
        $scope.newUserCheckout=true;
        $scope.guestUserCheckout=true;
        $cookieStore.remove('guest');
+       $scope.offSetTop = 153;
       
        
        if(screenSize.is('xs, sm')){
@@ -438,15 +439,7 @@ angular.module('HeadCtrl', []).controller('HeadController',['$scope','$rootScope
          }
      });
      
-    
-     
-    /* $("#main-menu").wrap('<div class="nav-placeholder"></div>');
-     $(".nav-placeholder").height($("#main-menu").outerHeight());*/
-     $scope.offSetTop = $("#main-menu").offset().top;
-     
-     $(window).scroll(function(){
-    	 
-    	 
+    $(window).scroll(function(){
     	 var scrollPosition = $(window).scrollTop();
     	 if(scrollPosition>=$scope.offSetTop){
     		 $("#main-menu").wrap('<div class="nav-placeholder"></div>');
